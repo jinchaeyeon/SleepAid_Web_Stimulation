@@ -1,9 +1,9 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import React from 'react';
-import Header from '../organisms/Header/Header';
-import Sidebar from '../organisms/Sidebar/Sidebar';
-import MainPage from '../pages/MainPage/MainPage';
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React from "react";
+import Header from "../organisms/Header/Header";
+import Sidebar from "../organisms/Sidebar/Sidebar";
+import MainPage from "../pages/MainPage/MainPage";
+import "./App.css";
 
 const App = () => {
   return (
@@ -11,7 +11,7 @@ const App = () => {
       <div className="App">
         <BrowserRouter>
           <Sidebar />
-          <Header sx={{ marginBottom: 10 }} />
+          <Header />
           <Routes>
             <Route path="/" element={<MainPage />} />
           </Routes>
