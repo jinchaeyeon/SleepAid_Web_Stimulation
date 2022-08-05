@@ -21,7 +21,7 @@ function Header() {
           borderBottom: "2px solid #333333",
         }}
       >
-        <Link to="/">
+        <Link to="/" style={{ textDecoration: "none" }}>
           <Button
             style={{
               float: "right",
