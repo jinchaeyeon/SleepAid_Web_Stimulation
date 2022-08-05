@@ -1,5 +1,5 @@
 import { Box, Button, Menu, MenuItem } from "@mui/material";
-import {useState} from 'react';
+import { useState } from "react";
 
 function Header() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -12,14 +12,28 @@ function Header() {
   };
   return (
     <>
-      <Box style={{ width: "100%", height: 66, backgroundColor: "#191919"}}>
+      <Box style={{ width: "100%", height: 66, backgroundColor: "#191919" }}>
+        <Button
+          style={{
+            float: "right",
+            marginRight: 20,
+            height: "100%",
+            color: "#CCCCCC",
+            borderRadius: 50,
+            backgroundColor: '#393939',
+            height: 40,
+            marginTop: 12
+          }}
+        >
+          Log Out
+        </Button>
         <Button
           id="basic-button"
           aria-controls={open ? "basic-menu" : undefined}
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
           onClick={handleClick}
-          style={{float: 'right', height: "100%"}}
+          style={{ float: "right", height: "100%", color: "#CCCCCC" }}
         >
           유저
         </Button>
@@ -28,8 +42,13 @@ function Header() {
           anchorEl={anchorEl}
           open={open}
           onClose={handleClose}
+          PaperProps={{
+            style: {
+              backgroundColor: "#A3A5B5",
+            },
+          }}
         >
-          <MenuItem style={{backgroundColor:'#A3A5B5'}} onClick={handleClose}>Change Password</MenuItem>
+          <MenuItem onClick={handleClose}>Change Password</MenuItem>
         </Menu>
       </Box>
     </>
