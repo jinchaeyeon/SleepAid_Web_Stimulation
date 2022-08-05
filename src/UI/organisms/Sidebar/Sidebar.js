@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import React from "react";
 import { SidebarData } from "./SidebarData";
 import SubMenu from "./SubMenu";
 import {Box} from '@mui/material'
@@ -9,7 +7,7 @@ const Sidebar = () => {
   const publicUrl = process.env.PUBLIC_URL;
   return (
     <>
-      <Box style={{ width: 300, height: "100vh", backgroundColor: "#333333", float:'left'}}>
+      <Box style={{ width: 300, height: "100vh", display: "block", backgroundColor: "#333333"}}>
         <Box
           style={{
             justifyContent: "center",

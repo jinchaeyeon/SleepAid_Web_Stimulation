@@ -12,12 +12,11 @@ function Header() {
   };
   return (
     <>
-      <Box style={{ width: "100%", height: 66, backgroundColor: "#191919" }}>
+      <Box style={{ width: "100%", height: "10vh", backgroundColor: "#191919", borderBottom: '2px solid #333333' }}>
         <Button
           style={{
             float: "right",
             marginRight: 20,
-            height: "100%",
             color: "#CCCCCC",
             borderRadius: 50,
             backgroundColor: '#393939',

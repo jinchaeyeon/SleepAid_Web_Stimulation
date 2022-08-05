@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const SidebarLink = styled(Link)`
+const SidebarLink = styled.div`
   display: flex;
   color: #e1e9fc;
   justify-content: space-between;
@@ -11,7 +11,8 @@ const SidebarLink = styled(Link)`
   list-style: none;
   height: 30px;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 15px;
+  font-weight: bold;
 
   &:hover {
     background: #252831;
@@ -31,7 +32,8 @@ const DropdownLink = styled(Link)`
   align-items: center;
   text-decoration: none;
   color: #f5f5f5;
-  font-size: 18px;
+  font-size: 15px;
+  font-weight: bold;
 
   &:hover {
     background: #252831;
@@ -46,7 +48,7 @@ const SubMenu = ({ item }) => {
 
   return (
     <>
-      <SidebarLink to={item.path} onClick={item.subNav && showSubnav}>
+      <SidebarLink onClick={item.subNav && showSubnav}>
         <div>
           {item.icon}
           <SidebarLabel>{item.title}</SidebarLabel>

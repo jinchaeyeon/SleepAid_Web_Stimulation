@@ -7,8 +7,7 @@ import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDown
 export const SidebarData = [
   {
     title: 'Experiments',
-    path: '/',
-    icon: <InsertChartOutlinedIcon />,
+    icon: <InsertChartOutlinedIcon style={{color: '#2877b9'}}/>,
     iconClosed: <KeyboardArrowDownOutlinedIcon />,
     iconOpened: <KeyboardArrowUpOutlinedIcon />,
     subNav: [
@@ -20,21 +19,19 @@ export const SidebarData = [
   },
   {
     title: 'Member(ADMIN)',
-    path: '/',
-    icon: <PeopleOutlineIcon />,
+    icon: <PeopleOutlineIcon style={{color: '#2877b9'}}/>,
     iconClosed: <KeyboardArrowDownOutlinedIcon />,
     iconOpened: <KeyboardArrowUpOutlinedIcon />,
     subNav: [
       {
         title: 'Users',
-        path: '/',
+        path: '/User',
       },
     ]
   },
   {
     title: 'License(ADMIN)',
-    path: '/',
-    icon: <PinOutlinedIcon />,
+    icon: <PinOutlinedIcon style={{color: '#2877b9'}}/>,
     iconClosed: <KeyboardArrowDownOutlinedIcon/>,
     iconOpened: <KeyboardArrowUpOutlinedIcon />,
     subNav: [
@@ -47,8 +44,7 @@ export const SidebarData = [
   },
   {
     title: 'WebGL Chart(test)',
-    path: '/',
-    icon: <InsertChartOutlinedIcon />,
+    icon: <InsertChartOutlinedIcon style={{color: '#2877b9'}}/>,
     iconClosed: <KeyboardArrowDownOutlinedIcon />,
     iconOpened: <KeyboardArrowUpOutlinedIcon />,
     subNav: [
