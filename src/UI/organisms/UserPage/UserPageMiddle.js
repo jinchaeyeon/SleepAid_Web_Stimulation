@@ -1,13 +1,32 @@
 import * as React from "react";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import { Button } from "@mui/material";
+import {
+  Button,
+  Box,
+  Modal,
+  TableRow,
+  TablePagination,
+  TableHead,
+  TableContainer,
+  TableCell,
+  TableBody,
+  Table,
+  Paper,
+} from "@mui/material";
+import UserPageModalHeader from "../../molecules/UserPage/UserPageModalHeader";
+import UserPageModalMiddle from "../../molecules/UserPage/UserPageModalMiddle";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "40%",
+  minWidth: 400,
+  bgcolor: "#383b40",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 const columns = [
   { id: "UserID", label: "UserID", minWidth: 150 },
@@ -33,29 +52,162 @@ function createData(UserID, Email, LastLogin, RegistrationDate, button) {
   return { UserID, Email, LastLogin, RegistrationDate, button };
 }
 
-export default function StickyHeadTable() {
+export default function UserPageMiddle() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rows, setRows] = React.useState([
+    createData("test", "test1@gmail.com", null, null, false),
+    createData("james", "rwandahm@gmail.com", null, null, true),
+    createData("test0", "las@gmail.com", null, null, true),
+    createData("test00", "test00@gmail.com", null, null, true),
+    createData("test00011", "rwandahm11@gmaisd.com", null, null, true),
+    createData("test1", "rwand2222@gmail.com", null, null, false),
+    createData("hobada96", "hobada97@naver.com", null, null, false),
+    createData("test2", "2341@wdkodw.coo.or2", null, null, false),
+    createData("test01394", "kdow.kakao.kr", null, null, false),
+    createData("test03", "lwpe.dow.rrr", null, null, false),
+    createData("test0013", "rerwer@rlpe.com", null, null, true),
+    createData("hobada99", "hobada96@neurotx.org", null, null, true),
+    createData("hobadamm", "hobada98@neurotx.org", null, null, true),
+  ]);
+  const [openTrue, setOpenTrue] = React.useState(false);
+  const [openFalse, setOpenFalse] = React.useState(false);
+  const [state, setState] = React.useState([]);
+
+  const handleOpenTrue = (row) => {
+    setOpenTrue(true);
+    setState(row);
+  }
+  const handleCloseTrue = () => setOpenTrue(false);
+  const handleEmail = (data, text) => {
+    if (text != null) {
+      setRows(
+        rows.map((users) =>
+          users.UserID === data.Email.UserID ? { ...users, Email: text } : users
+        )
+      );
+      alert("Email이 변경되었습니다.");
+    }
+    handleCloseTrue();
+    handleCloseFalse();
+  };
+
+  const handleOpenFalse = (row) => {
+    setOpenFalse(true);
+    setState(row);
+  }
+  const handleCloseFalse = () => setOpenFalse(false);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
-  const rows = [
-    createData("test", "test1@gmail.com", null, null, <Button>gg</Button>),
-    createData("james", "rwandahm@gmail.com", null, null, null),
-    createData("test0", "las@gmail.com", null, null, null),
-    createData("test00", "test00@gmail.com", null, null, null),
-    createData("test00011", "rwandahm11@gmaisd.com", null, null, null),
-    createData("test1", "rwand2222@gmail.com", null, null, null),
-    createData("hobada96", "hobada97@naver.com", null, null, null),
-    createData("test2", "2341@wdkodw.coo.or2", null, null, null),
-    createData("test01394", "kdow.kakao.kr", null, null, null),
-    createData("test03", "lwpe.dow.rrr", null, null, null),
-    createData("test0013", "rerwer@rlpe.com", null, null, null),
-    createData("hobada99", "hobada96@neurotx.org", null, null, null),
-    createData("hobadamm", "hobada98@neurotx.org", null, null, null),
-  ];
+  const handleAccount = (row) => {
+    setRows(
+      rows.map((users) =>
+        users.UserID === row.UserID
+          ? { ...users, button: !users.button }
+          : users
+      )
+    );
+  };
+
+  const handleDeleteAccount = (row) => {
+    setRows(rows.filter((users) => users.UserID !== row.UserID));
+    alert(row.UserID + "가 삭제 되었습니다");
+  };
+
+  function cell(value, row) {
+    if (value == true) {
+      return (
+        <Box>
+          <Button
+            style={{
+              color: "white",
+              borderRadius: 10,
+              backgroundColor: "#2877b9",
+              marginRight: 5,
+            }}
+            onClick={() => handleAccount(row)}
+          >
+            make ADMIN
+          </Button>
+          <Button
+            style={{
+              color: "#CCCCCC",
+              borderRadius: 10,
+              backgroundColor: "#5e646b",
+              marginRight: 5,
+            }}
+            onClick={() => handleOpenTrue(row)}
+          >
+            modify
+          </Button>
+          <Modal
+            open={openTrue}
+            onClose={handleCloseTrue}
+            BackdropProps={{ style: { opacity: 0.2 } }}
+          >
+            <Box sx={style}>
+              <UserPageModalHeader propFunction={handleCloseTrue} />
+              <UserPageModalMiddle Email={state} propFunction={handleEmail} />
+            </Box>
+          </Modal>
+          <Button
+            style={{
+              color: "#CCCCCC",
+              borderRadius: 10,
+              backgroundColor: "#393939",
+            }}
+            onClick={() => handleDeleteAccount(row)}
+          >
+            Delete
+          </Button>
+        </Box>
+      );
+    } else if (value == false) {
+      return (
+        <Box>
+          <Button
+            style={{
+              color: "#CCCCCC",
+              borderRadius: 10,
+              backgroundColor: "#5e646b",
+              marginRight: 5,
+            }}
+            onClick={() => handleAccount(row)}
+          >
+            make User
+          </Button>
+          <Button
+            style={{
+              color: "#CCCCCC",
+              borderRadius: 10,
+              backgroundColor: "#5e646b",
+            }}
+            onClick={() => handleOpenFalse(row)}
+          >
+            modify 
+          </Button>
+          <Modal
+            open={openFalse}
+            onClose={handleCloseFalse}
+            BackdropProps={{ style: { opacity: 0.2 } }}
+          >
+            <Box sx={style}>
+              <UserPageModalHeader propFunction={handleCloseFalse} />
+              <UserPageModalMiddle Email={state} propFunction={handleEmail} />
+            </Box>
+          </Modal>
+        </Box>
+      );
+    } else {
+      return value;
+    }
+  }
+
+  React.useEffect(() => {}, []);
+
   return (
     <Paper
       style={{ height: "70vh", width: "100%", backgroundColor: "#131313" }}
@@ -86,7 +238,12 @@ export default function StickyHeadTable() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.UserID}>
+                  <TableRow
+                    hover
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row.UserID}
+                  >
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
@@ -95,7 +252,7 @@ export default function StickyHeadTable() {
                           align={column.align}
                           style={{ color: "#c0c0c0" }}
                         >
-                            {value}
+                          {cell(value, row)}
                         </TableCell>
                       );
                     })}

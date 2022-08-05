@@ -18,10 +18,10 @@ function Header() {
             float: "right",
             marginRight: 20,
             color: "#CCCCCC",
-            borderRadius: 50,
+            borderRadius: 40,
             backgroundColor: '#393939',
             height: 40,
-            marginTop: 12
+            marginTop: 18
           }}
         >
           Log Out
