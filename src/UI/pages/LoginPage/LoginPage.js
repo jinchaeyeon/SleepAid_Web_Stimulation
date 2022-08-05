@@ -59,7 +59,7 @@ function LoginPage() {
             onChange={handleChangePW}
             placeholder="Password"
           />
-          <Link to="/Experiments"  style={{ textDecoration: 'none' }}>
+          <Link to="/Experiments" style={{ textDecoration: "none" }}>
             <Button
               variant="contained"
               style={{
@@ -71,14 +71,16 @@ function LoginPage() {
               Log in
             </Button>
           </Link>
-          <Link to="/SignUp"  style={{ textDecoration: 'none' }}>
+          <Link to="/SignUp" style={{ textDecoration: "none" }}>
             <Button variant="text" style={{ float: "right" }}>
               Sign Up
             </Button>
           </Link>
-          <Button variant="text" style={{ float: "right" }}>
-            Find ID
-          </Button>
+          <Link to="/FindID" style={{ textDecoration: "none" }}>
+            <Button variant="text" style={{ float: "right" }}>
+              Find ID
+            </Button>
+          </Link>
         </Box>
         <Box
           style={{

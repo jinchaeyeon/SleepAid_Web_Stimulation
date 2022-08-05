@@ -7,6 +7,7 @@ import UserPage from "../pages/UserPage/UserPage";
 import LicensePage from "../pages/LicensePage/LicensePage";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import SignUpPage from "../pages/SignUpPage/SignUpPage";
+import FindIDPage from "../pages/FindIDPage/FindIDPage";
 import "./App.css";
 import Box from "@mui/material/Box";
 
@@ -32,6 +33,16 @@ const App = () => {
                 <Box style={{ display: "flex", width: "100%" }}>
                   <Box style={{ width: "100%" }}>
                     <SignUpPage />
+                  </Box>
+                </Box>
+              }
+            />
+                        <Route
+              path="/FindID"
+              element={
+                <Box style={{ display: "flex", width: "100%" }}>
+                  <Box style={{ width: "100%" }}>
+                    <FindIDPage />
                   </Box>
                 </Box>
               }
