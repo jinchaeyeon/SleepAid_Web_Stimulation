@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
 import React from 'react';
 
-function MainPage() {
+function ExperimentsPage() {
   return (
     <Box>
     </Box>
   );
 }
 
-export default MainPage;
+export default ExperimentsPage;

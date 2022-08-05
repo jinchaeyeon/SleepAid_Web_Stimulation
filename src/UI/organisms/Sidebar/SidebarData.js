@@ -13,7 +13,7 @@ export const SidebarData = [
     subNav: [
       {
         title: 'List',
-        path: '/',
+        path: '/Experiments',
       },
     ]
   },
@@ -37,7 +37,7 @@ export const SidebarData = [
     subNav: [
       {
         title: 'List',
-        path: '/',
+        path: '/License',
 
       },
     ]

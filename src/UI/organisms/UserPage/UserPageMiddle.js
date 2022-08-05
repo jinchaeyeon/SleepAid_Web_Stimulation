@@ -249,7 +249,6 @@ export default function UserPageMiddle() {
                       return (
                         <TableCell
                           key={column.id}
-                          align={column.align}
                           style={{ color: "#c0c0c0" }}
                         >
                           {cell(value, row)}
