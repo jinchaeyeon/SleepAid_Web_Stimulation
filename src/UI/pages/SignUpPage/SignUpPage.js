@@ -5,12 +5,28 @@ import { Link } from "react-router-dom";
 function SignUpPage() {
   const publicUrl = process.env.PUBLIC_URL;
   const [ID, setID] = React.useState("");
+  const [Name, setName] = React.useState("");
   const [PW, setPW] = React.useState("");
+  const [PWCheck, setPWCheck] = React.useState("");
+  const [License, setLicense] = React.useState("");
+  const [Email, setEmail] = React.useState("");
   const handleChangeID = (event) => {
     setID(event.target.value);
   };
+  const handleChangeName = (event) => {
+    setName(event.target.value);
+  };
   const handleChangePW = (event) => {
     setPW(event.target.value);
+  };
+  const handleChangePWCheck = (event) => {
+    setPWCheck(event.target.value);
+  };
+  const handleChangeLicense = (event) => {
+    setLicense(event.target.value);
+  };
+  const handleChangeEmail = (event) => {
+    setEmail(event.target.value);
   };
   return (
     <Box
@@ -48,26 +64,27 @@ function SignUpPage() {
             <CardContent>
               <Grid container spacing={2}>
                 <Grid item md={6} xs={12}>
-                  <TextField fullWidth label="User Id" variant="outlined" />
+                  <TextField fullWidth label="User Id" variant="outlined" onChange={handleChangeID}/>
                 </Grid>
                 <Grid item md={6} xs={12}>
-                  <TextField fullWidth label="Name" variant="outlined" />
+                  <TextField fullWidth label="Name" variant="outlined" onChange={handleChangeName}/>
                 </Grid>
                 <Grid item md={6} xs={12}>
-                  <TextField fullWidth label="Password" variant="outlined" />
+                  <TextField fullWidth label="Password" variant="outlined" onChange={handleChangePW}/>
                 </Grid>
                 <Grid item md={6} xs={12}>
                   <TextField
                     fullWidth
                     label="Password Check"
                     variant="outlined"
+                    onChange={handleChangePWCheck}
                   />
                 </Grid>
                 <Grid item md={6} xs={12}>
-                  <TextField fullWidth label="LicenseKey" variant="outlined" />
+                  <TextField fullWidth label="LicenseKey" variant="outlined" onChange={handleChangeLicense} />
                 </Grid>
                 <Grid item md={6} xs={12}>
-                  <TextField fullWidth label="E-mail" variant="outlined" />
+                  <TextField fullWidth label="E-mail" variant="outlined" onChange={handleChangeEmail}/>
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <Box style={{ float: "right" }}>
