@@ -23,8 +23,6 @@ export default function ExperimentPageChangeModalMiddle(props) {
       alert('실험 프로토콜 명은 필수 항목입니다.')
     } else if(manager == '' || manager == null || manager == undefined){
       alert('담당자는 필수 항목입니다.')
-    } else if(content == '' || content == null || content == undefined){
-      props.propFunction(props.data.id, name, manager, 'null')
     } else{
       props.propFunction(props.data.id, name, manager, content)
     }
@@ -42,7 +40,7 @@ export default function ExperimentPageChangeModalMiddle(props) {
       >
         <Box style={{display: "block", height: 37}}>
           <h4 style={{ display: "inline", paddingLeft: "15%" }}>
-            실험 프로토콜 명 :
+            실험 프로토콜 명 : 
           </h4>
           <TextField
             value={name}
