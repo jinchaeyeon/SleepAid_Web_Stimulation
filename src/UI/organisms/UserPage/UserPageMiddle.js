@@ -56,19 +56,25 @@ export default function UserPageMiddle() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rows, setRows] = React.useState([
-    createData("test", "test1@gmail.com", null, null, false),
-    createData("james", "rwandahm@gmail.com", null, null, true),
-    createData("test0", "las@gmail.com", null, null, true),
-    createData("test00", "test00@gmail.com", null, null, true),
-    createData("test00011", "rwandahm11@gmaisd.com", null, null, true),
-    createData("test1", "rwand2222@gmail.com", null, null, false),
-    createData("hobada96", "hobada97@naver.com", null, null, false),
-    createData("test2", "2341@wdkodw.coo.or2", null, null, false),
-    createData("test01394", "kdow.kakao.kr", null, null, false),
-    createData("test03", "lwpe.dow.rrr", null, null, false),
-    createData("test0013", "rerwer@rlpe.com", null, null, true),
-    createData("hobada99", "hobada96@neurotx.org", null, null, true),
-    createData("hobadamm", "hobada98@neurotx.org", null, null, true),
+    createData("test", "test1@gmail.com", undefined, undefined, false),
+    createData("james", "rwandahm@gmail.com", undefined, undefined, true),
+    createData("test0", "las@gmail.com", undefined, undefined, true),
+    createData("test00", "test00@gmail.com", undefined, undefined, true),
+    createData(
+      "test00011",
+      "rwandahm11@gmaisd.com",
+      undefined,
+      undefined,
+      true
+    ),
+    createData("test1", "rwand2222@gmail.com", undefined, undefined, false),
+    createData("hobada96", "hobada97@naver.com", undefined, undefined, false),
+    createData("test2", "2341@wdkodw.coo.or2", undefined, undefined, false),
+    createData("test01394", "kdow.kakao.kr", undefined, undefined, false),
+    createData("test03", "lwpe.dow.rrr", undefined, undefined, false),
+    createData("test0013", "rerwer@rlpe.com", undefined, undefined, true),
+    createData("hobada99", "hobada96@neurotx.org", undefined, undefined, true),
+    createData("hobadamm", "hobada98@neurotx.org", undefined, undefined, true),
   ]);
   const [openTrue, setOpenTrue] = React.useState(false);
   const [openFalse, setOpenFalse] = React.useState(false);
@@ -77,17 +83,15 @@ export default function UserPageMiddle() {
   const handleOpenTrue = (row) => {
     setOpenTrue(true);
     setState(row);
-  }
+  };
   const handleCloseTrue = () => setOpenTrue(false);
   const handleEmail = (data, text) => {
-    if (text != null) {
-      setRows(
-        rows.map((users) =>
-          users.UserID === data.Email.UserID ? { ...users, Email: text } : users
-        )
-      );
-      alert("Email이 변경되었습니다.");
-    }
+    setRows(
+      rows.map((users) =>
+        users.UserID === data.Email.UserID ? { ...users, Email: text } : users
+      )
+    );
+    alert("Email이 변경되었습니다.");
     handleCloseTrue();
     handleCloseFalse();
   };
@@ -95,7 +99,7 @@ export default function UserPageMiddle() {
   const handleOpenFalse = (row) => {
     setOpenFalse(true);
     setState(row);
-  }
+  };
   const handleCloseFalse = () => setOpenFalse(false);
 
   const handleChangePage = (event, newPage) => {
@@ -187,7 +191,7 @@ export default function UserPageMiddle() {
             }}
             onClick={() => handleOpenFalse(row)}
           >
-            modify 
+            modify
           </Button>
           <Modal
             open={openFalse}
@@ -247,10 +251,7 @@ export default function UserPageMiddle() {
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
-                        <TableCell
-                          key={column.id}
-                          style={{ color: "#c0c0c0" }}
-                        >
+                        <TableCell key={column.id} style={{ color: "#c0c0c0" }}>
                           {cell(value, row)}
                         </TableCell>
                       );

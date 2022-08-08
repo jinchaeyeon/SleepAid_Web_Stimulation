@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Box, TextField, Button } from "@mui/material";
 
-export default function ExperimentPageModalMiddle(props) {
-  const [name, setName] = React.useState('');
-  const [manager, setManager] = React.useState('');
-  const [content, setContent] = React.useState('');
+export default function ExperimentPageChangeModalMiddle(props) {
+  const [name, setName] = React.useState(props.data.name);
+  const [manager, setManager] = React.useState(props.data.manager);
+  const [content, setContent] = React.useState(props.data.content||'');
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -23,8 +23,10 @@ export default function ExperimentPageModalMiddle(props) {
       alert('실험 프로토콜 명은 필수 항목입니다.')
     } else if(manager == '' || manager == null || manager == undefined){
       alert('담당자는 필수 항목입니다.')
+    } else if(content == '' || content == null || content == undefined){
+      props.propFunction(props.data.id, name, manager, 'null')
     } else{
-      props.propFunction(name, manager, content)
+      props.propFunction(props.data.id, name, manager, content)
     }
   }
 

@@ -12,11 +12,14 @@ import {
   Table,
   Paper,
   TextField,
-  InputAdornment 
+  InputAdornment,
 } from "@mui/material";
+import ExperimentPageChangeModalHeader from "../../molecules/ExperimentsPage/ExperimentPageChangeModalHeader";
+import ExperimentPageChangeModalMiddle from "../../molecules/ExperimentsPage/ExperimentPageChangeModalMiddle";
 import ExperimentPageModalHeader from "../../molecules/ExperimentsPage/ExperimentPageModalHeader";
 import ExperimentPageModalMiddle from "../../molecules/ExperimentsPage/ExperimentPageModalMiddle";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
+import { Link } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -51,74 +54,82 @@ const columns = [
   },
 ];
 
-function createData(id, name, content, manager, button) {
-  return { id, name, content, manager, button };
-}
-
 export default function ExperimentPageMiddle() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rows, setRows] = React.useState([
-    createData(1, "vns", null, "송하윤", 0),
-    createData(2, "innea vns", null, "송하윤", 0),
-    createData(3, "vns", null, "한태성", 0),
-    createData(4, "innea vns", null, "한태성", 0),
-    createData(5, "test2", "인증", "허재욱ㅠㅠ", 0),
-    createData(6, "ecg patch", "ecg 패치 테스트", "조동혁", 0),
-    createData(7, "김성철", null, "김현지", 0),
-    createData(8, "조정훈", null, "송하윤", 0),
-    createData(9, "ECG PATCH EXP", null, "조동혁", 0),
-    createData(10, "박산하", null, "한태성", 0),
-    createData(11, "teasdfa", null, "한태성", 0),
-    createData(12, "teasdfasaaaaaaaa", null, "한태성", 0),
+    createData(1, "vns", undefined, "송하윤","button"),
+    createData(2, "innea vns", undefined, "송하윤","button"),
+    createData(3, "vns", undefined, "한태성","button"),
+    createData(4, "innea vns", undefined, "한태성","button"),
+    createData(5, "test2", "인증", "허재욱ㅠㅠ","button"),
+    createData(6, "ecg patch", "ecg 패치 테스트", "조동혁","button"),
+    createData(7, "김성철", undefined, "김현지","button"),
+    createData(8, "조정훈", undefined, "송하윤","button"),
+    createData(9, "ECG PATCH EXP", undefined, "조동혁","button"),
+    createData(10, "박산하", undefined, "한태성","button"),
+    createData(11, "teasdfa", undefined, "한태성","button"),
+    createData(12, "teasdfasaaaaaaaa", undefined, "한태성","button"),
   ]);
-  const [openTrue, setOpenTrue] = React.useState(false);
-  const [openFalse, setOpenFalse] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [openProtocol, setOpenProtocol] = React.useState(false);
   const [state, setState] = React.useState([]);
-  const [Search, setSearch] = React.useState('');
+  const [Search, setSearch] = React.useState("");
+
+  function createData(id, name, content, manager, button) {
+    return { id, name, content, manager, button };
+  }
+
   const handleSearchChange = (event) => {
     setSearch(event.target.value);
   };
 
-  const handleOpenTrue = (row) => {
-    setOpenTrue(true);
+  const handleOpen = (row) => {
+    setOpen(true);
     setState(row);
   };
-  const handleCloseTrue = () => setOpenTrue(false);
-  const handleEmail = (data, text) => {
-    if (text != null) {
-      setRows(
-        rows.map((users) =>
-          users.UserID === data.Email.UserID ? { ...users, Email: text } : users
-        )
-      );
-      alert("Email이 변경되었습니다.");
-    }
-    handleCloseTrue();
-    handleCloseFalse();
+  const handleClose = () => setOpen(false);
+
+  const handleOpenProtocol = (row) => {
+    setOpenProtocol(true);
+    setState(row);
+  };
+  const handleProtocolClose = () => setOpenProtocol(false);
+
+  const handleProtocol = (id, name, manager, content) => {
+    setRows(
+      rows.map((users) =>
+        users.id === id
+          ? { ...users, name: name, manager: manager, content: content }
+          : users
+      )
+    );
+    alert("정보가 변경되었습니다.");
+    handleClose();
   };
 
-  const SearchProtocol = () => {
-    console.log("연동해야해")
-  }
-  const handleOpenFalse = (row) => {
-    setOpenFalse(true);
-    setState(row);
+  const SearchProtocol = (Search) => {
+    console.log(Search);
+    setRows([
+      createData(1, "vns", undefined, "송하윤", "button"),
+      createData(2, "innea vns", undefined, "송하윤", "button"),
+      createData(3, "vns", undefined, "한태성", "button"),
+      createData(4, "innea vns", undefined, "한태성", "button"),
+      createData(5, "test2", "인증", "허재욱ㅠㅠ", "button"),
+    ]);
   };
-  const handleCloseFalse = () => setOpenFalse(false);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
-  const handleAccount = (row) => {
-    setRows(
-      rows.map((users) =>
-        users.UserID === row.UserID
-          ? { ...users, button: !users.button }
-          : users
-      )
-    );
+  const handleAddProtocol = (name, manager, content) => {
+    setRows([
+      ...rows,
+      createData(rows[rows.length - 1].id + 1, name, content, manager, "button"),
+    ]);
+    alert("프로토콜이 추가되었습니다.");
+    handleProtocolClose();
   };
 
   const handleDeleteAccount = (row) => {
@@ -127,20 +138,21 @@ export default function ExperimentPageMiddle() {
   };
 
   function cell(value, row) {
-    if (value == 0) {
+    if (value == "button") {
       return (
         <Box>
-          <Button
-            style={{
-              color: "white",
-              borderRadius: 10,
-              backgroundColor: "#2877b9",
-              marginRight: 5,
-            }}
-            onClick={() => handleAccount(row)}
-          >
-            실험관리
-          </Button>
+          <Link to={`../ExperimentsSub/${row.id}`}>
+            <Button
+              style={{
+                color: "white",
+                borderRadius: 10,
+                backgroundColor: "#2877b9",
+                marginRight: 5,
+              }}
+            >
+              실험관리
+            </Button>
+          </Link>
           <Button
             style={{
               color: "#CCCCCC",
@@ -148,20 +160,20 @@ export default function ExperimentPageMiddle() {
               backgroundColor: "#5e646b",
               marginRight: 5,
             }}
-            onClick={() => handleOpenTrue(row)}
+            onClick={() => handleOpen(row)}
           >
             수정
           </Button>
           <Modal
-            open={openTrue}
-            onClose={handleCloseTrue}
+            open={open}
+            onClose={handleClose}
             BackdropProps={{ style: { opacity: 0.2 } }}
           >
             <Box sx={style}>
-              <ExperimentPageModalHeader propFunction={handleCloseTrue} />
-              <ExperimentPageModalMiddle
-                Email={state}
-                propFunction={handleEmail}
+              <ExperimentPageChangeModalHeader propFunction={handleClose} />
+              <ExperimentPageChangeModalMiddle
+                data={state}
+                propFunction={handleProtocol}
               />
             </Box>
           </Modal>
@@ -193,11 +205,14 @@ export default function ExperimentPageMiddle() {
         onChange={handleSearchChange}
         placeholder="실험명으로 검색"
         size="small"
-        style={{backgroundColor: "white", marginLeft: 50}}
+        style={{ backgroundColor: "white", marginLeft: 50 }}
         InputProps={{
           endAdornment: (
-            <InputAdornment position="start" >
-              <SearchIcon style={{color : "#2877b9"}} onClick={SearchProtocol}/>
+            <InputAdornment position="start">
+              <SearchIcon
+                style={{ color: "#2877b9" }}
+                onClick={() => SearchProtocol(Search)}
+              />
             </InputAdornment>
           ),
         }}
@@ -209,11 +224,22 @@ export default function ExperimentPageMiddle() {
           backgroundColor: "#2877b9",
           marginRight: 40,
           marginBottom: 10,
-          float: "right"
+          float: "right",
         }}
+        onClick={() => handleOpenProtocol()}
       >
         프로토콜 추가
       </Button>
+      <Modal
+        open={openProtocol}
+        onClose={handleProtocolClose}
+        BackdropProps={{ style: { opacity: 0.2 } }}
+      >
+        <Box sx={style}>
+          <ExperimentPageModalHeader propFunction={handleProtocolClose} />
+          <ExperimentPageModalMiddle propFunction={handleAddProtocol} />
+        </Box>
+      </Modal>
       <TableContainer
         style={{
           width: "95%",

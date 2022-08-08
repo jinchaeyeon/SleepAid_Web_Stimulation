@@ -4,10 +4,10 @@ import {
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 
-export default function ExperimentPageModalHeader(props) {
+export default function ExperimentSubPageModalHeader(props) {
   return (
     <Box style={{color: "#CCCCCC", height: 62}}>
-        <h4 style={{display: 'inline'}}>실험 프로토콜 추가</h4>
+        <h4 style={{display: 'inline'}}>피험자 정보입력</h4>
         <CloseIcon style={{float: 'right'}} onClick={() => props.propFunction(false)}/>
     </Box>
   );

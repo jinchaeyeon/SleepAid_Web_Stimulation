@@ -8,6 +8,21 @@ export default function UserPageModalMiddle(props) {
     setText(event.target.value);
   };
 
+  const handleup = () => {
+    if (text != "") {
+      var reg_email =
+        /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+      if (!reg_email.test(text)) {
+        alert("이메일 형식이 아닙니다.");
+      } else {
+        return props.propFunction(props, text);;
+      }
+      
+    } else {
+      alert("필수항목입니다.");
+    }
+  };
+
   return (
     <Box style={{ color: "#CCCCCC", height: 132 }}>
       <Box
@@ -36,23 +51,11 @@ export default function UserPageModalMiddle(props) {
           style={{
             color: "white",
             borderRadius: 10,
-            backgroundColor: "#5e646b",
-            marginRight: 5,
-            float: "right",
-          }}
-          onClick={() => props.propFunction(props, null)}
-        >
-          cancel
-        </Button>
-        <Button
-          style={{
-            color: "white",
-            borderRadius: 10,
             backgroundColor: "#2877b9",
             marginRight: 5,
             float: "right",
           }}
-          onClick={() => props.propFunction(props, text)}
+          onClick={handleup}
         >
           save
         </Button>

@@ -8,6 +8,8 @@ import LicensePage from "../pages/LicensePage/LicensePage";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import SignUpPage from "../pages/SignUpPage/SignUpPage";
 import FindIDPage from "../pages/FindIDPage/FindIDPage";
+import ExperimentsSubPage from "../pages/ExperimentsSubPage/ExperimentsSubPage";
+import ExperimentsMachinePage from '../pages/ExperimentsMachinePage/ExperimentsMachinePage';
 import "./App.css";
 import Box from "@mui/material/Box";
 
@@ -37,7 +39,7 @@ const App = () => {
                 </Box>
               }
             />
-                        <Route
+            <Route
               path="/FindID"
               element={
                 <Box style={{ display: "flex", width: "100%" }}>
@@ -55,6 +57,30 @@ const App = () => {
                   <Box style={{ width: "100%" }}>
                     <Header />
                     <ExperimentsPage />
+                  </Box>
+                </Box>
+              }
+            />
+            <Route
+              path="/ExperimentsSub/:id"
+              element={
+                <Box style={{ display: "flex", width: "100%" }}>
+                  <Sidebar />
+                  <Box style={{ width: "100%" }}>
+                    <Header />
+                    <ExperimentsSubPage />
+                  </Box>
+                </Box>
+              }
+            />
+            <Route
+              path="/ExperimentsSub/:id/:subid"
+              element={
+                <Box style={{ display: "flex", width: "100%" }}>
+                  <Sidebar />
+                  <Box style={{ width: "100%" }}>
+                    <Header />
+                    <ExperimentsMachinePage />
                   </Box>
                 </Box>
               }
