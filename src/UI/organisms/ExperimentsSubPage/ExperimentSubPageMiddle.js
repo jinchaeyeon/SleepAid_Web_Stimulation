@@ -388,6 +388,7 @@ export default function ExperimentSubPageMiddle(props) {
                 borderRadius: 10,
                 backgroundColor: "#2877b9",
                 marginRight: 5,
+                fontFamily: 'GmarketSansMedium'
               }}
             >
               실험정보
@@ -399,6 +400,7 @@ export default function ExperimentSubPageMiddle(props) {
               borderRadius: 10,
               backgroundColor: "#5e646b",
               marginRight: 5,
+              fontFamily: 'GmarketSansMedium'
             }}
             onClick={() => handleOpen(row)}
           >
@@ -422,6 +424,7 @@ export default function ExperimentSubPageMiddle(props) {
               color: "#CCCCCC",
               borderRadius: 10,
               backgroundColor: "#393939",
+              fontFamily: 'GmarketSansMedium'
             }}
             onClick={() => handleDeleteAccount(row)}
           >
@@ -473,6 +476,7 @@ export default function ExperimentSubPageMiddle(props) {
           marginRight: 40,
           marginBottom: 10,
           float: "right",
+          fontFamily: 'GmarketSansMedium'
         }}
         onClick={() => handleOpenProtocol()}
       >
@@ -502,7 +506,7 @@ export default function ExperimentSubPageMiddle(props) {
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
-                  style={{ minWidth: column.minWidth, color: "white" }}
+                  style={{ minWidth: column.minWidth, color: "white",fontFamily: 'GmarketSansMedium' }}
                 >
                   {column.label}
                 </TableCell>
@@ -518,7 +522,7 @@ export default function ExperimentSubPageMiddle(props) {
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} style={{ color: "#c0c0c0" }}>
+                        <TableCell key={column.id} style={{ color: "#c0c0c0",fontFamily: 'GmarketSansMedium' }}>
                           {cell(value, row)}
                         </TableCell>
                       );

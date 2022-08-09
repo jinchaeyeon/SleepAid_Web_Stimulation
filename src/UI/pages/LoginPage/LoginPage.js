@@ -51,6 +51,7 @@ function LoginPage() {
             value={ID}
             onChange={handleChangeID}
             style={{ marginBottom: 10 }}
+            inputProps={{style: { fontFamily: 'GmarketSansMedium'}}}
             placeholder="user ID"
           />
           <TextField
@@ -58,6 +59,7 @@ function LoginPage() {
             value={PW}
             onChange={handleChangePW}
             placeholder="Password"
+            inputProps={{style: { fontFamily: 'GmarketSansMedium'}}}
           />
           <Link to="/Experiments" style={{ textDecoration: "none" }}>
             <Button
@@ -66,18 +68,19 @@ function LoginPage() {
                 width: "100%",
                 backgroundColor: "#3c486c",
                 marginTop: 20,
+                fontFamily: 'GmarketSansMedium'
               }}
             >
               Log in
             </Button>
           </Link>
           <Link to="/SignUp" style={{ textDecoration: "none" }}>
-            <Button variant="text" style={{ float: "right" }}>
+            <Button variant="text" style={{ float: "right",fontFamily: 'GmarketSansMedium' }}>
               Sign Up
             </Button>
           </Link>
           <Link to="/FindID" style={{ textDecoration: "none" }}>
-            <Button variant="text" style={{ float: "right" }}>
+            <Button variant="text" style={{ float: "right",fontFamily: 'GmarketSansMedium' }}>
               Find ID
             </Button>
           </Link>

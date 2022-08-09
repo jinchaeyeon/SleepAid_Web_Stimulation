@@ -201,18 +201,20 @@ function ExperimentMachineListPageMiddle(props) {
             inputProps={{
               name: "age",
               id: "uncontrolled-native",
+              fontFamily: 'GmarketSansMedium'
             }}
             style={{
               textAlign: "right",
               backgroundColor: "white",
               width: 70,
+              fontFamily: 'GmarketSansMedium'
             }}
           >
-            <option value={5}>5sec</option>
-            <option value={10}>10sec</option>
-            <option value={30}>30sec</option>
-            <option value={60}>1min</option>
-            <option value={300}>5min</option>
+            <option style={{fontFamily: 'GmarketSansMedium'}} value={5}>5sec</option>
+            <option style={{fontFamily: 'GmarketSansMedium'}} value={10}>10sec</option>
+            <option style={{fontFamily: 'GmarketSansMedium'}} value={30}>30sec</option>
+            <option style={{fontFamily: 'GmarketSansMedium'}} value={60}>1min</option>
+            <option style={{fontFamily: 'GmarketSansMedium'}} value={300}>5min</option>
           </NativeSelect>
         </FormControl>
       </Box>

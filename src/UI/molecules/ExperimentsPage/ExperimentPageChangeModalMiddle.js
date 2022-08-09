@@ -39,7 +39,7 @@ export default function ExperimentPageChangeModalMiddle(props) {
         }}
       >
         <Box style={{display: "block", height: 37}}>
-          <h4 style={{ display: "inline", paddingLeft: "15%" }}>
+          <h4 style={{ display: "inline", paddingLeft: "15%",fontFamily: 'GmarketSansMedium' }}>
             실험 프로토콜 명 : 
           </h4>
           <TextField
@@ -52,10 +52,11 @@ export default function ExperimentPageChangeModalMiddle(props) {
               backgroundColor: "white",
             }}
             onChange={handleNameChange}
+            inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}
           />
         </Box>
         <Box style={{display: "block" , height: 37, marginTop: 10}}>
-          <h4 style={{ display: "inline", paddingLeft: "15%" }}>
+          <h4 style={{ display: "inline", paddingLeft: "15%",fontFamily: 'GmarketSansMedium' }}>
             담당자 :
           </h4>
           <TextField
@@ -68,10 +69,11 @@ export default function ExperimentPageChangeModalMiddle(props) {
               backgroundColor: "white",
             }}
             onChange={handleManagerChange}
+            inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}
           />
         </Box>
         <Box style={{display: "block" , height: 37, marginTop: 10}}>
-          <h4 style={{ display: "inline", paddingLeft: "15%" }}>
+          <h4 style={{ display: "inline", paddingLeft: "15%",fontFamily: 'GmarketSansMedium' }}>
             상세설명 :
           </h4>
           <TextField
@@ -84,6 +86,7 @@ export default function ExperimentPageChangeModalMiddle(props) {
               backgroundColor: "white",
             }}
             onChange={handleContentChange}
+            inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}
           />
         </Box>
       </Box>
@@ -95,6 +98,7 @@ export default function ExperimentPageChangeModalMiddle(props) {
             backgroundColor: "#2877b9",
             marginRight: 5,
             float: "right",
+            fontFamily: 'GmarketSansMedium'
           }}
           onClick={handleup}
         >

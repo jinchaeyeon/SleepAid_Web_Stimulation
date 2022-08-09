@@ -56,6 +56,7 @@ function Header() {
               backgroundColor: "#393939",
               height: 40,
               marginTop: 18,
+              fontFamily: 'GmarketSansMedium'
             }}
           >
             Log Out
@@ -67,7 +68,7 @@ function Header() {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
           onClick={handleClick}
-          style={{ float: "right", height: "100%", color: "#CCCCCC" }}
+          style={{ float: "right", height: "100%", color: "#CCCCCC",fontFamily: 'GmarketSansMedium' }}
         >
           유저
         </Button>
@@ -82,7 +83,7 @@ function Header() {
             },
           }}
         >
-          <MenuItem onClick={handleClose}>Change Password</MenuItem>
+          <MenuItem onClick={handleClose} style={{fontFamily: 'GmarketSansMedium'}}>Change Password</MenuItem>
         </Menu>
         <Modal
             open={openTrue}

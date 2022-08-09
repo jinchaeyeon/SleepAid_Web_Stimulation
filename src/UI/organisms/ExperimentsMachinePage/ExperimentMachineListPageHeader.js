@@ -28,6 +28,7 @@ function ExperimentMachineListPageHeader() {
           display: "inline",
           backgroundColor: "#5e646b",
           marginLeft: 50,
+          fontFamily: 'GmarketSansMedium'
         }}
       >
         Trigger
@@ -40,6 +41,7 @@ function ExperimentMachineListPageHeader() {
             display: "inline",
             backgroundColor: "#5e646b",
             marginLeft: 10,
+            fontFamily: 'GmarketSansMedium'
           }}
         >
           start
@@ -52,6 +54,7 @@ function ExperimentMachineListPageHeader() {
             display: "inline",
             backgroundColor: "#5e646b",
             marginLeft: 10,
+            fontFamily: 'GmarketSansMedium'
           }}
         >
           pause
@@ -65,6 +68,7 @@ function ExperimentMachineListPageHeader() {
             display: "inline",
             backgroundColor: "#2877b9",
             marginTop: 25,
+            fontFamily: 'GmarketSansMedium'
           }}
         >
           실험 종료
@@ -78,6 +82,7 @@ function ExperimentMachineListPageHeader() {
           backgroundColor: "#5e646b",
           marginTop: 25,
           marginRight: 20,
+          fontFamily: 'GmarketSansMedium'
         }}
       >
         자극 설정

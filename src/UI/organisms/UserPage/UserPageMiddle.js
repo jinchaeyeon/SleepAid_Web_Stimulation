@@ -131,6 +131,7 @@ export default function UserPageMiddle() {
               borderRadius: 10,
               backgroundColor: "#2877b9",
               marginRight: 5,
+              fontFamily: 'GmarketSansMedium'
             }}
             onClick={() => handleAccount(row)}
           >
@@ -142,6 +143,7 @@ export default function UserPageMiddle() {
               borderRadius: 10,
               backgroundColor: "#5e646b",
               marginRight: 5,
+              fontFamily: 'GmarketSansMedium'
             }}
             onClick={() => handleOpenTrue(row)}
           >
@@ -162,6 +164,7 @@ export default function UserPageMiddle() {
               color: "#CCCCCC",
               borderRadius: 10,
               backgroundColor: "#393939",
+              fontFamily: 'GmarketSansMedium'
             }}
             onClick={() => handleDeleteAccount(row)}
           >
@@ -178,6 +181,7 @@ export default function UserPageMiddle() {
               borderRadius: 10,
               backgroundColor: "#5e646b",
               marginRight: 5,
+              fontFamily: 'GmarketSansMedium'
             }}
             onClick={() => handleAccount(row)}
           >
@@ -188,6 +192,7 @@ export default function UserPageMiddle() {
               color: "#CCCCCC",
               borderRadius: 10,
               backgroundColor: "#5e646b",
+              fontFamily: 'GmarketSansMedium'
             }}
             onClick={() => handleOpenFalse(row)}
           >
@@ -230,7 +235,7 @@ export default function UserPageMiddle() {
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
-                  style={{ minWidth: column.minWidth, color: "white" }}
+                  style={{ minWidth: column.minWidth, color: "white",fontFamily: 'GmarketSansMedium' }}
                 >
                   {column.label}
                 </TableCell>
@@ -251,7 +256,7 @@ export default function UserPageMiddle() {
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} style={{ color: "#c0c0c0" }}>
+                        <TableCell key={column.id} style={{ color: "#c0c0c0",fontFamily: 'GmarketSansMedium' }}>
                           {cell(value, row)}
                         </TableCell>
                       );

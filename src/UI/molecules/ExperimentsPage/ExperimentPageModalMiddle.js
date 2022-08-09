@@ -39,7 +39,7 @@ export default function ExperimentPageModalMiddle(props) {
         }}
       >
         <Box style={{display: "block", height: 37}}>
-          <h4 style={{ display: "inline", paddingLeft: "15%" }}>
+          <h4 style={{ display: "inline", paddingLeft: "15%",fontFamily: 'GmarketSansMedium' }}>
             실험 프로토콜 명 :
           </h4>
           <TextField
@@ -51,11 +51,12 @@ export default function ExperimentPageModalMiddle(props) {
               marginRight: "10%",
               backgroundColor: "white",
             }}
+            inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}
             onChange={handleNameChange}
           />
         </Box>
         <Box style={{display: "block" , height: 37, marginTop: 10}}>
-          <h4 style={{ display: "inline", paddingLeft: "15%" }}>
+          <h4 style={{ display: "inline", paddingLeft: "15%",fontFamily: 'GmarketSansMedium' }}>
             담당자 :
           </h4>
           <TextField
@@ -68,10 +69,11 @@ export default function ExperimentPageModalMiddle(props) {
               backgroundColor: "white",
             }}
             onChange={handleManagerChange}
+            inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}
           />
         </Box>
         <Box style={{display: "block" , height: 37, marginTop: 10}}>
-          <h4 style={{ display: "inline", paddingLeft: "15%" }}>
+          <h4 style={{ display: "inline", paddingLeft: "15%",fontFamily: 'GmarketSansMedium' }}>
             상세설명 :
           </h4>
           <TextField
@@ -83,6 +85,7 @@ export default function ExperimentPageModalMiddle(props) {
               marginRight: "10%",
               backgroundColor: "white",
             }}
+            inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}
             onChange={handleContentChange}
           />
         </Box>
@@ -95,6 +98,7 @@ export default function ExperimentPageModalMiddle(props) {
             backgroundColor: "#2877b9",
             marginRight: 5,
             float: "right",
+            fontFamily: 'GmarketSansMedium'
           }}
           onClick={handleup}
         >

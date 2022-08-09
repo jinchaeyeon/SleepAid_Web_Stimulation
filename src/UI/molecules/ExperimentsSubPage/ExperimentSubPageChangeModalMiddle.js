@@ -84,7 +84,7 @@ export default function ExperimentSubPageChangeModalMiddle(props) {
         }}
       >
         <Box style={{ display: "block", height: 37 }}>
-          <h4 style={{ display: "inline", paddingLeft: "15%" }}>이름:</h4>
+          <h4 style={{ display: "inline", paddingLeft: "15%",fontFamily: 'GmarketSansMedium' }}>이름:</h4>
           <TextField
             value={name}
             size="small"
@@ -95,10 +95,11 @@ export default function ExperimentSubPageChangeModalMiddle(props) {
               backgroundColor: "white",
             }}
             onChange={handleNameChange}
+            inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}
           />
         </Box>
         <Box style={{ display: "block", height: 37, marginTop: 10 }}>
-          <h4 style={{ display: "inline", paddingLeft: "15%" }}>성별:</h4>
+          <h4 style={{ display: "inline", paddingLeft: "15%",fontFamily: 'GmarketSansMedium' }}>성별:</h4>
           <FormControl
             style={{ float: "right", width: "40%", marginRight: "10%" }}
           >
@@ -107,16 +108,17 @@ export default function ExperimentSubPageChangeModalMiddle(props) {
               value={sex}
               style={{
                 backgroundColor: "white",
+                fontFamily: 'GmarketSansMedium'
               }}
               onChange={handleSexChange}
             >
-              <MenuItem value={"남성"}>남성</MenuItem>
-              <MenuItem value={"여성"}>여성</MenuItem>
+              <MenuItem style={{fontFamily: 'GmarketSansMedium'}} value={"남성"}>남성</MenuItem>
+              <MenuItem style={{fontFamily: 'GmarketSansMedium'}}   value={"여성"}>여성</MenuItem>
             </Select>
           </FormControl>
         </Box>
         <Box style={{ display: "block", height: 37, marginTop: 10 }}>
-          <h4 style={{ display: "inline", paddingLeft: "15%" }}>
+          <h4 style={{ display: "inline", paddingLeft: "15%",fontFamily: 'GmarketSansMedium' }}>
             생년월일(8자리)
           </h4>
           <TextField
@@ -129,10 +131,11 @@ export default function ExperimentSubPageChangeModalMiddle(props) {
               backgroundColor: "white",
             }}
             onChange={handleBirthdayChange}
+            inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}
           />
         </Box>
         <Box style={{ display: "block", height: 37, marginTop: 10 }}>
-          <h4 style={{ display: "inline", paddingLeft: "15%" }}>주진단명</h4>
+          <h4 style={{ display: "inline", paddingLeft: "15%",fontFamily: 'GmarketSansMedium' }}>주진단명</h4>
           <TextField
             value={maindiagnosis}
             size="small"
@@ -143,10 +146,11 @@ export default function ExperimentSubPageChangeModalMiddle(props) {
               backgroundColor: "white",
             }}
             onChange={handleMaindiagnosisChange}
+            inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}
           />
         </Box>
         <Box style={{ display: "block", height: 37, marginTop: 10 }}>
-          <h4 style={{ display: "inline", paddingLeft: "15%" }}>
+          <h4 style={{ display: "inline", paddingLeft: "15%",fontFamily: 'GmarketSansMedium' }}>
             설문조사(구글링크)
           </h4>
           <TextField
@@ -159,10 +163,11 @@ export default function ExperimentSubPageChangeModalMiddle(props) {
               backgroundColor: "white",
             }}
             onChange={handleLinkChange}
+            inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}
           />
         </Box>
         <Box style={{ display: "block", height: 37, marginTop: 10 }}>
-          <h4 style={{ display: "inline", paddingLeft: "15%" }}>
+          <h4 style={{ display: "inline", paddingLeft: "15%",fontFamily: 'GmarketSansMedium' }}>
             동의서 파일선택
           </h4>
           <input
@@ -171,6 +176,7 @@ export default function ExperimentSubPageChangeModalMiddle(props) {
               width: "40%",
               marginRight: "10%",
               backgroundColor: "white",
+              fontFamily: 'GmarketSansMedium'
             }}
             id="file"
             name="file"
@@ -188,6 +194,7 @@ export default function ExperimentSubPageChangeModalMiddle(props) {
             backgroundColor: "#2877b9",
             marginRight: 5,
             float: "right",
+            fontFamily: 'GmarketSansMedium'
           }}
           onClick={handleup}
         >

@@ -53,10 +53,11 @@ function FindIDPage() {
             onChange={handleChangeEmail}
             style={{ marginBottom: 10 }}
             placeholder="E-mail"
+            inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}
           />
             <Button
               variant="contained"
-              style={{ marginRight: 5, marginTop: 20, backgroundColor: "#2877b9" }}
+              style={{ marginRight: 5, marginTop: 20, backgroundColor: "#2877b9",fontFamily: 'GmarketSansMedium' }}
               onClick={handleFindID}
             >
               확인
@@ -64,7 +65,7 @@ function FindIDPage() {
           <Link to="/" style={{ textDecoration: "none" }}>
             <Button
               variant="contained"
-              style={{ marginRight: 5, marginTop: 20, backgroundColor: "#868e96" }}
+              style={{ marginRight: 5, marginTop: 20, backgroundColor: "#868e96",fontFamily: 'GmarketSansMedium' }}
             >
               닫기
             </Button>

@@ -33,7 +33,7 @@ export default function UserPageModalMiddle(props) {
           borderRadius: 5,
         }}
       >
-        <h4 style={{ display: "inline", paddingLeft: "15%" }}>Email :</h4>
+        <h4 style={{ display: "inline", paddingLeft: "15%",fontFamily: 'GmarketSansMedium' }}>Email :</h4>
         <TextField
           value={text}
           size="small"
@@ -44,6 +44,7 @@ export default function UserPageModalMiddle(props) {
             backgroundColor: "white",
           }}
           onChange={handleChange}
+          inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}
         />
       </Box>
       <Box>
@@ -54,6 +55,7 @@ export default function UserPageModalMiddle(props) {
             backgroundColor: "#2877b9",
             marginRight: 5,
             float: "right",
+            fontFamily: 'GmarketSansMedium'
           }}
           onClick={handleup}
         >

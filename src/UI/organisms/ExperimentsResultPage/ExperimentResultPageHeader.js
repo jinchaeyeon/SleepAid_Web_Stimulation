@@ -23,7 +23,8 @@ function ExperimentResultPageHeader(props) {
           display: "inline",
           backgroundColor: "#5e646b",
           marginTop: 25,
-          marginRight: "6%"
+          marginRight: "6%",
+          fontFamily: 'GmarketSansMedium'
         }}
       >
         Export
@@ -35,7 +36,8 @@ function ExperimentResultPageHeader(props) {
           display: "inline",
           backgroundColor: "#5e646b",
           marginRight: 20,
-          marginTop: 25
+          marginTop: 25,
+          fontFamily: 'GmarketSansMedium'
         }}
       >
         삭제 구간 설정

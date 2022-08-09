@@ -43,7 +43,7 @@ export const SidebarData = [
     ]
   },
   {
-    title: 'WebGL Chart(test)',
+    title: 'WebGL Chart',
     icon: <InsertChartOutlinedIcon style={{color: '#2877b9'}}/>,
     iconClosed: <KeyboardArrowDownOutlinedIcon />,
     iconOpened: <KeyboardArrowUpOutlinedIcon />,

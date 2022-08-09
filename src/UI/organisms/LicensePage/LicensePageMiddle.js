@@ -188,6 +188,7 @@ export default function LicensePageMiddle() {
           backgroundColor: "#5e646b",
           marginLeft: 50,
           marginBottom: 10,
+          fontFamily: 'GmarketSansMedium'
         }}
         onClick={AddLicense}
       >
@@ -207,7 +208,7 @@ export default function LicensePageMiddle() {
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
-                  style={{ minWidth: column.minWidth, color: "white" }}
+                  style={{ minWidth: column.minWidth, color: "white",fontFamily: 'GmarketSansMedium' }}
                 >
                   {column.label}
                 </TableCell>
@@ -228,7 +229,7 @@ export default function LicensePageMiddle() {
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} style={{ color: "#c0c0c0" }}>
+                        <TableCell key={column.id} style={{ color: "#c0c0c0",fontFamily: 'GmarketSansMedium' }}>
                           {cell(value, row)}
                         </TableCell>
                       );

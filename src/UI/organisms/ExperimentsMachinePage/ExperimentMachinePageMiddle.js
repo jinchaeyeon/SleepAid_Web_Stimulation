@@ -78,6 +78,7 @@ export default function ExperimentMachinePageMiddle(props) {
           color: "white",
           top: "40%",
           left: "35%",
+          fontFamily: 'GmarketSansMedium'
         }}
       >
         블루투스 기기의 전원을 켜고 아래의 Connect 버튼을 눌러 기기를
@@ -90,6 +91,7 @@ export default function ExperimentMachinePageMiddle(props) {
           color: "white",
           top: "50%",
           left: "48%",
+          fontFamily: 'GmarketSansMedium'
         }}
         variant="contained"
       >

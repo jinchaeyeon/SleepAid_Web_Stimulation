@@ -33,7 +33,7 @@ export default function HeaderModalMiddle(props) {
         }}
       >
         <Box style={{ display: "block", height: 37, marginTop: 10 }}>
-          <h4 style={{ display: "inline", paddingLeft: "15%" }}>
+          <h4 style={{ display: "inline", paddingLeft: "15%",fontFamily: 'GmarketSansMedium' }}>
             변경할 비밀번호 :
           </h4>
           <TextField
@@ -46,10 +46,11 @@ export default function HeaderModalMiddle(props) {
               backgroundColor: "white",
             }}
             onChange={handlePWChange}
+            inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}
           />
         </Box>
         <Box style={{ display: "block", height: 37, marginTop: 10 }}>
-          <h4 style={{ display: "inline", paddingLeft: "15%" }}>
+          <h4 style={{ display: "inline", paddingLeft: "15%",fontFamily: 'GmarketSansMedium' }}>
             비밀번호 확인 :
           </h4>
           <TextField
@@ -62,6 +63,7 @@ export default function HeaderModalMiddle(props) {
               backgroundColor: "white",
             }}
             onChange={handleCheckChange}
+            inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}
           />
         </Box>
       </Box>
@@ -73,6 +75,7 @@ export default function HeaderModalMiddle(props) {
             backgroundColor: "#2877b9",
             marginRight: 5,
             float: "right",
+            fontFamily: 'GmarketSansMedium'
           }}
           onClick={handleup}
         >

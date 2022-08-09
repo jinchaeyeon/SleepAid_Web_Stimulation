@@ -64,13 +64,13 @@ function SignUpPage() {
             <CardContent>
               <Grid container spacing={2}>
                 <Grid item md={6} xs={12}>
-                  <TextField fullWidth label="User Id" variant="outlined" onChange={handleChangeID}/>
+                  <TextField fullWidth label="User Id" variant="outlined" onChange={handleChangeID} inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}/>
                 </Grid>
                 <Grid item md={6} xs={12}>
-                  <TextField fullWidth label="Name" variant="outlined" onChange={handleChangeName}/>
+                  <TextField fullWidth label="Name" variant="outlined" onChange={handleChangeName} inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}/>
                 </Grid>
                 <Grid item md={6} xs={12}>
-                  <TextField fullWidth label="Password" variant="outlined" onChange={handleChangePW}/>
+                  <TextField fullWidth label="Password" variant="outlined" onChange={handleChangePW} inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}/>
                 </Grid>
                 <Grid item md={6} xs={12}>
                   <TextField
@@ -78,20 +78,21 @@ function SignUpPage() {
                     label="Password Check"
                     variant="outlined"
                     onChange={handleChangePWCheck}
+                    inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}
                   />
                 </Grid>
                 <Grid item md={6} xs={12}>
-                  <TextField fullWidth label="LicenseKey" variant="outlined" onChange={handleChangeLicense} />
+                  <TextField fullWidth label="LicenseKey" variant="outlined" onChange={handleChangeLicense} inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}/>
                 </Grid>
                 <Grid item md={6} xs={12}>
-                  <TextField fullWidth label="E-mail" variant="outlined" onChange={handleChangeEmail}/>
+                  <TextField fullWidth label="E-mail" variant="outlined" onChange={handleChangeEmail} inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}/>
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <Box style={{ float: "right" }}>
                     <Link to="/"  style={{ textDecoration: 'none' }}>
                       <Button
                         variant="contained"
-                        style={{ marginRight: 5, backgroundColor: "#2877b9" }}
+                        style={{ marginRight: 5, backgroundColor: "#2877b9" ,fontFamily: 'GmarketSansMedium' }}
                       >
                         Sign Up
                       </Button>
@@ -99,7 +100,7 @@ function SignUpPage() {
                     <Link to="/"  style={{ textDecoration: 'none' }}>
                       <Button
                         variant="contained"
-                        style={{ backgroundColor: "#868e96" }}
+                        style={{ backgroundColor: "#868e96",fontFamily: 'GmarketSansMedium'  }}
                       >
                         Cancel
                       </Button>
