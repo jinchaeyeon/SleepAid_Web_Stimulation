@@ -7,7 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 export default function HeaderModalHeader(props) {
   return (
     <Box style={{color: "#CCCCCC", height: 62}}>
-        <h4 style={{display: 'inline'}}>비밀번호 변경</h4>
+        <h4 style={{display: 'inline'}}>input parameters</h4>
         <CloseIcon style={{float: 'right'}} onClick={() => props.propFunction(false)}/>
     </Box>
   );

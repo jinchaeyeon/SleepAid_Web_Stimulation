@@ -1,14 +1,39 @@
-import { Box, Button, Menu, MenuItem } from "@mui/material";
+import * as React from 'react';
+import { Box, Button, Menu, MenuItem, Modal } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import HeaderModalHeader from '../../molecules/Header/HeaderModalHeader';
+import HeaderModalMiddle from '../../molecules/Header/HeaderModalMiddle';
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "40%",
+  minWidth: 400,
+  bgcolor: "#383b40",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+
 function Header() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [openTrue, setOpenTrue] = React.useState(false);
+  const [state, setState] = React.useState([]);
+
+  const handleCloseTrue = () => {
+    setOpenTrue(false);
+  }
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+    setOpenTrue(true);
   };
 
   return (
@@ -59,6 +84,16 @@ function Header() {
         >
           <MenuItem onClick={handleClose}>Change Password</MenuItem>
         </Menu>
+        <Modal
+            open={openTrue}
+            onClose={handleCloseTrue}
+            BackdropProps={{ style: { opacity: 0.2 } }}
+          >
+            <Box sx={style}>
+              <HeaderModalHeader propFunction={handleCloseTrue} />
+              <HeaderModalMiddle propFunction={handleCloseTrue} />
+            </Box>
+          </Modal>
       </Box>
     </>
   );
