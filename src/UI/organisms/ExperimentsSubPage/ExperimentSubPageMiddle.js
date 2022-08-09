@@ -369,7 +369,7 @@ export default function ExperimentSubPageMiddle(props) {
     ]);
     alert("피험자가 추가되었습니다.");
     handleProtocolClose();
-    window.location.href = `../ExperimentsSub/${Experimentsid}/${rows.length+1}`;
+    window.location.href = `../ExperimentsSub/${Experimentsid}/${name}`;
   };
 
   const handleDeleteAccount = (row) => {
@@ -381,16 +381,18 @@ export default function ExperimentSubPageMiddle(props) {
     if (value == "button") {
       return (
         <Box>
-          <Button
-            style={{
-              color: "white",
-              borderRadius: 10,
-              backgroundColor: "#2877b9",
-              marginRight: 5,
-            }}
-          >
-            실험정보
-          </Button>
+          <Link to={`../ExperimentsResult/${Experimentsid}/${row.id}`}>
+            <Button
+              style={{
+                color: "white",
+                borderRadius: 10,
+                backgroundColor: "#2877b9",
+                marginRight: 5,
+              }}
+            >
+              실험정보
+            </Button>
+          </Link>
           <Button
             style={{
               color: "#CCCCCC",

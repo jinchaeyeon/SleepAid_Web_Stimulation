@@ -3,8 +3,8 @@ import React from "react";
 import CloudIcon from "@mui/icons-material/Cloud";
 import {Link} from 'react-router-dom';
 
-function ExperimentMachineListPageHeader(props) {
-  const id = props.id;
+function ExperimentMachineListPageHeader() {
+  const Experimentsid = window.location.href.split('/');
   const [state, setState] = React.useState(true);
 
   const handleState = () => {
@@ -57,7 +57,7 @@ function ExperimentMachineListPageHeader(props) {
           pause
         </Button>
       )}
-      <Link to="/ExperimentsResult">
+      <Link to={`../ExperimentsResult/${Experimentsid[4]}/${Experimentsid[5]}`}>
         <Button
           variant="contained"
           style={{

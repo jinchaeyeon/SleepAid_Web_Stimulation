@@ -87,7 +87,7 @@ const App = () => {
               }
             />
             <Route
-              path="/ExperimentsResult/:id"
+              path="/ExperimentsResult/:id/:subid"
               element={
                 <Box style={{ display: "flex", width: "100%" }}>
                   <Sidebar />

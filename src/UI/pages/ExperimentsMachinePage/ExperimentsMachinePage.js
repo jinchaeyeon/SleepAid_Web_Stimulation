@@ -6,7 +6,7 @@ import ExperimentMachinePageMiddle from "../../organisms/ExperimentsMachinePage/
 import ExperimentMachinePageHeader from "../../organisms/ExperimentsMachinePage/ExperimentMachinePageHeader";
 import ExperimentMachineListPageMiddle from "../../organisms/ExperimentsMachinePage/ExperimentMachineListPageMiddle";
 
-function ExperimentsPage() {
+function ExperimentsMachinePage() {
   const [state, setState] = React.useState(false);
   const hightFunction = (machine) => {
     if (machine != null) {
@@ -34,4 +34,4 @@ function ExperimentsPage() {
   );
 }
 
-export default ExperimentsPage;
+export default ExperimentsMachinePage;
