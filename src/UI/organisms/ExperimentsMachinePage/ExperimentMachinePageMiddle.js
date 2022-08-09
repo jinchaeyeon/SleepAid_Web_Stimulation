@@ -38,52 +38,35 @@ export default function ExperimentMachinePageMiddle(props) {
     navigator.bluetooth
       .requestDevice(options)
       .then(function (device) {
-        console.log("Name: " + device.name);
-        console.log("Connecting to GATT Server...");
 
         var wbdevice = device;
         return wbdevice.gatt.connect().then(function (server) {
-          console.log("server");
-          console.log(server);
           // Getting primary service from device with passed uuid
           return server
             .getPrimaryService(CURRENT_SERVICE_UUID)
             .then(function (service) {
-              console.log("service");
-              console.log(service);
 
               bluetoothService = service;
               service
                 .getCharacteristic(WRITE_UUID)
                 .then(function (characteristic) {
-                  console.log("characteristic1");
-                  console.log(characteristic);
                   var deviceChar = characteristic;
                   const cmd = "910|2";
 
                   var uint8array = new TextEncoder().encode(cmd);
 
                   deviceChar
-                    .writeValueWithoutResponse(uint8array)
-                    .then(function () {
-                      console.log("wrote!!!!!!");
-                    });
+                    .writeValueWithoutResponse(uint8array);
                 });
 
               return service
                 .getCharacteristic(NOTIFY_UUID)
                 .then(function (characteristic) {
-                  console.log("characteristic2");
-                  console.log(characteristic);
-
                   {handleprops(characteristic)}
                 });
             });
         });
       })
-      .catch(function (error) {
-        console.log("Something went wrong. " + error);
-      });
   }
   return (
     <Paper

@@ -1,8 +1,10 @@
 import { Box } from "@mui/material";
 import React from "react";
-import ExperimentMachinePageHeader from "../../organisms/ExperimentsMachinePage/ExperimentMachinePageHeader";
+import ExperimentMachineListPageHeader from "../../organisms/ExperimentsMachinePage/ExperimentMachineListPageHeader";
 import ExperimentMachinePageFooter from "../../organisms/ExperimentsMachinePage/ExperimentMachinePageFooter";
 import ExperimentMachinePageMiddle from "../../organisms/ExperimentsMachinePage/ExperimentMachinePageMiddle";
+import ExperimentMachinePageHeader from "../../organisms/ExperimentsMachinePage/ExperimentMachinePageHeader";
+import ExperimentMachineListPageMiddle from "../../organisms/ExperimentsMachinePage/ExperimentMachineListPageMiddle";
 
 function ExperimentsPage() {
   const [state, setState] = React.useState(false);
@@ -22,7 +24,11 @@ function ExperimentsPage() {
           </Box>
         </>
       ) : (
-        "Gg"
+        <Box style={{ backgroundColor: "#191919", padding: "1.rem 2rem" }}>
+        <ExperimentMachineListPageHeader />
+        <ExperimentMachineListPageMiddle />
+        <ExperimentMachinePageFooter />
+      </Box>
       )}
     </>
   );
