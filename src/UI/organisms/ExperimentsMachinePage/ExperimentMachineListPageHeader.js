@@ -1,6 +1,7 @@
 import { Box, Button } from "@mui/material";
 import React from "react";
 import CloudIcon from "@mui/icons-material/Cloud";
+import {Link} from 'react-router-dom';
 
 function ExperimentMachineListPageHeader(props) {
   const id = props.id;
@@ -11,7 +12,7 @@ function ExperimentMachineListPageHeader(props) {
   };
 
   return (
-    <Box style={{ width: "100%", height: "10vh" }}>
+    <Box style={{ width: "93%", height: "10vh" }}>
       <CloudIcon
         style={{
           color: "#2877b9",
@@ -46,7 +47,7 @@ function ExperimentMachineListPageHeader(props) {
       ) : (
         <Button
           variant="contained"
-          onClick={() =>handleState }
+          onClick={() => handleState}
           style={{
             display: "inline",
             backgroundColor: "#5e646b",
@@ -56,7 +57,19 @@ function ExperimentMachineListPageHeader(props) {
           pause
         </Button>
       )}
-
+      <Link to="/ExperimentsResult">
+        <Button
+          variant="contained"
+          style={{
+            float: "right",
+            display: "inline",
+            backgroundColor: "#2877b9",
+            marginTop: 25,
+          }}
+        >
+          실험 종료
+        </Button>
+      </Link>
       <Button
         variant="contained"
         style={{
@@ -64,7 +77,7 @@ function ExperimentMachineListPageHeader(props) {
           display: "inline",
           backgroundColor: "#5e646b",
           marginTop: 25,
-          marginRight: 70,
+          marginRight: 20,
         }}
       >
         자극 설정
