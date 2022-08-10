@@ -1,6 +1,97 @@
 import React from "react";
 import { FormControl, NativeSelect, Box } from "@mui/material";
 import getRealTimeChart from "./realtime_chart";
+import { Line } from "react-chartjs-2";
+import "chartjs-plugin-streaming";
+import "./styles.css";
+import moment from "moment";
+
+const Chart = require("react-chartjs-2").Chart;
+
+const chartColors = {
+  red: "rgb(255, 99, 132)",
+  orange: "rgb(255, 159, 64)",
+  yellow: "rgb(255, 205, 86)",
+  green: "rgb(75, 192, 192)",
+  blue: "rgb(54, 162, 235)",
+  purple: "rgb(153, 102, 255)",
+  grey: "rgb(201, 203, 207)",
+};
+
+const color = Chart.helpers.color;
+const data = {
+  datasets: [
+    {
+      backgroundColor: color(chartColors.purple).alpha(0.5).rgbString(),
+      borderColor: chartColors.purple,
+      fill: false,
+      lineTension: 0,
+      borderDash: [10, 0],
+      data: [],
+    },
+  ],
+};
+
+const options = {
+  elements: {
+    line: {
+      tension: 1,
+    },
+  },
+  maintainAspectRatio: false,
+  legend: {
+    display: false,
+  },
+  responsive: false,
+  scales: {
+    xAxes: [
+      {
+        type: "realtime",
+        distribution: "linear",
+        realtime: {
+          onRefresh: function (chart) {
+            chart.data.datasets[0].data.push({
+              x: moment(),
+              y: Math.random(),
+            });
+          },
+          delay: 1,
+          time: {
+            displayFormat: "h:mm",
+          },
+        },
+        ticks: {
+          display: false,
+          displayFormats: 1,
+          maxRotation: 0,
+          minRotation: 0,
+          maxTicksLimit: 30,
+          minUnit: "second",
+          source: "auto",
+          autoSkip: true,
+          callback: function (value) {
+            return moment(value, "HH:mm:ss").format("mm:ss");
+          },
+        },
+        gridLines: {
+          display: false,
+        },
+      },
+    ],
+    yAxes: [
+      {
+        ticks: {
+          display: false,
+          max: 1,
+          min: 0,
+        },
+        gridLines: {
+          display: false,
+        },
+      },
+    ],
+  },
+};
 
 const d3 = document.createElement("script");
 
@@ -191,43 +282,67 @@ function ExperimentMachineListPageMiddle(props) {
   //     }
   //   }
 
-  function roop(i){
-    return(
-      <Box style={{ border: " 2px solid white", marginTop: 20, width: "90%", height: 60, marginLeft: 50}}>
-      <h3 style={{ color: "white", display: "inline" }}>{signal_names[i]}</h3>
-        <FormControl style={{ float: "right" }}>
+  function roop(i) {
+    var widths = window.innerWidth * 0.68;
+    return (
+      <Box>
+        {console.log(widths)}
+        <h3 style={{ color: "white", display: "inline", marginLeft: 50, marginTop: 20 }}>
+          {signal_names[i]}
+        </h3>
+        <Box
+          style={{
+            border: " 2px solid white",
+            marginTop: 20,
+            width: "80%",
+            height: 60,
+            marginLeft: 50,
+          }}
+        >
+          <Line data={data} options={options} height={55} width={widths} />
+        </Box>
+        <FormControl style={{ float: "right", display: "inline", marginTop: -50, marginRight: "8%"}}>
           <NativeSelect
             defaultValue={5}
             inputProps={{
               name: "age",
               id: "uncontrolled-native",
-              fontFamily: 'GmarketSansMedium'
+              fontFamily: "GmarketSansMedium",
             }}
             style={{
               textAlign: "right",
               backgroundColor: "white",
-              width: 70,
-              fontFamily: 'GmarketSansMedium'
+              width: 100,
+              fontFamily: "GmarketSansMedium",
             }}
           >
-            <option style={{fontFamily: 'GmarketSansMedium'}} value={5}>5sec</option>
-            <option style={{fontFamily: 'GmarketSansMedium'}} value={10}>10sec</option>
-            <option style={{fontFamily: 'GmarketSansMedium'}} value={30}>30sec</option>
-            <option style={{fontFamily: 'GmarketSansMedium'}} value={60}>1min</option>
-            <option style={{fontFamily: 'GmarketSansMedium'}} value={300}>5min</option>
+            <option style={{ fontFamily: "GmarketSansMedium" }} value={5}>
+              5sec
+            </option>
+            <option style={{ fontFamily: "GmarketSansMedium" }} value={10}>
+              10sec
+            </option>
+            <option style={{ fontFamily: "GmarketSansMedium" }} value={30}>
+              30sec
+            </option>
+            <option style={{ fontFamily: "GmarketSansMedium" }} value={60}>
+              1min
+            </option>
+            <option style={{ fontFamily: "GmarketSansMedium" }} value={300}>
+              5min
+            </option>
           </NativeSelect>
         </FormControl>
       </Box>
-    )
+    );
   }
   return (
-    <div id="chartlist" style={{ width: "100%", height: "67.2vh"}}>
-        {roop(0)}
-        {roop(1)}
-        {roop(2)}
-        {roop(3)}
-        {roop(4)}
-        {roop(5)}
+    <div id="chartlist" style={{ width: "100%", height: "70.2vh" }}>
+      {roop(1)}
+      {roop(2)}
+      {roop(3)}
+      {roop(4)}
+      {roop(5)}
       {/* <div id="chart'+i.toString()+'"></div>
         <hr /> */}
     </div>

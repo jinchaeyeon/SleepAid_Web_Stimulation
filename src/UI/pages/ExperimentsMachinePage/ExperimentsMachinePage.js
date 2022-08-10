@@ -25,8 +25,8 @@ function ExperimentsMachinePage() {
         </>
       ) : (
         <Box style={{ backgroundColor: "#191919", padding: "1.rem 2rem" }}>
-        <ExperimentMachineListPageHeader />
-        <ExperimentMachineListPageMiddle />
+        <ExperimentMachineListPageHeader /> 
+        <ExperimentMachineListPageMiddle /> 
         <ExperimentMachinePageFooter />
       </Box>
       )}
