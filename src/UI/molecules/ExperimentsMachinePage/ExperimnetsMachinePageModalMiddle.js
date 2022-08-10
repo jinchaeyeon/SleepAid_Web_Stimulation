@@ -95,7 +95,7 @@ export default function ExperimentPageModalMiddle(props) {
         }}
       >
         <Box>
-          <h4 style={{ marginTop: 0, marginBottom: 5 }}>width</h4>
+          <h4 style={{ marginTop: 0, marginBottom: 5, fontFamily: 'GmarketSansMedium' }}>width</h4>
           <Grid container spacing={2} alignItems="center">
             <Grid item>
               <VolumeUp />
@@ -120,6 +120,7 @@ export default function ExperimentPageModalMiddle(props) {
                   backgroundColor: "white",
                   width: 60,
                 }}
+                inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}
                 onChange={handleWidthInputChange}
                 onBlur={handleWidthBlur}
                 value={valueWidth}
@@ -129,7 +130,7 @@ export default function ExperimentPageModalMiddle(props) {
           </Grid>
         </Box>
         <Box>
-          <h4 style={{ marginTop: 5, marginBottom: 5 }}>Duration (mS)</h4>
+          <h4 style={{ marginTop: 5, marginBottom: 5,fontFamily: 'GmarketSansMedium' }}>Duration (mS)</h4>
           <Grid container spacing={2} alignItems="center">
             <Grid item>
               <VolumeUp />
@@ -154,6 +155,7 @@ export default function ExperimentPageModalMiddle(props) {
                   backgroundColor: "white",
                   width: 60,
                 }}
+                inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}
                 onChange={handleDurationInputChange}
                 onBlur={handleDurationBlur}
                 value={valueDuration}
@@ -163,7 +165,7 @@ export default function ExperimentPageModalMiddle(props) {
           </Grid>
         </Box>
         <Box>
-          <h4 style={{ marginTop: 5, marginBottom: 5 }}>Amplitude (mA)</h4>
+          <h4 style={{ marginTop: 5, marginBottom: 5,fontFamily: 'GmarketSansMedium' }}>Amplitude (mA)</h4>
           <Grid container spacing={2} alignItems="center">
             <Grid item>
               <VolumeUp />
@@ -192,6 +194,7 @@ export default function ExperimentPageModalMiddle(props) {
                 onBlur={handleAmplitudeBlur}
                 value={valueAmplitude}
                 variant="standard"
+                inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}
               />
             </Grid>
           </Grid>
@@ -206,23 +209,23 @@ export default function ExperimentPageModalMiddle(props) {
           marginBottom: 10,
         }}
       >
-        <h4 style={{ marginTop: 5, marginBottom: 5 }}>자극 목록</h4>
+        <h4 style={{ marginTop: 5, marginBottom: 5,fontFamily: 'GmarketSansMedium' }}>자극 목록</h4>
         <Box style={{ borderTop: "1px solid #000", paddingTop: 0 }}>
           <Grid container spacing={2} alignItems="center">
             {list.map((items, index) => (
               <Grid item xs={3} sm={3} md={3} key={index}>
                 <Card key={index}>
                   <CardContent>
-                    <h6 style={{ marginTop: 0, marginBottom: 0 }}>
+                    <h6 style={{ marginTop: 0, marginBottom: 0,fontFamily: 'GmarketSansMedium' }}>
                       width: {items.width}
                     </h6>
-                    <h6 style={{ marginTop: 0, marginBottom: 0 }}>
+                    <h6 style={{ marginTop: 0, marginBottom: 0,fontFamily: 'GmarketSansMedium' }}>
                       Duration: {items.Duration}
                     </h6>
-                    <h6 style={{ marginTop: 0, marginBottom: 5 }}>
+                    <h6 style={{ marginTop: 0, marginBottom: 5,fontFamily: 'GmarketSansMedium' }}>
                       Amplitude: {items.Amplitude}
                     </h6>
-                    <Button onClick={handleElectronic} style={{ marginTop: 0, marginBottom: 0 }} variant="outlined" size="small" fullWidth>사용</Button>
+                    <Button onClick={handleElectronic} style={{ marginTop: 0, marginBottom: 0,fontFamily: 'GmarketSansMedium' }} variant="outlined" size="small" fullWidth>사용</Button>
                   </CardContent>
                 </Card>
               </Grid>

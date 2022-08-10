@@ -7,7 +7,7 @@ import ExperimentMachinePageHeader from "../../organisms/ExperimentsMachinePage/
 import ExperimentMachineListPageMiddle from "../../organisms/ExperimentsMachinePage/ExperimentMachineListPageMiddle";
 
 function ExperimentsMachinePage() {
-  const [state, setState] = React.useState(false);
+  const [state, setState] = React.useState(true);
   const hightFunction = (machine) => {
     if (machine != null) {
       setState(true);
