@@ -204,7 +204,7 @@ function ExperimentMachineListPageMiddle(props) {
           }}
         >
           <Box style={{marginLeft: 30}}>
-          <Plot options={opts} data={datas}/>           
+            <Plot options={opts} data={datas}/>           
           </Box>
         </Box>
         <FormControl

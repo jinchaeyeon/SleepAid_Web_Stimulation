@@ -2,11 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import uPlot from "uplot";
 import "/node_modules/uplot/dist/uPlot.min.css";
 
-const NOW = Math.floor(Date.now() /10);
+const NOW = Math.floor(Date.now() / 1e3);
 const LENGTH = 50000;
 
 export default function Plot(props) {
-  console.log(props.data[0].B3_5_EEG1)
   const [shift, setShift] = useState(0);
   const [data, setData] = useState(getData(shift));
   const [plot, setPlot] = useState();
@@ -24,7 +23,7 @@ export default function Plot(props) {
       ys.push(Math.sin(i / 16) * 5);
     }
   
-    return xs, ys;
+    return [xs, ys];
   }
 
   useEffect(() => {
