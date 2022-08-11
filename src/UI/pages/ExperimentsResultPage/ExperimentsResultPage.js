@@ -6,7 +6,7 @@ import ExperimentResultPageMiddle from '../../organisms/ExperimentsResultPage/Ex
 function ExperimentsResultPage() {
   const id = window.location.href.split("/");
   return (
-    <Box style={{ backgroundColor: "#191919", padding: "1.rem 2rem" }}>
+    <Box style={{ backgroundColor: "#191919", padding: "1.rem 2rem", height: "auto" }}>
       <ExperimentResultPageHeader id={id[4]} />
       <ExperimentResultPageMiddle />
       <ExperimentResultPageFooter />

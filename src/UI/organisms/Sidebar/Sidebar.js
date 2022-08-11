@@ -7,7 +7,7 @@ const Sidebar = () => {
   const publicUrl = process.env.PUBLIC_URL;
   return (
     <>
-      <Box style={{ width: 300, height: "100vh", display: "block", backgroundColor: "#333333"}}>
+      <Box style={{ width: 300, height: "auto", display: "block", backgroundColor: "#333333"}}>
         <Box
           style={{
             justifyContent: "center",

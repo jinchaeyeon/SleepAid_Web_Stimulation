@@ -9067,6 +9067,11 @@
     "escalade" "^3.1.1"
     "picocolors" "^1.0.0"
 
+"uplot@^1.6.22":
+  "integrity" "sha512-2jtSb/YHUgtmIUn0+QJjf7ggcJicb5PKe7ijBiRDTPsG/f8F/MFayZ+g6/0kATNkDyF/qQsHJDmCp6cxncg1EQ=="
+  "resolved" "https://registry.npmjs.org/uplot/-/uplot-1.6.22.tgz"
+  "version" "1.6.22"
+
 "uri-js@^4.2.2":
   "integrity" "sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg=="
   "resolved" "https://registry.npmjs.org/uri-js/-/uri-js-4.4.1.tgz"
