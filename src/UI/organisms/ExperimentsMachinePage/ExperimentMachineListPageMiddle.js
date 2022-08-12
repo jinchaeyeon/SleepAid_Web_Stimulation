@@ -31,15 +31,15 @@ function ExperimentMachineListPageMiddle(props) {
     pxAlign: false,
     scales: {
       y: {
-        auto: true
-      }
+        auto: true,
+      },
     },
     series: [
       {},
       {
         label: "Sine",
-        stroke: "red"
-      }
+        stroke: "red",
+      },
     ],
   };
 
@@ -57,27 +57,31 @@ function ExperimentMachineListPageMiddle(props) {
     init();
   }
 
-  function list(i){
-    if(datas[0] == undefined){
+  function list(i) {
+    if (datas[0] == undefined) {
       return 0;
-    }
-    else if(i == 0) {
-      return <PlotEEG1 options={opts} data={datas[0]["B3_5_EEG1"]} state={state}/>    
-    } 
-    else if(i == 1){
-      return <PlotEEG2 options={opts} data={datas[0]["B6_8_EEG2"]}  state={state}/>     
-    }
-    else if(i == 2){
-      return <PlotPPG options={opts} data={datas[0]["B9_11_PPG_avg"]}  state={state}/>  
-    }
-    else if(i == 3){
-      return <PlotX options={opts} data={datas[0]["B27_28_X"]} state={state}/>   
-    }
-    else if(i == 4){
-      return <PlotY options={opts} data={datas[0]["B29_30_Y"]} state={state}/>    
-    }
-    else{
-      return <PlotZ options={opts} data={datas[0]["B31_32_Z"]} state={state}/>    
+    } else if (i == 0) {
+      return (
+        <PlotEEG1 options={opts} data={datas[0]["B3_5_EEG1"]} state={state} />
+      );
+    } else if (i == 1) {
+      return (
+        <PlotEEG2 options={opts} data={datas[0]["B6_8_EEG2"]} state={state} />
+      );
+    } else if (i == 2) {
+      return (
+        <PlotPPG
+          options={opts}
+          data={datas[0]["B9_11_PPG_avg"]}
+          state={state}
+        />
+      );
+    } else if (i == 3) {
+      return <PlotX options={opts} data={datas[0]["B27_28_X"]} state={state} />;
+    } else if (i == 4) {
+      return <PlotY options={opts} data={datas[0]["B29_30_Y"]} state={state} />;
+    } else {
+      return <PlotZ options={opts} data={datas[0]["B31_32_Z"]} state={state} />;
     }
   }
   function roop(i) {
@@ -93,25 +97,10 @@ function ExperimentMachineListPageMiddle(props) {
         >
           {signal_names[i]}
         </h3>
-        <Box
-          style={{
-            border: " 2px solid white",
-            marginTop: 20,
-            width: "80%",
-            height: 250,
-            marginLeft: 50,
-            backgroundColor: "white"
-          }}
-        >
-          <Box style={{marginLeft: 30}}>
-            {list(i)}        
-          </Box>
-        </Box>
         <FormControl
           style={{
             float: "right",
             display: "inline",
-            marginTop: -50,
             marginRight: "8%",
           }}
         >
@@ -126,7 +115,7 @@ function ExperimentMachineListPageMiddle(props) {
               textAlign: "right",
               backgroundColor: "white",
               width: 100,
-              fontFamily: "GmarketSansMedium",
+              fontFamily: "GmarketSansMedium", 
             }}
           >
             <option style={{ fontFamily: "GmarketSansMedium" }} value={5}>
@@ -146,6 +135,19 @@ function ExperimentMachineListPageMiddle(props) {
             </option>
           </NativeSelect>
         </FormControl>
+        <Box
+          style={{
+            border: " 2px solid white",
+            marginTop: 20,
+            width: "80%",
+            height: 250,
+            marginLeft: 50,
+            backgroundColor: "white",
+            marginBottom: 30
+          }}
+        >
+          <Box style={{ marginLeft: 30 }}>{list(i)}</Box>
+        </Box>
       </Box>
     );
   }

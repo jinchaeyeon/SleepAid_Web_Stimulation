@@ -10,6 +10,8 @@ function ExperimentsMachinePage() {
   const [state, setState] = React.useState(false);
   const [mornitoringState, setMornitoringState] = React.useState();
   const [data, setData] = React.useState([]);
+  const [machine, setMachine] = React.useState();
+
   const hightFunction = (
     t,
     B3_5_EEG1,
@@ -17,12 +19,14 @@ function ExperimentsMachinePage() {
     B9_11_PPG_avg,
     B27_28_X,
     B29_30_Y,
-    B31_32_Z
+    B31_32_Z,
+    bluetoothService
   ) => {
     setState(true);
     setData([
       { t, B3_5_EEG1, B6_8_EEG2, B9_11_PPG_avg, B27_28_X, B29_30_Y, B31_32_Z },
     ]);
+    setMachine(bluetoothService);
   };
 
   const hightFunction2 = (text) => {
@@ -40,7 +44,7 @@ function ExperimentsMachinePage() {
         </>
       ) : (
         <Box style={{ backgroundColor: "#191919", padding: "1.rem 2rem", height: "auto" }}>
-          <ExperimentMachineListPageHeader propFunction={hightFunction2}/>
+          <ExperimentMachineListPageHeader data={data[0].t} machine={machine} propFunction={hightFunction2}/>
           <ExperimentMachineListPageMiddle data={data} state={mornitoringState}/>
           <ExperimentMachinePageFooter />
         </Box>

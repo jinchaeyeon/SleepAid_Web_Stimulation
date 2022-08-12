@@ -1,24 +1,10 @@
 import * as React from "react";
 import { Button, Paper } from "@mui/material";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "40%",
-  minWidth: 400,
-  bgcolor: "#383b40",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
-
 var pt;
 var g_recv_idx = 0;
 
 export default function ExperimentMachinePageMiddle(props) {
-  const [datas, setDatas] = React.useState([]);
   function handleprops(
     t,
     B3_5_EEG1,
@@ -26,9 +12,9 @@ export default function ExperimentMachinePageMiddle(props) {
     B9_11_PPG_avg,
     B27_28_X,
     B29_30_Y,
-    B31_32_Z
+    B31_32_Z,
+    bluetoothService
   ) {
-    setDatas([...datas, B3_5_EEG1]);
     props.propFunction(
       t,
       B3_5_EEG1,
@@ -36,7 +22,8 @@ export default function ExperimentMachinePageMiddle(props) {
       B9_11_PPG_avg,
       B27_28_X,
       B29_30_Y,
-      B31_32_Z
+      B31_32_Z,
+      bluetoothService
     );
   }
   var bluetoothService = null;
@@ -80,7 +67,6 @@ export default function ExperimentMachinePageMiddle(props) {
                 var deviceChar = characteristic;
 
                 return characteristic.startNotifications().then(function () {
-                  console.log("startNotifications");
                   g_recv_idx = 0;
 
                   characteristic.addEventListener(
@@ -155,7 +141,8 @@ export default function ExperimentMachinePageMiddle(props) {
                           parseInt(B9_11_PPG_avg / DATA.length),
                           B27_28_X,
                           B29_30_Y,
-                          B31_32_Z
+                          B31_32_Z,
+                          service
                         );
                       }
                       pt = ct;

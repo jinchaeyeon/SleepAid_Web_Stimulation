@@ -19,6 +19,8 @@ const style = {
 };
 
 function ExperimentMachineListPageHeader(props) {
+  const time = props.data;
+  const machine = props.machine;
   const Experimentsid = window.location.href.split("/");
   const [state, setState] = React.useState(true);
   const [openTrue, setOpenTrue] = React.useState(false);
@@ -35,7 +37,7 @@ function ExperimentMachineListPageHeader(props) {
   
 
   return (
-    <Box style={{ width: "93%", height: "10vh" }}>
+    <Box style={{ width: "93%", height: "10vh", marginBottom: 20 }}>
       <CloudIcon
         style={{
           color: "#2877b9",
@@ -118,7 +120,7 @@ function ExperimentMachineListPageHeader(props) {
       >
         <Box sx={style}>
           <ExperimentsMachinePageModalHeader propFunction={handleCloseTrue} />
-          <ExperimentsMachinePageModalMiddle propFunction={handleCloseTrue}/>
+          <ExperimentsMachinePageModalMiddle machine={machine} data={time} propFunction={handleCloseTrue}/>
         </Box>
       </Modal>
     </Box>

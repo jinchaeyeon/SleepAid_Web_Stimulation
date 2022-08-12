@@ -11,7 +11,12 @@ import {
 } from "@mui/material";
 import VolumeUp from "@mui/icons-material/VolumeUp";
 
+var bluetoothService = null;
+const WRITE_UUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
 export default function ExperimentPageModalMiddle(props) {
+  const protocol_exp_id = window.location.href.split("/")[5];
+  const time = props.data;
+  const machine = props.machine;
   const [valueWidth, setValueWidth] = React.useState(200);
   const [valueDuration, setValueDuration] = React.useState(200);
   const [valueAmplitude, setValueAmplitude] = React.useState(4095);
@@ -76,13 +81,61 @@ export default function ExperimentPageModalMiddle(props) {
       { width: valueWidth, Duration: valueDuration, Amplitude: valueAmplitude },
     ]);
     props.propFunction(false);
+    AddStimulus(valueWidth, valueDuration, valueAmplitude)
   };
-  
-  const handleElectronic = () => {
+
+  const handleElectronic = (width, duration, Amplitude) => {
     props.propFunction(false);
+    AddStimulus(width, duration, Amplitude);
+    setValueWidth(width);
+    setValueDuration(duration);
+    setValueAmplitude(Amplitude);
   };
 
   React.useEffect(() => {}, [valueWidth, valueDuration, valueAmplitude]);
+
+  function AddStimulus(width, duration, Amplitude) {
+    var id = protocol_exp_id;
+
+    var obj = {
+      proto_exp_id: id,
+      intensity: width,
+      interval: duration,
+      height: Amplitude,
+      time: time,
+    };
+
+    var sti_intensity = width;
+    sti_intensity = parseInt(sti_intensity);
+    var sti_interval = duration;
+    sti_interval = parseInt(sti_interval);
+    var sti_height = Amplitude;
+    sti_height = parseInt(sti_height);
+
+    bluetoothService = machine;
+    bluetoothService.getCharacteristic(WRITE_UUID).then(function (characteristic) {
+      var deviceChar = characteristic;
+      const cmd_intense = "102|" + sti_intensity;
+      var uint8array_intense = new TextEncoder().encode(cmd_intense);
+      deviceChar
+        .writeValueWithoutResponse(uint8array_intense)
+        .then(function () {
+          const cmd_interval = "104|" + sti_interval;
+          var uint8array_interval = new TextEncoder().encode(cmd_interval);
+          deviceChar
+            .writeValueWithoutResponse(uint8array_interval)
+            .then(function () {
+
+              const cmd_height = "106|" + sti_height;
+              var uint8array_height = new TextEncoder().encode(cmd_height);
+              deviceChar
+                .writeValueWithoutResponse(uint8array_height);
+            });
+        });
+    });
+
+    console.log(obj);
+  }
 
   return (
     <Box style={{ color: "#CCCCCC", height: 300, display: "inline" }}>
@@ -95,7 +148,15 @@ export default function ExperimentPageModalMiddle(props) {
         }}
       >
         <Box>
-          <h4 style={{ marginTop: 0, marginBottom: 5, fontFamily: 'GmarketSansMedium' }}>width</h4>
+          <h4
+            style={{
+              marginTop: 0,
+              marginBottom: 5,
+              fontFamily: "GmarketSansMedium",
+            }}
+          >
+            width
+          </h4>
           <Grid container spacing={2} alignItems="center">
             <Grid item>
               <VolumeUp />
@@ -120,7 +181,7 @@ export default function ExperimentPageModalMiddle(props) {
                   backgroundColor: "white",
                   width: 60,
                 }}
-                inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}
+                inputProps={{ style: { fontFamily: "GmarketSansMedium" } }}
                 onChange={handleWidthInputChange}
                 onBlur={handleWidthBlur}
                 value={valueWidth}
@@ -130,7 +191,15 @@ export default function ExperimentPageModalMiddle(props) {
           </Grid>
         </Box>
         <Box>
-          <h4 style={{ marginTop: 5, marginBottom: 5,fontFamily: 'GmarketSansMedium' }}>Duration (mS)</h4>
+          <h4
+            style={{
+              marginTop: 5,
+              marginBottom: 5,
+              fontFamily: "GmarketSansMedium",
+            }}
+          >
+            Duration (mS)
+          </h4>
           <Grid container spacing={2} alignItems="center">
             <Grid item>
               <VolumeUp />
@@ -155,7 +224,7 @@ export default function ExperimentPageModalMiddle(props) {
                   backgroundColor: "white",
                   width: 60,
                 }}
-                inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}
+                inputProps={{ style: { fontFamily: "GmarketSansMedium" } }}
                 onChange={handleDurationInputChange}
                 onBlur={handleDurationBlur}
                 value={valueDuration}
@@ -165,7 +234,15 @@ export default function ExperimentPageModalMiddle(props) {
           </Grid>
         </Box>
         <Box>
-          <h4 style={{ marginTop: 5, marginBottom: 5,fontFamily: 'GmarketSansMedium' }}>Amplitude (mA)</h4>
+          <h4
+            style={{
+              marginTop: 5,
+              marginBottom: 5,
+              fontFamily: "GmarketSansMedium",
+            }}
+          >
+            Amplitude (mA)
+          </h4>
           <Grid container spacing={2} alignItems="center">
             <Grid item>
               <VolumeUp />
@@ -194,7 +271,7 @@ export default function ExperimentPageModalMiddle(props) {
                 onBlur={handleAmplitudeBlur}
                 value={valueAmplitude}
                 variant="standard"
-                inputProps={{style:{fontFamily: 'GmarketSansMedium'}}}
+                inputProps={{ style: { fontFamily: "GmarketSansMedium" } }}
               />
             </Grid>
           </Grid>
@@ -209,23 +286,61 @@ export default function ExperimentPageModalMiddle(props) {
           marginBottom: 10,
         }}
       >
-        <h4 style={{ marginTop: 5, marginBottom: 5,fontFamily: 'GmarketSansMedium' }}>자극 목록</h4>
+        <h4
+          style={{
+            marginTop: 5,
+            marginBottom: 5,
+            fontFamily: "GmarketSansMedium",
+          }}
+        >
+          자극 목록
+        </h4>
         <Box style={{ borderTop: "1px solid #000", paddingTop: 0 }}>
           <Grid container spacing={2} alignItems="center">
             {list.map((items, index) => (
               <Grid item xs={3} sm={3} md={3} key={index}>
                 <Card key={index}>
                   <CardContent>
-                    <h6 style={{ marginTop: 0, marginBottom: 0,fontFamily: 'GmarketSansMedium' }}>
+                    <h6
+                      style={{
+                        marginTop: 0,
+                        marginBottom: 0,
+                        fontFamily: "GmarketSansMedium",
+                      }}
+                    >
                       width: {items.width}
                     </h6>
-                    <h6 style={{ marginTop: 0, marginBottom: 0,fontFamily: 'GmarketSansMedium' }}>
+                    <h6
+                      style={{
+                        marginTop: 0,
+                        marginBottom: 0,
+                        fontFamily: "GmarketSansMedium",
+                      }}
+                    >
                       Duration: {items.Duration}
                     </h6>
-                    <h6 style={{ marginTop: 0, marginBottom: 5,fontFamily: 'GmarketSansMedium' }}>
+                    <h6
+                      style={{
+                        marginTop: 0,
+                        marginBottom: 5,
+                        fontFamily: "GmarketSansMedium",
+                      }}
+                    >
                       Amplitude: {items.Amplitude}
                     </h6>
-                    <Button onClick={handleElectronic} style={{ marginTop: 0, marginBottom: 0,fontFamily: 'GmarketSansMedium' }} variant="outlined" size="small" fullWidth>사용</Button>
+                    <Button
+                      onClick={() => handleElectronic(items.width, items.Duration, items.Amplitude)}
+                      style={{
+                        marginTop: 0,
+                        marginBottom: 0,
+                        fontFamily: "GmarketSansMedium",
+                      }}
+                      variant="outlined"
+                      size="small"
+                      fullWidth
+                    >
+                      사용
+                    </Button>
                   </CardContent>
                 </Card>
               </Grid>

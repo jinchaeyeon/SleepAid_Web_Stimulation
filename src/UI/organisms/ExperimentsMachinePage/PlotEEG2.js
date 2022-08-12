@@ -16,7 +16,7 @@ export default function PlotEEG2(props) {
   const previousTimeRef = useRef();
 
   function getData(min) {
-    if (props.state == true) {
+    if (props.state == true|| props.state == undefined) {
       if (xs.length == LENGTH) {
         xs.shift();
         ys.shift();
