@@ -21,6 +21,8 @@ var chart = [];
 
 function ExperimentMachineListPageMiddle(props) {
   const datas = props.data;
+  const state = props.state;
+
   const signal_names = ["EEG1", "EEG2", "PPG", "X", "Y", "Z"];
 
   const opts = {
@@ -60,22 +62,22 @@ function ExperimentMachineListPageMiddle(props) {
       return 0;
     }
     else if(i == 0) {
-      return <PlotEEG1 options={opts} data={datas[0]["B3_5_EEG1"]}/>    
+      return <PlotEEG1 options={opts} data={datas[0]["B3_5_EEG1"]} state={state}/>    
     } 
     else if(i == 1){
-      return <PlotEEG2 options={opts} data={datas[0]["B6_8_EEG2"]}/>     
+      return <PlotEEG2 options={opts} data={datas[0]["B6_8_EEG2"]}  state={state}/>     
     }
     else if(i == 2){
-      return <PlotPPG options={opts} data={datas[0]["B9_11_PPG_avg"]}/>  
+      return <PlotPPG options={opts} data={datas[0]["B9_11_PPG_avg"]}  state={state}/>  
     }
     else if(i == 3){
-      return <PlotX options={opts} data={datas[0]["B27_28_X"]}/>   
+      return <PlotX options={opts} data={datas[0]["B27_28_X"]} state={state}/>   
     }
     else if(i == 4){
-      return <PlotY options={opts} data={datas[0]["B29_30_Y"]}/>    
+      return <PlotY options={opts} data={datas[0]["B29_30_Y"]} state={state}/>    
     }
     else{
-      return <PlotZ options={opts} data={datas[0]["B31_32_Z"]}/>    
+      return <PlotZ options={opts} data={datas[0]["B31_32_Z"]} state={state}/>    
     }
   }
   function roop(i) {

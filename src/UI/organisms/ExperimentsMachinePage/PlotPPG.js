@@ -16,13 +16,14 @@ export default function PlotPPG(props) {
   const previousTimeRef = useRef();
 
   function getData(min) {
-    console.log(props.data)
-    if(xs.length == LENGTH) {
-      xs.shift();
-      ys.shift();
+    if(props.state == true){
+      if(xs.length == LENGTH) {
+        xs.shift();
+        ys.shift();
+      }
+      xs.push(NOW + min + LENGTH);
+      ys.push(props.data);
     }
-    xs.push(NOW + min + LENGTH);
-    ys.push(props.data);
     return [xs, ys];
   }
 

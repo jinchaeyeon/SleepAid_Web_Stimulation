@@ -16,16 +16,18 @@ export default function PlotZ(props) {
   const previousTimeRef = useRef();
 
   function getData(min) {
-    if(xs.length == LENGTH) {
-      xs.shift();
-      ys.shift();
+    if (props.state == true) {
+      if (xs.length == LENGTH) {
+        xs.shift();
+        ys.shift();
+      }
+      xs.push(NOW + min + LENGTH);
+      ys.push(props.data);
     }
-    xs.push(NOW + min + LENGTH);
-    ys.push(props.data);
     return [xs, ys];
   }
 
-  useEffect(() => { 
+  useEffect(() => {
     let animate = (time) => {
       if (previousTimeRef.current !== undefined) {
         if (!plot) return;

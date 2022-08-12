@@ -18,7 +18,7 @@ const style = {
   p: 4,
 };
 
-function ExperimentMachineListPageHeader() {
+function ExperimentMachineListPageHeader(props) {
   const Experimentsid = window.location.href.split("/");
   const [state, setState] = React.useState(true);
   const [openTrue, setOpenTrue] = React.useState(false);
@@ -27,13 +27,12 @@ function ExperimentMachineListPageHeader() {
     setOpenTrue(true);
   };
   const handleCloseTrue = () => setOpenTrue(false);
-  const handleEmail = (text) => {
-    alert("Email이 변경되었습니다.");
-    handleCloseTrue();
-  };
+
   const handleState = () => {
     setState(!state);
+    props.propFunction(!state);
   };
+  
 
   return (
     <Box style={{ width: "93%", height: "10vh" }}>
@@ -60,20 +59,7 @@ function ExperimentMachineListPageHeader() {
       {state == true ? (
         <Button
           variant="contained"
-          onClick={() => handleState}
-          style={{
-            display: "inline",
-            backgroundColor: "#5e646b",
-            marginLeft: 10,
-            fontFamily: "GmarketSansMedium",
-          }}
-        >
-          start
-        </Button>
-      ) : (
-        <Button
-          variant="contained"
-          onClick={() => handleState}
+          onClick={handleState}
           style={{
             display: "inline",
             backgroundColor: "#5e646b",
@@ -82,6 +68,19 @@ function ExperimentMachineListPageHeader() {
           }}
         >
           pause
+        </Button>
+      ) : (
+        <Button
+          variant="contained"
+          onClick={handleState}
+          style={{
+            display: "inline",
+            backgroundColor: "#5e646b",
+            marginLeft: 10,
+            fontFamily: "GmarketSansMedium",
+          }}
+        >
+          start
         </Button>
       )}
       <Link to={`../ExperimentsResult/${Experimentsid[4]}/${Experimentsid[5]}`}>
