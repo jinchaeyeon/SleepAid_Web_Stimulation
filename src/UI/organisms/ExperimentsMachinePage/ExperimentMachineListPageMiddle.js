@@ -30,15 +30,23 @@ function ExperimentMachineListPageMiddle(props) {
     height: 200,
     pxAlign: false,
     scales: {
+      x: {
+        time: false,
+      },
       y: {
         auto: true,
       },
     },
-    series: [
-      {},
+    axes: [
       {
-        label: "Sine",
-        stroke: "red",
+        show: false,
+      },
+    ],
+    series: [
+      { label: "데이터 갯수"},
+      {
+        label: "값",
+        stroke: "blue",
       },
     ],
   };
@@ -97,7 +105,7 @@ function ExperimentMachineListPageMiddle(props) {
         >
           {signal_names[i]}
         </h3>
-        <FormControl
+        {/* <FormControl
           style={{
             float: "right",
             display: "inline",
@@ -115,7 +123,7 @@ function ExperimentMachineListPageMiddle(props) {
               textAlign: "right",
               backgroundColor: "white",
               width: 100,
-              fontFamily: "GmarketSansMedium", 
+              fontFamily: "GmarketSansMedium",
             }}
           >
             <option style={{ fontFamily: "GmarketSansMedium" }} value={5}>
@@ -134,7 +142,7 @@ function ExperimentMachineListPageMiddle(props) {
               5min
             </option>
           </NativeSelect>
-        </FormControl>
+        </FormControl> */}
         <Box
           style={{
             border: " 2px solid white",
@@ -143,7 +151,7 @@ function ExperimentMachineListPageMiddle(props) {
             height: 250,
             marginLeft: 50,
             backgroundColor: "white",
-            marginBottom: 30
+            marginBottom: 30,
           }}
         >
           <Box style={{ marginLeft: 30 }}>{list(i)}</Box>
