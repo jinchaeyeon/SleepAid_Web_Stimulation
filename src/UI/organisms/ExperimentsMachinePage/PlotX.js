@@ -3,9 +3,10 @@ import uPlot from "uplot";
 import "/node_modules/uplot/dist/uPlot.min.css";
 
 const NOW = Math.floor(Date.now() / 1e3);
-const LENGTH = 50000;
-
-export default function Plot(props) {
+let LENGTH = 3000;
+let xs = [];
+let ys = [];
+export default function PlotX(props) {
   const [shift, setShift] = useState(0);
   const [data, setData] = useState(getData(shift));
   const [plot, setPlot] = useState();
@@ -15,18 +16,16 @@ export default function Plot(props) {
   const previousTimeRef = useRef();
 
   function getData(min) {
-    let xs = [];
-    let ys = [];
-  
-    for (let i = min; i < min + LENGTH; i++) {
-      xs.push(NOW + i);
-      ys.push(Math.sin(i / 16) * 5);
+    if(xs.length == LENGTH) {
+      xs.shift();
+      ys.shift();
     }
-  
+    xs.push(NOW + min + LENGTH);
+    ys.push(props.data);
     return [xs, ys];
   }
 
-  useEffect(() => {
+  useEffect(() => { 
     let animate = (time) => {
       if (previousTimeRef.current !== undefined) {
         if (!plot) return;
