@@ -23,6 +23,7 @@ function LoginPage() {
         cookie.setCookie("accessToken", infoBody.data.access_token, 1);
         const infoBody2 = await Api.getUserData(infoBody.data.access_token);
         if (infoBody2.status == 200) {
+          cookie.setCookie('is_staff', infoBody2.data.is_staff,1);
           window.location.href = "/Experiments";
         }
       }
@@ -74,6 +75,7 @@ function LoginPage() {
           <TextField
             fullWidth
             value={PW}
+            type="password"
             onChange={handleChangePW}
             placeholder="Password"
             inputProps={{ style: { fontFamily: "GmarketSansMedium" } }}
