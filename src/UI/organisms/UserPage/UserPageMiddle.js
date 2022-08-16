@@ -218,12 +218,12 @@ export default function UserPageMiddle() {
 
   React.useEffect(() => {
     const obj = {
-      search : '',
-      searchParameter: '',
-      orderParameter: '',
-      order: '',
-      pageNumber: '',
-      count: ''
+      search : undefined,
+      searchParameter: undefined,
+      orderParameter: 'dateTime',
+      order: 'DESC',
+      pageNumber: 1,
+      count: 10,
     }
     const getData = async () => {
       const infoBody = await Api.getUserData(obj);

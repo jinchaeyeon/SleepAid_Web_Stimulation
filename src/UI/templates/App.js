@@ -91,7 +91,7 @@ const App = () => {
               element={
                 <Box style={{ display: "flex", width: "100%" }}>
                   <Sidebar />
-                  <Box style={{ width: "100%"}}>
+                  <Box style={{ width: "100%" }}>
                     <Header />
                     <ExperimentsResultPage />
                   </Box>

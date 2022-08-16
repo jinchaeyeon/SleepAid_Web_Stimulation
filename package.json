@@ -1,4 +1,5 @@
 {
+  "proxy": "http://localhost:8000",
   "name": "neurotx",
   "version": "0.1.0",
   "private": true,
@@ -23,6 +24,8 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-web-bluetooth": "^1.0.0",
+    "socket.io": "^4.5.1",
+    "socket.io-client": "^4.5.1",
     "styled-components": "^5.3.5",
     "uplot": "^1.6.22",
     "web-vitals": "^2.1.4"

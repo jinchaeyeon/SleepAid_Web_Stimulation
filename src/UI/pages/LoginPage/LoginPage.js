@@ -1,6 +1,8 @@
 import { Box, TextField, Button } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
+import Api from "../../../API/API";
+import cookie from "../../../API/cookie";
 
 function LoginPage() {
   const publicUrl = process.env.PUBLIC_URL;
@@ -12,6 +14,25 @@ function LoginPage() {
   const handleChangePW = (event) => {
     setPW(event.target.value);
   };
+
+  const handlesubmit = async() => {
+    const obj = {
+      username: ID,
+      password: PW,
+    }
+    const getData = async () => {
+      const infoBody = await Api.getAPI_AccountLogin_Syns(ID,PW);
+      if(infoBody.data.access_token) {
+        cookie.setCookie('userAccount', ID, 1);
+        cookie.setCookie('accessToken', infoBody.data.access_token,1);
+        const infoBody2 = await Api.getUserData(infoBody.data.access_token);
+        if(infoBody2.status == 200) {
+          window.location.href="/Experiments";
+        }
+      }
+    }
+    getData();
+  }
   return (
     <Box
       style={{
@@ -61,7 +82,7 @@ function LoginPage() {
             placeholder="Password"
             inputProps={{style: { fontFamily: 'GmarketSansMedium'}}}
           />
-          <Link to="/Experiments" style={{ textDecoration: "none" }}>
+          {/* <Link to="/Experiments" style={{ textDecoration: "none" }}> */}
             <Button
               variant="contained"
               style={{
@@ -70,10 +91,11 @@ function LoginPage() {
                 marginTop: 20,
                 fontFamily: 'GmarketSansMedium'
               }}
+              onClick={handlesubmit}
             >
               Log in
             </Button>
-          </Link>
+          {/* </Link> */}
           <Link to="/SignUp" style={{ textDecoration: "none" }}>
             <Button variant="text" style={{ float: "right",fontFamily: 'GmarketSansMedium' }}>
               Sign Up
