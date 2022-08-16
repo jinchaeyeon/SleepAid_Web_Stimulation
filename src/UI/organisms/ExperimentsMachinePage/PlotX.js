@@ -3,14 +3,14 @@ import uPlot from "uplot";
 import "/node_modules/uplot/dist/uPlot.min.css";
 
 const NOW = Math.floor(Date.now() / 1e3);
-let LENGTH = 3000;
+let LENGTH = 1000;
 let xs = [];
 let ys = [];
 export default function PlotX(props) {
   const [shift, setShift] = useState(0);
   const [data, setData] = useState(getData(shift));
   const [plot, setPlot] = useState();
-
+  const limit = props.limit;
   const plotRef = useRef();
   const requestRef = useRef();
   const previousTimeRef = useRef();
@@ -26,8 +26,23 @@ export default function PlotX(props) {
     }
     return [xs, ys];
   }
-
+  function getLength() {
+    if (limit[1] == 3) {
+      if (limit[0] == 5) {
+        LENGTH = 300;
+      } else if (limit[0] == 10) {
+        LENGTH = 600;
+      } else if (limit[0] == 30) {
+        LENGTH = 1800;
+      } else if (limit[0] == 60) {
+        LENGTH = 3600;
+      } else if (limit[0] == 300) {
+        LENGTH = 18000;
+      }
+    }
+  }
   useEffect(() => {
+    getLength();
     let animate = (time) => {
       if (previousTimeRef.current !== undefined) {
         if (!plot) return;
@@ -48,6 +63,7 @@ export default function PlotX(props) {
   }, [data, plot, shift]);
 
   useEffect(() => {
+    getLength();
     const plot = new uPlot(props.options, data, plotRef.current);
     setPlot(plot);
 

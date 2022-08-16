@@ -12,17 +12,13 @@ const d3 = document.createElement("script");
 
 d3.src = "https://d3js.org/d3.v4.min.js";
 d3.async = true;
-const GRAPH_WIDTH_SEC_DEFAULT = 10;
-var graph_width_sec = [];
 const lineArr = [];
-var lineArr_display = [];
-var signal_frequency_list = [];
 var chart = [];
 
 function ExperimentMachineListPageMiddle(props) {
   const datas = props.data;
   const state = props.state;
-
+  const [limit, setLimit] = React.useState([10,0]);
   const signal_names = ["EEG1", "EEG2", "PPG", "X", "Y", "Z"];
 
   const opts = {
@@ -55,9 +51,6 @@ function ExperimentMachineListPageMiddle(props) {
     for (var i = 0; i < 6; i++) {
       chart[i] = getRealTimeChart();
       lineArr[i] = [];
-      graph_width_sec[i] = GRAPH_WIDTH_SEC_DEFAULT;
-      lineArr_display[i] = [];
-      signal_frequency_list[i] = 50;
     }
   }
 
@@ -70,11 +63,11 @@ function ExperimentMachineListPageMiddle(props) {
       return 0;
     } else if (i == 0) {
       return (
-        <PlotEEG1 options={opts} data={datas[0]["B3_5_EEG1"]} state={state} />
+        <PlotEEG1 options={opts} data={datas[0]["B3_5_EEG1"]} state={state} limit={limit}/>
       );
     } else if (i == 1) {
       return (
-        <PlotEEG2 options={opts} data={datas[0]["B6_8_EEG2"]} state={state} />
+        <PlotEEG2 options={opts} data={datas[0]["B6_8_EEG2"]} state={state} limit={limit}/>
       );
     } else if (i == 2) {
       return (
@@ -82,15 +75,21 @@ function ExperimentMachineListPageMiddle(props) {
           options={opts}
           data={datas[0]["B9_11_PPG_avg"]}
           state={state}
+          limit={limit}
         />
       );
     } else if (i == 3) {
-      return <PlotX options={opts} data={datas[0]["B27_28_X"]} state={state} />;
+      return <PlotX options={opts} data={datas[0]["B27_28_X"]} state={state} limit={limit}/>;
     } else if (i == 4) {
-      return <PlotY options={opts} data={datas[0]["B29_30_Y"]} state={state} />;
+      return <PlotY options={opts} data={datas[0]["B29_30_Y"]} state={state} limit={limit}/>;
     } else {
-      return <PlotZ options={opts} data={datas[0]["B31_32_Z"]} state={state} />;
+      return <PlotZ options={opts} data={datas[0]["B31_32_Z"]} state={state} limit={limit}/>;
     }
+  }
+
+  const handleChanges = (event) => {
+    var string = event.target.value.split(",")
+    setLimit([string[0], string[1]]);
   }
   function roop(i) {
     return (
@@ -105,7 +104,7 @@ function ExperimentMachineListPageMiddle(props) {
         >
           {signal_names[i]}
         </h3>
-        {/* <FormControl
+        <FormControl
           style={{
             float: "right",
             display: "inline",
@@ -113,7 +112,7 @@ function ExperimentMachineListPageMiddle(props) {
           }}
         >
           <NativeSelect
-            defaultValue={5}
+            defaultValue={[10 ,i]}
             inputProps={{
               name: "age",
               id: "uncontrolled-native",
@@ -125,24 +124,25 @@ function ExperimentMachineListPageMiddle(props) {
               width: 100,
               fontFamily: "GmarketSansMedium",
             }}
+            onChange={handleChanges}
           >
-            <option style={{ fontFamily: "GmarketSansMedium" }} value={5}>
+            <option style={{ fontFamily: "GmarketSansMedium" }} value={[5 ,i]}>
               5sec
             </option>
-            <option style={{ fontFamily: "GmarketSansMedium" }} value={10}>
+            <option style={{ fontFamily: "GmarketSansMedium" }} value={[10 ,i]}>
               10sec
             </option>
-            <option style={{ fontFamily: "GmarketSansMedium" }} value={30}>
+            <option style={{ fontFamily: "GmarketSansMedium" }} value={[30 ,i]}>
               30sec
             </option>
-            <option style={{ fontFamily: "GmarketSansMedium" }} value={60}>
+            <option style={{ fontFamily: "GmarketSansMedium" }} value={[60 ,i]}>
               1min
             </option>
-            <option style={{ fontFamily: "GmarketSansMedium" }} value={300}>
+            <option style={{ fontFamily: "GmarketSansMedium" }} value={[300 ,i]}>
               5min
             </option>
           </NativeSelect>
-        </FormControl> */}
+        </FormControl>
         <Box
           style={{
             border: " 2px solid white",

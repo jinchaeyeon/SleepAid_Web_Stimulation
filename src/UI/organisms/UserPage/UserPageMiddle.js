@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import UserPageModalHeader from "../../molecules/UserPage/UserPageModalHeader";
 import UserPageModalMiddle from "../../molecules/UserPage/UserPageModalMiddle";
+import Api from '../../../API/API';
 
 const style = {
   position: "absolute",
@@ -215,7 +216,21 @@ export default function UserPageMiddle() {
     }
   }
 
-  React.useEffect(() => {}, []);
+  React.useEffect(() => {
+    const obj = {
+      search : '',
+      searchParameter: '',
+      orderParameter: '',
+      order: '',
+      pageNumber: '',
+      count: ''
+    }
+    const getData = async () => {
+      const infoBody = await Api.getUserData(obj);
+      console.log(infoBody)
+    }
+    getData();
+  }, []);
 
   return (
     <Paper
