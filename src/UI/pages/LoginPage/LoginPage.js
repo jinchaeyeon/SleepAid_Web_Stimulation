@@ -15,24 +15,24 @@ function LoginPage() {
     setPW(event.target.value);
   };
 
-  const handlesubmit = async() => {
+  const handlesubmit = async () => {
     const obj = {
       username: ID,
       password: PW,
-    }
+    };
     const getData = async () => {
-      const infoBody = await Api.getAPI_AccountLogin_Syns(ID,PW);
-      if(infoBody.data.access_token) {
-        cookie.setCookie('userAccount', ID, 1);
-        cookie.setCookie('accessToken', infoBody.data.access_token,1);
+      const infoBody = await Api.getAPI_AccountLogin_Syns(ID, PW);
+      if (infoBody.data.access_token) {
+        cookie.setCookie("userAccount", ID, 1);
+        cookie.setCookie("accessToken", infoBody.data.access_token, 1);
         const infoBody2 = await Api.getUserData(infoBody.data.access_token);
-        if(infoBody2.status == 200) {
-          window.location.href="/Experiments";
+        if (infoBody2.status == 200) {
+          window.location.href = "/Experiments";
         }
       }
-    }
+    };
     getData();
-  }
+  };
   return (
     <Box
       style={{
@@ -72,7 +72,7 @@ function LoginPage() {
             value={ID}
             onChange={handleChangeID}
             style={{ marginBottom: 10 }}
-            inputProps={{style: { fontFamily: 'GmarketSansMedium'}}}
+            inputProps={{ style: { fontFamily: "GmarketSansMedium" } }}
             placeholder="user ID"
           />
           <TextField
@@ -80,29 +80,33 @@ function LoginPage() {
             value={PW}
             onChange={handleChangePW}
             placeholder="Password"
-            inputProps={{style: { fontFamily: 'GmarketSansMedium'}}}
+            inputProps={{ style: { fontFamily: "GmarketSansMedium" } }}
           />
-          {/* <Link to="/Experiments" style={{ textDecoration: "none" }}> */}
-            <Button
-              variant="contained"
-              style={{
-                width: "100%",
-                backgroundColor: "#3c486c",
-                marginTop: 20,
-                fontFamily: 'GmarketSansMedium'
-              }}
-              onClick={handlesubmit}
-            >
-              Log in
-            </Button>
-          {/* </Link> */}
+          <Button
+            variant="contained"
+            style={{
+              width: "100%",
+              backgroundColor: "#3c486c",
+              marginTop: 20,
+              fontFamily: "GmarketSansMedium",
+            }}
+            onClick={handlesubmit}
+          >
+            Log in
+          </Button>
           <Link to="/SignUp" style={{ textDecoration: "none" }}>
-            <Button variant="text" style={{ float: "right",fontFamily: 'GmarketSansMedium' }}>
+            <Button
+              variant="text"
+              style={{ float: "right", fontFamily: "GmarketSansMedium" }}
+            >
               Sign Up
             </Button>
           </Link>
           <Link to="/FindID" style={{ textDecoration: "none" }}>
-            <Button variant="text" style={{ float: "right",fontFamily: 'GmarketSansMedium' }}>
+            <Button
+              variant="text"
+              style={{ float: "right", fontFamily: "GmarketSansMedium" }}
+            >
               Find ID
             </Button>
           </Link>
