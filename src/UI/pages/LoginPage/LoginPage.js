@@ -16,10 +16,6 @@ function LoginPage() {
   };
 
   const handlesubmit = async () => {
-    const obj = {
-      username: ID,
-      password: PW,
-    };
     const getData = async () => {
       const infoBody = await Api.getAPI_AccountLogin_Syns(ID, PW);
       if (infoBody.data.access_token) {

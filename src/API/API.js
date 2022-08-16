@@ -12,7 +12,7 @@ const Login = async (path, params = {}) => {
     });
     return response;
   } catch (e) {
-    console.log(e.response);
+    console.log(e);
     return [];
   }
 };
@@ -25,7 +25,6 @@ const getRequest = async (path, params = {}) => {
         Accept: "*/*",
       },
     });
-    console.log(response)
     return response;
   } catch (e) {
     console.log(e);
