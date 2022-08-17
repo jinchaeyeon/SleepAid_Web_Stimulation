@@ -10,6 +10,21 @@ import {
   Table,
   Paper,
 } from "@mui/material";
+import Api from "../../../API/API";
+import cookie from "../../../API/cookie";
+
+var defaultValue;
+
+let user_id = cookie.getCookie("userAccount")
+  ? cookie.getCookie("userAccount")
+  : "";
+var api_token = cookie.getCookie("accessToken");
+
+if (user_id) {
+  defaultValue = {
+    key: api_token,
+  };
+}
 
 const style = {
   position: "absolute",
@@ -51,109 +66,33 @@ function createData(Serial, licensekey, usedby, usedfrom, button) {
 export default function LicensePageMiddle() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [rows, setRows] = React.useState([
-    createData(
-      1,
-      "89c942bc-dcfd-431a-af3d-fc4c20619b68",
-      "hobada9600",
-      "2021-10-06T14:39:34",
-      undefined
-    ),
-    createData(
-      2,
-      "37a383b4-3a19-4029-b5a6-3c07833c7122",
-      "test999",
-      "2021-09-03T09:48:35",
-      undefined
-    ),
-    createData(
-      3,
-      "4db8cfc7-2987-491a-9fd7-d4492c46b5c4",
-      "test2",
-      "2021-06-02T20:13:57",
-      undefined
-    ),
-    createData(
-      4,
-      "0893f285-c63b-4419-80df-fdbcaa214b2d",
-      "test000112",
-      "2021-05-15T21:05:56",
-      undefined
-    ),
-    createData(
-      5,
-      "0e2e22e5-7732-46df-9d1c-d7c1b905b960",
-      "test1",
-      "2021-05-19T20:10:06",
-      undefined
-    ),
-    createData(
-      6,
-      "35cb71a4-e25f-4b3d-b696-42e2bbdc894d",
-      "null",
-      "not in use",
-      undefined
-    ),
-    createData(
-      7,
-      "4b775f8-b15f-45c6-80af-ffa47f2028e4",
-      "test0000",
-      "2021-09-03T10:04:21",
-      undefined
-    ),
-    createData(
-      8,
-      "c1b84a4f-cc56-4e65-bf16-0e781f3b7ad8",
-      "null",
-      "not in use",
-      undefined
-    ),
-    createData(
-      9,
-      "6abbc3da-9ce1-4ced-b82e-320f6e4c7bc9",
-      "test9991",
-      "2021-09-03T16:34:34",
-      undefined
-    ),
-    createData(
-      10,
-      "573d38e6-15b9-4471-971e-59bf78545380",
-      "test2",
-      "2021-09-14T17:27:18",
-      undefined
-    ),
-    createData(
-      11,
-      "b6ff475f-5ab0-4a28-a714-fff5311eb1f4",
-      "hobada96",
-      "2021-09-14T17:25:54",
-      undefined
-    ),
-    createData(
-      12,
-      "f04cb1b8-6fc3-44f3-b043-cefd4e12af29",
-      "neurotx",
-      "2022-01-24T15:59:14",
-      undefined
-    ),
-  ]);
+  const [rows, setRows] = React.useState([]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
   const handleDeleteAccount = (row) => {
-    setRows(rows.filter((users) => users.Serial !== row.Serial));
-    alert(row.Serial + "가 삭제 되었습니다");
+    const getData = async () => {
+      const infoBody = await Api.getAPI_LicenseDelete(
+        row.Serial,
+        defaultValue
+      );
+      if(infoBody != null) {
+        alert("삭제되었습니다")
+      }
+    };
+    getData();
   };
 
   const AddLicense = () => {
-    setRows([...rows,
-      createData(rows[rows.length -1].Serial+1, "f04cb1b8-6fc3-44f3-b043-cefd4e12af29", "null",
-      "not in use",
-      null),
-    ]);
-    alert("새로운 라이센스 키가 등록되었습니다.");
+    const getData = async () => {
+      const infoBody = await Api.getAPI_ADDLicenseKey(defaultValue);
+      if(infoBody != null) {
+        alert("라이센스 키가 생성되었습니다")
+      }
+    };
+    getData();
   };
 
   function cell(value, row) {
@@ -175,7 +114,40 @@ export default function LicensePageMiddle() {
     }
   }
 
-  React.useEffect(() => {}, []);
+  React.useEffect(() => {
+    const getData = async () => {
+      let d = [];
+      const infoBody = await Api.getAPI_LicenseList(
+        undefined,
+        undefined,
+        "dateTime",
+        "DESC",
+        1,
+        10,
+        defaultValue
+      );
+      infoBody.data.map((item) => {
+        var usedby = "";
+        var usedfrom = "";
+        if (item.username == null) {
+          usedby = "not in use";
+        } else {
+          usedby = item.username;
+        }
+        if (item.used_from == null) {
+          usedfrom = "not in use";
+        } else {
+          usedfrom = item.used_from;
+        }
+        d.push(
+          createData(item.id, item.license_key, usedby, usedfrom, undefined)
+        );
+      });
+      setRows(d);
+      return d;
+    };
+    getData();
+  }, [rows]);
 
   return (
     <Paper
@@ -188,7 +160,7 @@ export default function LicensePageMiddle() {
           backgroundColor: "#5e646b",
           marginLeft: 50,
           marginBottom: 10,
-          fontFamily: 'GmarketSansMedium'
+          fontFamily: "GmarketSansMedium",
         }}
         onClick={AddLicense}
       >
@@ -208,7 +180,11 @@ export default function LicensePageMiddle() {
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
-                  style={{ minWidth: column.minWidth, color: "white",fontFamily: 'GmarketSansMedium' }}
+                  style={{
+                    minWidth: column.minWidth,
+                    color: "white",
+                    fontFamily: "GmarketSansMedium",
+                  }}
                 >
                   {column.label}
                 </TableCell>
@@ -229,7 +205,13 @@ export default function LicensePageMiddle() {
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} style={{ color: "#c0c0c0",fontFamily: 'GmarketSansMedium' }}>
+                        <TableCell
+                          key={column.id}
+                          style={{
+                            color: "#c0c0c0",
+                            fontFamily: "GmarketSansMedium",
+                          }}
+                        >
                           {cell(value, row)}
                         </TableCell>
                       );

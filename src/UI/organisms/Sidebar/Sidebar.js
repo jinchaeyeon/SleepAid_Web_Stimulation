@@ -3,6 +3,24 @@ import { SidebarData } from "./SidebarData";
 import SubMenu from "./SubMenu";
 import {Box} from '@mui/material'
 
+import Api from "../../../API/API";
+import cookie from "../../../API/cookie";
+
+var defaultValue;
+
+let user_id = cookie.getCookie("userAccount")
+  ? cookie.getCookie("userAccount")
+  : "";
+var api_token = cookie.getCookie("accessToken");
+
+if (user_id) {
+  defaultValue = {
+    key: api_token,
+  };
+}
+
+const is_staff = cookie.getCookie('is_staff') ? cookie.getCookie('is_staff') : "false";
+
 const Sidebar = () => {
   const publicUrl = process.env.PUBLIC_URL;
   return (
@@ -27,7 +45,15 @@ const Sidebar = () => {
         <Box>
           <Box>
             {SidebarData.map((item, index) => {
-              return <SubMenu item={item} key={index} />;
+              if(is_staff == "true"){
+                return <SubMenu item={item} key={index} />;
+              }
+              else{
+                if(item.title == "Member(ADMIN)" ||item.title == "License(ADMIN)") {}
+                else {
+                  return <SubMenu item={item} key={index} />;
+                }
+              }
             })}
           </Box>
         </Box>

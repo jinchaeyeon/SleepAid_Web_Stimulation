@@ -131,8 +131,6 @@ export default function UserPageMiddle() {
       }
     };
     getData();
-    // setRows(rows.filter((users) => users.UserID !== row.UserID));
-    // alert(row.UserID + "가 삭제 되었습니다");
   };
 
   function cell(value, row) {

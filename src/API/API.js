@@ -26,7 +26,20 @@ const LoginInfo = async (path, params = {}) => {
     });
     return response;
   } catch (e) {
-    console.log(e);
+    return [];
+  }
+};
+
+const getFormRequest = async (path, defaultValue) => {
+  try {
+    const response = await axios.get(api + path, {
+      headers: {
+        authorization: `Bearer ${defaultValue.key}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (e) {
     return [];
   }
 };
@@ -42,7 +55,6 @@ const getJsonRequest = async (path, params, defaultValue) => {
     });
     return response;
   } catch (e) {
-    console.log(e);
     return [];
   }
 };
@@ -88,7 +100,6 @@ const patchJsonReqest = async (path, body, defaultValue) => {
     });
     return data;
   } catch (e) {
-    console.log(e);
     return null;
   }
 };
@@ -103,7 +114,7 @@ const deleteJsonReqest = async (path, defaultValue) => {
     });
     return data;
   } catch (e) {
-    console.log(e);
+    return null;
   }
 };
 
@@ -179,7 +190,32 @@ const Api = {
   },
   getAPI_UserDelete: async (UserID, defaultValue) => {
     return await deleteJsonReqest(`/users/${UserID}`, defaultValue);
+  },  
+  getAPI_LicenseList: async (
+    search,
+    searchParameter,
+    orderParameter,
+    order,
+    pageNumber,
+    count,
+    defaultValue
+  ) => {
+    const data = {
+      search: search,
+      searchParameter: searchParameter,
+      orderParameter: orderParameter,
+      order: order,
+      pageNumber: pageNumber,
+      count: count,
+    };
+    return await getJsonRequest(`/licenses/`, data, defaultValue);
   },
+  getAPI_ADDLicenseKey: async(defaultValue) => {
+    return await getFormRequest(`/licenseKey/`, defaultValue);
+  },
+  getAPI_LicenseDelete: async (LicenseID, defaultValue) => {
+    return await deleteJsonReqest(`/licenses/${LicenseID}`, defaultValue);
+  },  
 };
 
 export default Api;
