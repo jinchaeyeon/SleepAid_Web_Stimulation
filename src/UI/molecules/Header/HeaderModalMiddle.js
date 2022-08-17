@@ -1,5 +1,18 @@
 import * as React from "react";
 import { Box, TextField, Button } from "@mui/material";
+import Api from "../../../API/API";
+import cookie from "../../../API/cookie";
+
+var defaultValue;
+
+let user_id = cookie.getCookie('userAccount') ? cookie.getCookie('userAccount') : '';
+var api_token=cookie.getCookie('accessToken');
+
+if(user_id){
+  defaultValue  = {
+      key: api_token
+  }
+}
 
 export default function HeaderModalMiddle(props) {
   const [pw, setPW] = React.useState("");
@@ -12,13 +25,15 @@ export default function HeaderModalMiddle(props) {
     setCheck(event.target.value);
   };
 
-  const handleup = () => {
+  const handleup = async() => {
     if (pw === check) {
-      alert("변경되었습니다.")
-      props.propFunction(false);
+      const user= cookie.getCookie('userAccount') ?cookie.getCookie('userAccount') : null;
+      const infoBody = await Api.getAPI_ChangePassword(pw, user,defaultValue);
+      // alert("변경되었습니다.")
+      // props.propFunction(false);
     }
     else {
-      alert("값이 다릅니다.")
+      alert("비밀번호가 동일하지 않습니다.")
     }
   };
 
@@ -39,6 +54,7 @@ export default function HeaderModalMiddle(props) {
           <TextField
             value={pw}
             size="small"
+            type="password"
             style={{
               float: "right",
               width: "40%",
@@ -56,6 +72,7 @@ export default function HeaderModalMiddle(props) {
           <TextField
             value={check}
             size="small"
+            type="password"
             style={{
               float: "right",
               width: "40%",

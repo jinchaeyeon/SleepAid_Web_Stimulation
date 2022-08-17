@@ -18,7 +18,7 @@ function LoginPage() {
   const handlesubmit = async () => {
     const getData = async () => {
       const infoBody = await Api.getAPI_AccountLogin_Syns(ID, PW);
-      if (infoBody.data.access_token) {
+      if (infoBody != null) {
         cookie.setCookie("userAccount", ID, 1);
         cookie.setCookie("accessToken", infoBody.data.access_token, 1);
         const infoBody2 = await Api.getUserData(infoBody.data.access_token);
@@ -26,7 +26,11 @@ function LoginPage() {
           cookie.setCookie('is_staff', infoBody2.data.is_staff,1);
           window.location.href = "/Experiments";
         }
+        else{
+          alert('서버 오류입니다.')
+        }
       }
+      else {alert('ID와 비밀번호를 확인해주세요.')}
     };
     getData();
   };

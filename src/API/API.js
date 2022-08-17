@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import cookie from "./cookie";
 const api = "http://localhost:8000";
 
 const Login = async (path, params = {}) => {
@@ -12,12 +12,11 @@ const Login = async (path, params = {}) => {
     });
     return response;
   } catch (e) {
-    console.log(e);
-    return [];
+    return null;
   }
 };
 
-const getRequest = async (path, params = {}) => {
+const LoginInfo = async (path, params = {}) => {
   try {
     const response = await axios.get(api + path, {
       headers: {
@@ -32,67 +31,65 @@ const getRequest = async (path, params = {}) => {
   }
 };
 
-const postFormReqest = async (path, body) => {
+const getJsonRequest = async (path, params, defaultValue) => {
   try {
-    const token = sessionStorage.getItem("user_token");
-    const { data } = await axios.post(api + path, body, {
+    const response = await axios.get(api + path, {
+      params: { params },
       headers: {
-        authorization: `Bearer ${token}`,
-        Accept: "application/json",
-        "Content-Type": "multipart/form-data",
+        authorization: `Bearer ${defaultValue.key}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (e) {
+    console.log(e);
+    return [];
+  }
+};
+
+const postFormReqest = async (path, params) => {
+  try {
+    const response = await axios.post(api + path, params, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (e) {
+    alert(e.response.data.detail);
+    return null;
+  }
+};
+
+const postJsonReqest = async (path, params, defaultValue) => {
+  try {
+    const response = await axios.post(api + path, params, {
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${defaultValue.key}`,
+      },
+      dataType: "json",
+    });
+    return response;
+  } catch (e) {
+    alert(e.response.data.detail);
+    return null;
+  }
+};
+
+const patchJsonReqest = async (path, body, defaultValue) => {
+  try {
+    const { data } = await axios.patch(api + path, body, {
+      headers: {
+        Authorization: `Bearer ${defaultValue.key}`,
+        "Content-Type": "application/json",
       },
     });
     return data;
   } catch (e) {
-    console.log(e);
-  }
-};
-
-const postJsonReqest = async (path, body) => {
-  try {
-    const token = sessionStorage.getItem("user_token");
-    if (token) {
-      const { data } = await axios.post(api + path, body, {
-        headers: {
-          authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      return data;
-    } else {
-      const { data } = await axios.post(api + path, body, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      return data;
-    }
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-const putJsonReqest = async (path, body) => {
-  try {
-    const token = sessionStorage.getItem("token");
-    if (token) {
-      const { data } = await axios.put(api + path, body, {
-        headers: {
-          authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      return data;
-    } else {
-      const { data } = await axios.put(api + path, body, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      return data;
-    }
-  } catch (e) {
-    console.log(e);
+    console.log(e)
+    return null;
   }
 };
 
@@ -122,7 +119,7 @@ const deleteJsonReqest = async (path) => {
 
 const Api = {
   getUserData: async (token) => {
-    return await getRequest(`/users/me`, token);
+    return await LoginInfo(`/users/me`, token);
   },
   getAPI_AccountLogin_Syns: async (id, pw) => {
     let bodyFormData = new FormData();
@@ -130,6 +127,66 @@ const Api = {
     bodyFormData.append("password", pw);
     return await Login(`/token`, bodyFormData);
   },
+  getAPI_SignUp: async (ID, PW, Email, Name, boolean, date, License) => {
+    const data = JSON.stringify({
+      requestDateTime: date,
+      password: PW,
+      username: ID,
+      email: Email,
+      first_name: Name,
+      last_name: "",
+      is_staff: boolean,
+    });
+    return await postFormReqest(`/users/?license_key=${License}`, data);
+  },
+  getAPI_FindID: async (Email) => {
+    const data = JSON.stringify({
+      email: Email,
+    });
+    return await postFormReqest(`/findid/${Email}`, data);
+  },
+  getAPI_ChangePassword: async (pw, user, defaultValue) => {
+    const data = JSON.stringify({
+      requestUserCode: user,
+      userCode: user,
+      password: pw,
+      encryption: 0,
+    });
+    return await postJsonReqest(`/Manager/UpdatePassword`, data, defaultValue);
+  },
+  getAPI_UserList: async (
+    search,
+    searchParameter,
+    orderParameter,
+    order,
+    pageNumber,
+    count,
+    defaultValue
+  ) => {
+    const data = {
+      search: search,
+      searchParameter: searchParameter,
+      orderParameter: orderParameter,
+      order: order,
+      pageNumber: pageNumber,
+      count: count,
+    };
+    return await getJsonRequest(`/users/`, data, defaultValue);
+  },
+  getAPI_UserModify: async (UserID, Email, defaultValue) => {
+    const data = JSON.stringify({
+      id: UserID,
+      email: Email,
+    });
+    return await patchJsonReqest(`/users/`, data, defaultValue);
+  },
+  getAPI_UserAdmin: async(UserID, button,defaultValue) => {
+    const data = JSON.stringify({
+      id: UserID,
+      is_staff: button,
+    });
+    return await patchJsonReqest(`/users/`, data, defaultValue);
+  }
 };
 
 export default Api;

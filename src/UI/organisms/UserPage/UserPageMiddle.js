@@ -14,7 +14,21 @@ import {
 } from "@mui/material";
 import UserPageModalHeader from "../../molecules/UserPage/UserPageModalHeader";
 import UserPageModalMiddle from "../../molecules/UserPage/UserPageModalMiddle";
-import Api from '../../../API/API';
+import Api from "../../../API/API";
+import cookie from "../../../API/cookie";
+
+var defaultValue;
+
+let user_id = cookie.getCookie("userAccount")
+  ? cookie.getCookie("userAccount")
+  : "";
+var api_token = cookie.getCookie("accessToken");
+
+if (user_id) {
+  defaultValue = {
+    key: api_token,
+  };
+}
 
 const style = {
   position: "absolute",
@@ -49,37 +63,17 @@ const columns = [
   },
 ];
 
-function createData(UserID, Email, LastLogin, RegistrationDate, button) {
-  return { UserID, Email, LastLogin, RegistrationDate, button };
+function createData(UserID, Email, LastLogin, RegistrationDate, button, id) {
+  return { UserID, Email, LastLogin, RegistrationDate, button, id};
 }
 
 export default function UserPageMiddle() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [rows, setRows] = React.useState([
-    createData("test", "test1@gmail.com", undefined, undefined, false),
-    createData("james", "rwandahm@gmail.com", undefined, undefined, true),
-    createData("test0", "las@gmail.com", undefined, undefined, true),
-    createData("test00", "test00@gmail.com", undefined, undefined, true),
-    createData(
-      "test00011",
-      "rwandahm11@gmaisd.com",
-      undefined,
-      undefined,
-      true
-    ),
-    createData("test1", "rwand2222@gmail.com", undefined, undefined, false),
-    createData("hobada96", "hobada97@naver.com", undefined, undefined, false),
-    createData("test2", "2341@wdkodw.coo.or2", undefined, undefined, false),
-    createData("test01394", "kdow.kakao.kr", undefined, undefined, false),
-    createData("test03", "lwpe.dow.rrr", undefined, undefined, false),
-    createData("test0013", "rerwer@rlpe.com", undefined, undefined, true),
-    createData("hobada99", "hobada96@neurotx.org", undefined, undefined, true),
-    createData("hobadamm", "hobada98@neurotx.org", undefined, undefined, true),
-  ]);
   const [openTrue, setOpenTrue] = React.useState(false);
   const [openFalse, setOpenFalse] = React.useState(false);
   const [state, setState] = React.useState([]);
+  const [rows, setRows] = React.useState([]);
 
   const handleOpenTrue = (row) => {
     setOpenTrue(true);
@@ -87,12 +81,17 @@ export default function UserPageMiddle() {
   };
   const handleCloseTrue = () => setOpenTrue(false);
   const handleEmail = (data, text) => {
-    setRows(
-      rows.map((users) =>
-        users.UserID === data.Email.UserID ? { ...users, Email: text } : users
-      )
-    );
-    alert("Email이 변경되었습니다.");
+    const getData = async () => {
+      const infoBody = await Api.getAPI_UserModify(
+        data.Email.id,
+        text,
+        defaultValue
+      );
+      if(infoBody != null) {
+        alert("수정되었습니다")
+      }
+    };
+    getData();
     handleCloseTrue();
     handleCloseFalse();
   };
@@ -108,13 +107,24 @@ export default function UserPageMiddle() {
   };
 
   const handleAccount = (row) => {
-    setRows(
-      rows.map((users) =>
-        users.UserID === row.UserID
-          ? { ...users, button: !users.button }
-          : users
-      )
-    );
+    // setRows(
+    //   rows.map((users) =>
+    //     users.UserID === row.UserID
+    //       ? { ...users, button: !users.button }
+    //       : users
+    //   )
+    // );
+    const getData = async () => {
+      const infoBody = await Api.getAPI_UserAdmin(
+        row.id,
+        !row.button,
+        defaultValue
+      );
+      if(infoBody != null) {
+        alert("수정되었습니다")
+      }
+    };
+    getData();
   };
 
   const handleDeleteAccount = (row) => {
@@ -128,15 +138,15 @@ export default function UserPageMiddle() {
         <Box>
           <Button
             style={{
-              color: "white",
+              color: "#CCCCCC",
               borderRadius: 10,
-              backgroundColor: "#2877b9",
+              backgroundColor: "#5e646b",
               marginRight: 5,
-              fontFamily: 'GmarketSansMedium'
+              fontFamily: "GmarketSansMedium",
             }}
             onClick={() => handleAccount(row)}
           >
-            make ADMIN
+             make User
           </Button>
           <Button
             style={{
@@ -144,7 +154,7 @@ export default function UserPageMiddle() {
               borderRadius: 10,
               backgroundColor: "#5e646b",
               marginRight: 5,
-              fontFamily: 'GmarketSansMedium'
+              fontFamily: "GmarketSansMedium",
             }}
             onClick={() => handleOpenTrue(row)}
           >
@@ -157,20 +167,9 @@ export default function UserPageMiddle() {
           >
             <Box sx={style}>
               <UserPageModalHeader propFunction={handleCloseTrue} />
-              <UserPageModalMiddle Email={state} propFunction={handleEmail} />
+              <UserPageModalMiddle Email={state} propFunction={() => handleEmail(row)} />
             </Box>
           </Modal>
-          <Button
-            style={{
-              color: "#CCCCCC",
-              borderRadius: 10,
-              backgroundColor: "#393939",
-              fontFamily: 'GmarketSansMedium'
-            }}
-            onClick={() => handleDeleteAccount(row)}
-          >
-            Delete
-          </Button>
         </Box>
       );
     } else if (value == false) {
@@ -178,22 +177,23 @@ export default function UserPageMiddle() {
         <Box>
           <Button
             style={{
-              color: "#CCCCCC",
+              color: "white",
               borderRadius: 10,
-              backgroundColor: "#5e646b",
+              backgroundColor: "#2877b9",
               marginRight: 5,
-              fontFamily: 'GmarketSansMedium'
+              fontFamily: "GmarketSansMedium",
             }}
             onClick={() => handleAccount(row)}
           >
-            make User
+            make ADMIN
           </Button>
           <Button
             style={{
               color: "#CCCCCC",
               borderRadius: 10,
               backgroundColor: "#5e646b",
-              fontFamily: 'GmarketSansMedium'
+              fontFamily: "GmarketSansMedium",
+              marginRight: 5,
             }}
             onClick={() => handleOpenFalse(row)}
           >
@@ -209,6 +209,17 @@ export default function UserPageMiddle() {
               <UserPageModalMiddle Email={state} propFunction={handleEmail} />
             </Box>
           </Modal>
+          <Button
+            style={{
+              color: "#CCCCCC",
+              borderRadius: 10,
+              backgroundColor: "#393939",
+              fontFamily: "GmarketSansMedium",
+            }}
+            onClick={() => handleDeleteAccount(row)}
+          >
+            Delete
+          </Button>
         </Box>
       );
     } else {
@@ -217,20 +228,34 @@ export default function UserPageMiddle() {
   }
 
   React.useEffect(() => {
-    const obj = {
-      search : undefined,
-      searchParameter: undefined,
-      orderParameter: 'dateTime',
-      order: 'DESC',
-      pageNumber: 1,
-      count: 10,
-    }
     const getData = async () => {
-      const infoBody = await Api.getUserData(obj);
-      console.log(infoBody)
-    }
+      let d = [];
+      const infoBody = await Api.getAPI_UserList(
+        undefined,
+        undefined,
+        "dateTime",
+        "DESC",
+        1,
+        10,
+        defaultValue
+      );
+      infoBody.data.map((item) => {
+        d.push(
+          createData(
+            item.username,
+            item.email,
+            undefined,
+            undefined,
+            item.is_staff,
+            item.id
+          )
+        );
+      });
+      setRows(d);
+      return d;
+    };
     getData();
-  }, []);
+  }, [rows]);
 
   return (
     <Paper
@@ -250,7 +275,11 @@ export default function UserPageMiddle() {
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
-                  style={{ minWidth: column.minWidth, color: "white",fontFamily: 'GmarketSansMedium' }}
+                  style={{
+                    minWidth: column.minWidth,
+                    color: "white",
+                    fontFamily: "GmarketSansMedium",
+                  }}
                 >
                   {column.label}
                 </TableCell>
@@ -271,7 +300,13 @@ export default function UserPageMiddle() {
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} style={{ color: "#c0c0c0",fontFamily: 'GmarketSansMedium' }}>
+                        <TableCell
+                          key={column.id}
+                          style={{
+                            color: "#c0c0c0",
+                            fontFamily: "GmarketSansMedium",
+                          }}
+                        >
                           {cell(value, row)}
                         </TableCell>
                       );

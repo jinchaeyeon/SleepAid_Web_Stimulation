@@ -1,6 +1,7 @@
 import { Box, TextField, Button } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
+import Api from "../../../API/API";
 
 function FindIDPage() {
   const [Email, setEmail] = React.useState("");
@@ -8,9 +9,16 @@ function FindIDPage() {
     setEmail(event.target.value);
   };
 
-  const handleFindID = () => {
-    alert("회원님의 아이디는 " + Email + "입니다.")
-    window.location.href="/";
+  const handleFindID = async() => {
+    if(Email != null){
+      const infoBody = await Api.getAPI_FindID(Email);
+      if (infoBody != null) {
+        alert("회원님의 아이디는 " + infoBody.data + "입니다.")
+        window.location.href="/";
+      }
+    }else{
+      alert("모든 빈칸은 다 채워주세요.")
+    }
   }
   return (
     <Box

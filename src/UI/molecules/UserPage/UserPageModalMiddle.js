@@ -15,7 +15,7 @@ export default function UserPageModalMiddle(props) {
       if (!reg_email.test(text)) {
         alert("이메일 형식이 아닙니다.");
       } else {
-        return props.propFunction(props, text);;
+        return props.propFunction(props, text);
       }
       
     } else {

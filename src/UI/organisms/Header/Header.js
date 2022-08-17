@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Box, Button, Menu, MenuItem, Modal } from "@mui/material";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import HeaderModalHeader from '../../molecules/Header/HeaderModalHeader';
 import HeaderModalMiddle from '../../molecules/Header/HeaderModalMiddle';
+import cookie from '../../../API/cookie';
 
 const style = {
   position: "absolute",
@@ -36,6 +36,12 @@ function Header() {
     setOpenTrue(true);
   };
 
+  const Logout = async() => {
+    cookie.deleteCookie('accessToken')
+    cookie.deleteCookie('userAccount')
+    window.location.href = "/";
+  }
+
   return (
     <>
       <Box
@@ -46,7 +52,6 @@ function Header() {
           borderBottom: "2px solid #333333",
         }}
       >
-        <Link to="/" style={{ textDecoration: "none" }}>
           <Button
             style={{
               float: "right",
@@ -58,10 +63,10 @@ function Header() {
               marginTop: 18,
               fontFamily: 'GmarketSansMedium'
             }}
+            onClick={Logout}
           >
             Log Out
           </Button>
-        </Link>
         <Button
           id="basic-button"
           aria-controls={open ? "basic-menu" : undefined}
@@ -70,7 +75,7 @@ function Header() {
           onClick={handleClick}
           style={{ float: "right", height: "100%", color: "#CCCCCC",fontFamily: 'GmarketSansMedium' }}
         >
-          유저
+          {cookie.getCookie('userAccount')}
         </Button>
         <Menu
           id="basic-menu"
