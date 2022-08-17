@@ -20,6 +20,21 @@ import ExperimentSubPageModalHeader from "../../molecules/ExperimentsSubPage/Exp
 import ExperimentSubPageModalMiddle from "../../molecules/ExperimentsSubPage/ExperimentSubPageModalMiddle";
 import LinkIcon from "@mui/icons-material/Link";
 import { Link } from "react-router-dom";
+import Api from "../../../API/API";
+import cookie from "../../../API/cookie";
+
+var defaultValue;
+
+let user_id = cookie.getCookie("userAccount")
+  ? cookie.getCookie("userAccount")
+  : "";
+var api_token = cookie.getCookie("accessToken");
+
+if (user_id) {
+  defaultValue = {
+    key: api_token,
+  };
+}
 
 const style = {
   position: "absolute",
@@ -35,7 +50,8 @@ const style = {
 };
 
 const columns = [
-  { id: "id", label: "ID", minWidth: 50 },
+  { id: "id", label: "id", minWidth: 50 },
+  { id: "name", label: "Name", minWidth: 50 },
   { id: "sex", label: "성별", minWidth: 50 },
   {
     id: "age",
@@ -83,146 +99,14 @@ export default function ExperimentSubPageMiddle(props) {
   const Experimentsid = props.id;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [rows, setRows] = React.useState([
-    createData(
-      "형정우",
-      "남성",
-      "19960101",
-      undefined,
-      null,
-      ["2022-04-19 06:41:20", "00:00"],
-      200,
-      "https://github.com/jinchaeyeon/se-manager/tree/main/src/components",
-      undefined,
-      "button"
-    ),
-    createData(
-      "김동영",
-      "남성",
-      "19970202",
-      undefined,
-      null,
-      ["2022-04-20 04:20:02", "00:00"],
-      null,
-      "https://github.com/jinchaeyeon/se-manager/tree/main/src/components",
-      undefined,
-      "button"
-    ),
-    createData(
-      "허재욱",
-      "남성",
-      "19950303",
-      undefined,
-      null,
-      ["2022-04-20 08:19:03", "00:00"],
-      200,
-      "https://github.com/jinchaeyeon/se-manager/tree/main/src/components",
-      undefined,
-      "button"
-    ),
-    createData(
-      "박준수",
-      "남성",
-      "19970404",
-      undefined,
-      null,
-      ["2022-04-20 11:20:45", "65:22"],
-      null,
-      "https://github.com/jinchaeyeon/se-manager/tree/main/src/components",
-      undefined,
-      "button"
-    ),
-    createData(
-      "조동혁",
-      "남성",
-      "19980505",
-      undefined,
-      null,
-      ["2022-04-21 02:12:23", "73:57"],
-      null,
-      "https://github.com/jinchaeyeon/se-manager/tree/main/src/components",
-      undefined,
-      "button"
-    ),
-    createData(
-      "정민경",
-      "남성",
-      "19960606",
-      undefined,
-      null,
-      ["2022-04-21 05:18:06", "64:34"],
-      200,
-      "https://github.com/jinchaeyeon/se-manager/tree/main/src/components",
-      undefined,
-      "button"
-    ),
-    createData(
-      "이철희",
-      "남성",
-      "19930707",
-      undefined,
-      null,
-      ["2022-04-21 07:53:14", "00:00"],
-      null,
-      "https://github.com/jinchaeyeon/se-manager/tree/main/src/components",
-      undefined,
-      "button"
-    ),
-    createData(
-      "김진형",
-      "남성",
-      "19900808",
-      undefined,
-      null,
-      ["2022-04-21 11:16:19", "59:32"],
-      200,
-      "https://github.com/jinchaeyeon/se-manager/tree/main/src/components",
-      undefined,
-      "button"
-    ),
-    createData(
-      "김현지",
-      "여성",
-      "19940909",
-      undefined,
-      null,
-      ["2022-04-22 02:10:33", "00:00"],
-      200,
-      "https://github.com/jinchaeyeon/se-manager/tree/main/src/components",
-      undefined,
-      "button"
-    ),
-    createData(
-      "이세호",
-      "남성",
-      "19901010",
-      undefined,
-      null,
-      ["2022-04-22 05:01:04", "78:26"],
-      null,
-      "https://github.com/jinchaeyeon/se-manager/tree/main/src/components",
-      undefined,
-      "button"
-    ),
-    createData(
-      "김고은",
-      "여성",
-      "19981111",
-      undefined,
-      null,
-      ["2022-04-22 08:04:59", "76:58"],
-      null,
-      "https://github.com/jinchaeyeon/se-manager/tree/main/src/components",
-      undefined,
-      "button"
-    ),
-  ]);
+  const [rows, setRows] = React.useState([]);
   const [open, setOpen] = React.useState(false);
   const [openProtocol, setOpenProtocol] = React.useState(false);
   const [state, setState] = React.useState([]);
 
   function createData(
     id,
+    name,
     sex,
     ages,
     maindiagnosis,
@@ -243,6 +127,7 @@ export default function ExperimentSubPageMiddle(props) {
 
     return {
       id,
+      name,
       sex,
       age,
       maindiagnosis,
@@ -277,30 +162,23 @@ export default function ExperimentSubPageMiddle(props) {
     link,
     file
   ) => {
-    const today = new Date();
-    const birthDate = new Date(
-      parseInt(birthday.slice(0, 4)),
-      parseInt(birthday.slice(4, 6)),
-      parseInt(birthday.slice(6, 8))
-    );
-    let age = today.getFullYear() - birthDate.getFullYear() + 1;
-    setRows(
-      rows.map((users) =>
-        users.id === id
-          ? {
-              ...users,
-              id: name,
-              sex: sex,
-              age: age,
-              ages: birthday,
-              maindiagnosis: maindiagnosis,
-              link: link,
-              agreement: file[0],
-            }
-          : users
-      )
-    );
-    alert("정보가 변경되었습니다.");
+    const getData = async () => {
+      const infoBody = await Api.getAPI_ExperimentSubModify(
+        id,
+        name,
+        sex,
+        birthday,
+        maindiagnosis,
+        link,
+        file,
+        Experimentsid,
+        defaultValue
+      );
+      if (infoBody != null) {
+        alert("수정되었습니다");
+      }
+    };
+    getData();
     handleClose();
   };
 
@@ -314,67 +192,40 @@ export default function ExperimentSubPageMiddle(props) {
     birthday,
     maindiagnosis,
     link,
-    file
+    file,
+    defaultValue
   ) => {
-    let today = new Date();
-
-    let year = today.getFullYear(); // 년도
-    let month = today.getMonth() + 1; // 월
-    let date = today.getDate(); // 날짜
-
-    let hours = today.getHours(); // 시
-    let minutes = today.getMinutes(); // 분
-    let seconds = today.getSeconds(); // 초
-    if (month.toString().length != 2) {
-      month = "0" + month;
-    }
-    if (date.toString().length != 2) {
-      date = "0" + date;
-    }
-    if (hours.toString().length != 2) {
-      hours = "0" + hours;
-    }
-    if (minutes.toString().length != 2) {
-      minutes = "0" + minutes;
-    }
-    if (seconds.toString().length != 2) {
-      seconds = "0" + seconds;
-    }
-    const start =
-      year +
-      "-" +
-      month +
-      "-" +
-      date +
-      " " +
-      hours +
-      ":" +
-      minutes +
-      ":" +
-      seconds;
-    setRows([
-      ...rows,
-      createData(
+    const getData = async () => {
+      const infoBody = await Api.getAPI_ExperimentSubCreate(
         name,
         sex,
         birthday,
         maindiagnosis,
-        null,
-        [start, "00:00"],
-        null,
         link,
         file,
-        "button"
-      ),
-    ]);
-    alert("피험자가 추가되었습니다.");
+        Experimentsid,
+        defaultValue
+      );
+      if (infoBody != null) {
+        alert("추가되었습니다");
+      }
+    };
+    getData();
     handleProtocolClose();
     window.location.href = `../ExperimentsSub/${Experimentsid}/${name}`;
   };
 
   const handleDeleteAccount = (row) => {
-    setRows(rows.filter((users) => users.id !== row.id));
-    alert("ID " + row.id + "가 삭제 되었습니다");
+    const getData = async () => {
+      const infoBody = await Api.getAPI_ExperimentSubDelete(
+        row.id,
+        defaultValue
+      );
+      if (infoBody != null) {
+        alert("삭제되었습니다");
+      }
+    };
+    getData();
   };
 
   function cell(value, row) {
@@ -388,7 +239,7 @@ export default function ExperimentSubPageMiddle(props) {
                 borderRadius: 10,
                 backgroundColor: "#2877b9",
                 marginRight: 5,
-                fontFamily: 'GmarketSansMedium'
+                fontFamily: "GmarketSansMedium",
               }}
             >
               실험정보
@@ -400,7 +251,7 @@ export default function ExperimentSubPageMiddle(props) {
               borderRadius: 10,
               backgroundColor: "#5e646b",
               marginRight: 5,
-              fontFamily: 'GmarketSansMedium'
+              fontFamily: "GmarketSansMedium",
             }}
             onClick={() => handleOpen(row)}
           >
@@ -424,7 +275,7 @@ export default function ExperimentSubPageMiddle(props) {
               color: "#CCCCCC",
               borderRadius: 10,
               backgroundColor: "#393939",
-              fontFamily: 'GmarketSansMedium'
+              fontFamily: "GmarketSansMedium",
             }}
             onClick={() => handleDeleteAccount(row)}
           >
@@ -432,37 +283,71 @@ export default function ExperimentSubPageMiddle(props) {
           </Button>
         </Box>
       );
-    } else if (Array.isArray(value) == true) {
-      return (
-        <Box>
-          <h6>시작시간:{value[0]}</h6>
-          <h6>소요시간:{value[1]}</h6>
-        </Box>
-      );
     } else if (value == null) {
       return "null";
     } else if (value == "") {
       return "null";
+    } else if (value == "M") {
+      return "남성";
+    } else if (value == "W") {
+      return "여성";
     } else if (
-      typeof value == "string" &&
-      value[0] == "h" &&
-      value[1] == "t" &&
-      value[2] == "t" &&
-      value[3] == "p"
+      value[0] == "<" &&
+      value[1] == "a" &&
+      value[2] == " " &&
+      value[3] == "h"
     ) {
-      return <a href={value}>link</a>;
-    } else if (typeof value == "object") {
+      return <a href={value.split('"', 3)[1]}>link</a>;
+    } else if (value[24] == "<" && value[25] == "b" && value[26] == "r") {
+      var string1 = value.substr(0, 24);
+      var string2 = value.substr(29);
       return (
-        <a href={value.name} download>
-          <LinkIcon>다운로드</LinkIcon>
-        </a>
+        <Box>
+          <h5>{string1}</h5>
+          <h5>{string2}</h5>
+        </Box>
       );
     } else {
       return value;
     }
   }
 
-  React.useEffect(() => {}, []);
+  React.useEffect(() => {
+    const getData = async () => {
+      let d = [];
+      const infoBody = await Api.getAPI_ExperimentSubList(
+        Experimentsid,
+        defaultValue
+      );
+      infoBody.data.map((item) => {
+        var link_txt = "";
+        if (item.survey_link != "")
+          link_txt =
+            '<a href="' + item.survey_link + '" target="_blank">link</a>';
+
+        var sdiagnosis = item.diagnosis;
+        d.push(
+          createData(
+            item.id,
+            item.name,
+            item.gender,
+            item.birth,
+            sdiagnosis,
+            item.deviceinfo,
+            item.exp_duration,
+            item.maxstimulus,
+            link_txt,
+            item.agree_filename,
+            "button"
+          )
+        );
+      });
+      setRows(d);
+      return d;
+    };
+
+    getData();
+  }, [rows]);
 
   return (
     <Paper
@@ -476,7 +361,7 @@ export default function ExperimentSubPageMiddle(props) {
           marginRight: 40,
           marginBottom: 10,
           float: "right",
-          fontFamily: 'GmarketSansMedium'
+          fontFamily: "GmarketSansMedium",
         }}
         onClick={() => handleOpenProtocol()}
       >
@@ -506,7 +391,11 @@ export default function ExperimentSubPageMiddle(props) {
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
-                  style={{ minWidth: column.minWidth, color: "white",fontFamily: 'GmarketSansMedium' }}
+                  style={{
+                    minWidth: column.minWidth,
+                    color: "white",
+                    fontFamily: "GmarketSansMedium",
+                  }}
                 >
                   {column.label}
                 </TableCell>
@@ -516,13 +405,28 @@ export default function ExperimentSubPageMiddle(props) {
           <TableBody style={{ backgroundColor: "#131313" }}>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+              .map((row, index) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                    {columns.map((column) => {
+                  <TableRow
+                    hover
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={String(page * 10 + index + 1)}
+                  >
+                    {columns.map((column, index2) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} style={{ color: "#c0c0c0",fontFamily: 'GmarketSansMedium' }}>
+                        <TableCell
+                          key={
+                            String(page * 10 + index + 1) +
+                            "and" +
+                            String(index2)
+                          }
+                          style={{
+                            color: "#c0c0c0",
+                            fontFamily: "GmarketSansMedium",
+                          }}
+                        >
                           {cell(value, row)}
                         </TableCell>
                       );

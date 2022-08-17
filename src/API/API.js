@@ -12,6 +12,7 @@ const Login = async (path, params = {}) => {
     });
     return response;
   } catch (e) {
+    console.log(e)
     return null;
   }
 };
@@ -26,6 +27,7 @@ const LoginInfo = async (path, params = {}) => {
     });
     return response;
   } catch (e) {
+    console.log(e)
     return [];
   }
 };
@@ -40,6 +42,7 @@ const getFormRequest = async (path, defaultValue) => {
     });
     return response;
   } catch (e) {
+    console.log(e)
     return [];
   }
 };
@@ -55,6 +58,23 @@ const getJsonRequest = async (path, params, defaultValue) => {
     });
     return response;
   } catch (e) {
+    console.log(e)
+    return [];
+  }
+};
+
+const getJsonRequest2 = async (path, params, defaultValue) => {
+  try {
+    const response = await axios.get(api + path, {
+      params: params,
+      headers: {
+        authorization: `Bearer ${defaultValue.key}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return response;
+  } catch (e) {
+    console.log(e)
     return [];
   }
 };
@@ -69,6 +89,7 @@ const postFormReqest = async (path, params) => {
     return response;
   } catch (e) {
     alert(e.response.data.detail);
+    console.log(e)
     return null;
   }
 };
@@ -85,7 +106,8 @@ const postJsonReqest = async (path, params, defaultValue) => {
     });
     return response;
   } catch (e) {
-    alert(e.response.data.detail);
+    // alert(e.response.data.detail);
+    console.log(e)
     return null;
   }
 };
@@ -100,6 +122,7 @@ const patchJsonReqest = async (path, body, defaultValue) => {
     });
     return data;
   } catch (e) {
+    console.log(e)
     return null;
   }
 };
@@ -114,11 +137,13 @@ const deleteJsonReqest = async (path, defaultValue) => {
     });
     return data;
   } catch (e) {
+    console.log(e)
     return null;
   }
 };
 
 const Api = {
+  //로그인
   getUserData: async (token) => {
     return await LoginInfo(`/users/me`, token);
   },
@@ -155,6 +180,7 @@ const Api = {
     });
     return await postJsonReqest(`/Manager/UpdatePassword`, data, defaultValue);
   },
+  //유저
   getAPI_UserList: async (
     search,
     searchParameter,
@@ -190,7 +216,8 @@ const Api = {
   },
   getAPI_UserDelete: async (UserID, defaultValue) => {
     return await deleteJsonReqest(`/users/${UserID}`, defaultValue);
-  },  
+  },
+  //라이센스
   getAPI_LicenseList: async (
     search,
     searchParameter,
@@ -210,12 +237,91 @@ const Api = {
     };
     return await getJsonRequest(`/licenses/`, data, defaultValue);
   },
-  getAPI_ADDLicenseKey: async(defaultValue) => {
+  getAPI_ADDLicenseKey: async (defaultValue) => {
     return await getFormRequest(`/licenseKey/`, defaultValue);
   },
   getAPI_LicenseDelete: async (LicenseID, defaultValue) => {
     return await deleteJsonReqest(`/licenses/${LicenseID}`, defaultValue);
-  },  
+  },
+  //메인화면(실험관리)
+  getAPI_ExperimentList: async (Search, defaultValue) => {
+    const data = { keyword: Search };
+    return await getJsonRequest2(`/protocols/`, data, defaultValue);
+  },
+  getAPI_ExperimentModify: async (id, name, manager, content, defaultValue) => {
+    const data = JSON.stringify({
+      id: id,
+      title: name,
+      manager: manager,
+      desc: content,
+    });
+    return await patchJsonReqest(`/protocols/`, data, defaultValue);
+  },
+  getAPI_ExperimentDelete: async (code, defaultValue) => {
+    return await deleteJsonReqest(`/protocols/${code}`, defaultValue);
+  },
+  getAPI_ExperimentCreate: async (name, manager, content, defaultValue) => {
+    const data = JSON.stringify({
+      title: name,
+      manager: manager,
+      desc: content,
+    });
+    return await postJsonReqest(`/protocols/`, data, defaultValue);
+  },
+  //실험 상세
+  getAPI_ExperimentSubList: async (id, defaultValue) => {
+    const data = { protocol_id: id };
+    return await getJsonRequest2(`/protocolExps/`, data, defaultValue);
+  },
+  getAPI_ExperimentSubModify: async (
+    id,
+    name,
+    sex,
+    birthday,
+    maindiagnosis,
+    link,
+    file,
+    Experimentsid,
+    defaultValue
+  ) => {
+    const data = JSON.stringify({
+      id: id,
+      name: name,
+      gender: sex,
+      birth: birthday,
+      duagbisus: maindiagnosis,
+      desc: "",
+      survey_link: link,
+      agree_filename: file,
+      proto_id: Experimentsid,
+    });
+    return await patchJsonReqest(`/protocolExps/`, data, defaultValue);
+  },
+  getAPI_ExperimentSubCreate: async (
+    name,
+    sex,
+    birthday,
+    maindiagnosis,
+    link,
+    file,
+    Experimentsid,
+    defaultValue
+  ) => {
+    const data = JSON.stringify({
+      name: name,
+      gender: sex,
+      birth: birthday,
+      duagbisus: maindiagnosis,
+      desc: "",
+      survey_link: link,
+      agree_filename: file,
+      proto_id: Experimentsid,
+    });
+    return await postJsonReqest(`/protocolExps/`, data, defaultValue);
+  },
+  getAPI_ExperimentSubDelete: async (code, defaultValue) => {
+    return await deleteJsonReqest(`/protocolExps/${code}`, defaultValue);
+  },
 };
 
 export default Api;

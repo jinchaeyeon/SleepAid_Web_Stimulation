@@ -8,9 +8,25 @@ import {
   MenuItem,
 } from "@mui/material";
 
+import Api from "../../../API/API";
+import cookie from "../../../API/cookie";
+
+var defaultValue;
+
+let user_id = cookie.getCookie("userAccount")
+  ? cookie.getCookie("userAccount")
+  : "";
+var api_token = cookie.getCookie("accessToken");
+
+if (user_id) {
+  defaultValue = {
+    key: api_token,
+  };
+}
+
 export default function ExperimentSubPageChangeModalMiddle(props) {
   const [name, setName] = React.useState("");
-  const [sex, setSex] = React.useState("여성");
+  const [sex, setSex] = React.useState("W");
   const [birthday, setBirthday] = React.useState("");
   const [maindiagnosis, setMaindiagnosis] = React.useState("");
   const [link, setLink] = React.useState("");
@@ -49,17 +65,18 @@ export default function ExperimentSubPageChangeModalMiddle(props) {
       alert("성별은 필수 항목입니다.");
     } else if (birthday == "" || birthday == null || birthday == undefined) {
       alert("생년월일은 필수 항목입니다.");
+    } else if (
+      birthday.length != 8
+    ) {
+      alert("숫자 8자리로 입력해주세요")
     } else if (link == "" || link == null || link == undefined) {
       alert("링크는 필수 항목입니다.");
     } else if (
-      link[0] != "h" ||
-      link[1] != "t" ||
-      link[2] != "t" ||
-      link[3] != "p"
+      link.substring(0,7)!="http://" && link.substring(0,8)!="https://"
     ) {
       alert("링크 형식이 맞지 않습니다.");
     } else {
-      props.propFunction(name, sex, birthday, maindiagnosis, link, file);
+      props.propFunction(name, sex, birthday, maindiagnosis, link, file, defaultValue);
     }
   };
   return (
@@ -101,8 +118,8 @@ export default function ExperimentSubPageChangeModalMiddle(props) {
               }}
               onChange={handleSexChange}
             >
-              <MenuItem style={{fontFamily: 'GmarketSansMedium'}}value={"남성"}>남성</MenuItem>
-              <MenuItem  style={{fontFamily: 'GmarketSansMedium'}} value={"여성"}>여성</MenuItem>
+              <MenuItem style={{fontFamily: 'GmarketSansMedium'}}value={"M"}>남성</MenuItem>
+              <MenuItem  style={{fontFamily: 'GmarketSansMedium'}} value={"W"}>여성</MenuItem>
             </Select>
           </FormControl>
         </Box>
@@ -113,6 +130,7 @@ export default function ExperimentSubPageChangeModalMiddle(props) {
           <TextField
             value={birthday}
             size="small"
+            type="number"
             style={{
               float: "right",
               width: "40%",

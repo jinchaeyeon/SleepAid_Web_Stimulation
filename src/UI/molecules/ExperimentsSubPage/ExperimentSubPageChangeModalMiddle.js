@@ -8,14 +8,22 @@ import {
   MenuItem,
 } from "@mui/material";
 
+function d (value) {
+  if(value[0] == "<" && value[1] == "a" && value[2] == " " && value[3] == "h") {
+    return value.split('"', 3)[1]
+  }
+  else {
+    return "";
+  }
+}
 export default function ExperimentSubPageChangeModalMiddle(props) {
-  const [name, setName] = React.useState(props.data.id);
+  const [name, setName] = React.useState(props.data.name);
   const [sex, setSex] = React.useState(props.data.sex);
   const [birthday, setBirthday] = React.useState(props.data.ages);
   const [maindiagnosis, setMaindiagnosis] = React.useState(
     props.data.maindiagnosis || ''
   );
-  const [link, setLink] = React.useState(props.data.link);
+  const [link, setLink] = React.useState(d(props.data.link));
   const [file, setFile] = React.useState(props.data.agreement || '');
   const FileInput = React.useRef();
 
@@ -112,8 +120,8 @@ export default function ExperimentSubPageChangeModalMiddle(props) {
               }}
               onChange={handleSexChange}
             >
-              <MenuItem style={{fontFamily: 'GmarketSansMedium'}} value={"남성"}>남성</MenuItem>
-              <MenuItem style={{fontFamily: 'GmarketSansMedium'}}   value={"여성"}>여성</MenuItem>
+              <MenuItem style={{fontFamily: 'GmarketSansMedium'}} value={"M"}>남성</MenuItem>
+              <MenuItem style={{fontFamily: 'GmarketSansMedium'}}   value={"W"}>여성</MenuItem>
             </Select>
           </FormControl>
         </Box>

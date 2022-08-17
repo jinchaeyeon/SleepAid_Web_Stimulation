@@ -20,6 +20,21 @@ import ExperimentPageModalHeader from "../../molecules/ExperimentsPage/Experimen
 import ExperimentPageModalMiddle from "../../molecules/ExperimentsPage/ExperimentPageModalMiddle";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
+import Api from "../../../API/API";
+import cookie from "../../../API/cookie";
+
+var defaultValue;
+
+let user_id = cookie.getCookie("userAccount")
+  ? cookie.getCookie("userAccount")
+  : "";
+var api_token = cookie.getCookie("accessToken");
+
+if (user_id) {
+  defaultValue = {
+    key: api_token,
+  };
+}
 
 const style = {
   position: "absolute",
@@ -57,24 +72,11 @@ const columns = [
 export default function ExperimentPageMiddle() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [rows, setRows] = React.useState([
-    createData(1, "vns", undefined, "송하윤","button"),
-    createData(2, "innea vns", undefined, "송하윤","button"),
-    createData(3, "vns", undefined, "한태성","button"),
-    createData(4, "innea vns", undefined, "한태성","button"),
-    createData(5, "test2", "인증", "허재욱ㅠㅠ","button"),
-    createData(6, "ecg patch", "ecg 패치 테스트", "조동혁","button"),
-    createData(7, "김성철", undefined, "김현지","button"),
-    createData(8, "조정훈", undefined, "송하윤","button"),
-    createData(9, "ECG PATCH EXP", undefined, "조동혁","button"),
-    createData(10, "박산하", undefined, "한태성","button"),
-    createData(11, "teasdfa", undefined, "한태성","button"),
-    createData(12, "teasdfasaaaaaaaa", undefined, "한태성","button"),
-  ]);
+  const [rows, setRows] = React.useState([]);
   const [open, setOpen] = React.useState(false);
   const [openProtocol, setOpenProtocol] = React.useState(false);
   const [state, setState] = React.useState([]);
-  const [Search, setSearch] = React.useState("");
+  const [Search, setSearch] = React.useState('');
 
   function createData(id, name, content, manager, button) {
     return { id, name, content, manager, button };
@@ -97,26 +99,14 @@ export default function ExperimentPageMiddle() {
   const handleProtocolClose = () => setOpenProtocol(false);
 
   const handleProtocol = (id, name, manager, content) => {
-    setRows(
-      rows.map((users) =>
-        users.id === id
-          ? { ...users, name: name, manager: manager, content: content }
-          : users
-      )
-    );
-    alert("정보가 변경되었습니다.");
+    const getData = async () => {
+      const infoBody = Api.getAPI_ExperimentModify(id, name,manager,content,defaultValue);
+      if(infoBody != null) {
+        alert("수정되었습니다")
+      }
+    };
+    getData();
     handleClose();
-  };
-
-  const SearchProtocol = (Search) => {
-    console.log(Search);
-    setRows([
-      createData(1, "vns", undefined, "송하윤", "button"),
-      createData(2, "innea vns", undefined, "송하윤", "button"),
-      createData(3, "vns", undefined, "한태성", "button"),
-      createData(4, "innea vns", undefined, "한태성", "button"),
-      createData(5, "test2", "인증", "허재욱ㅠㅠ", "button"),
-    ]);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -124,17 +114,24 @@ export default function ExperimentPageMiddle() {
   };
 
   const handleAddProtocol = (name, manager, content) => {
-    setRows([
-      ...rows,
-      createData(rows[rows.length - 1].id + 1, name, content, manager, "button"),
-    ]);
-    alert("프로토콜이 추가되었습니다.");
+    const getData = async () => {
+      const infoBody = Api.getAPI_ExperimentCreate(name,manager,content,defaultValue);
+      if(infoBody != null) {
+        alert("등록되었습니다")
+      }
+    };
+    getData();
     handleProtocolClose();
   };
 
   const handleDeleteAccount = (row) => {
-    setRows(rows.filter((users) => users.id !== row.id));
-    alert(row.id + "번이 삭제 되었습니다");
+    const getData = async () => {
+      const infoBody = Api.getAPI_ExperimentDelete(row.id, defaultValue);
+      if(infoBody != null) {
+        alert("삭제되었습니다.")
+      }
+    };
+    getData();
   };
 
   function cell(value, row) {
@@ -148,7 +145,7 @@ export default function ExperimentPageMiddle() {
                 borderRadius: 10,
                 backgroundColor: "#2877b9",
                 marginRight: 5,
-                fontFamily: 'GmarketSansMedium'
+                fontFamily: "GmarketSansMedium",
               }}
             >
               실험관리
@@ -160,7 +157,7 @@ export default function ExperimentPageMiddle() {
               borderRadius: 10,
               backgroundColor: "#5e646b",
               marginRight: 5,
-              fontFamily: 'GmarketSansMedium'
+              fontFamily: "GmarketSansMedium",
             }}
             onClick={() => handleOpen(row)}
           >
@@ -184,7 +181,7 @@ export default function ExperimentPageMiddle() {
               color: "#CCCCCC",
               borderRadius: 10,
               backgroundColor: "#393939",
-              fontFamily: 'GmarketSansMedium'
+              fontFamily: "GmarketSansMedium",
             }}
             onClick={() => handleDeleteAccount(row)}
           >
@@ -197,7 +194,32 @@ export default function ExperimentPageMiddle() {
     }
   }
 
-  React.useEffect(() => {}, []);
+  React.useEffect(() => {
+    const getData = async () => {
+      let d = [];
+      const infoBody = await Api.getAPI_ExperimentList(Search, defaultValue);
+      infoBody.data.map((item) => {
+        var stitle = item.title;
+        if (stitle.length > 25)
+            stitle = stitle.substring(0, 24) + "..";
+        var sdesc = item.desc;
+        if (sdesc.length > 75)
+            sdesc = sdesc.substring(0, 75) + "..";
+        d.push(
+          createData(
+            item.id,
+            stitle,
+            sdesc,
+            item.manager,
+            "button"
+          )
+        );
+      });
+      setRows(d);
+      return d;
+    };
+    getData();
+  }, [rows]);
 
   return (
     <Paper
@@ -210,15 +232,14 @@ export default function ExperimentPageMiddle() {
         size="small"
         style={{ backgroundColor: "white", marginLeft: 50 }}
         InputProps={{
-          endAdornment: (
+          startAdornment: (
             <InputAdornment position="start">
               <SearchIcon
                 style={{ color: "#2877b9" }}
-                onClick={() => SearchProtocol(Search)}
               />
             </InputAdornment>
           ),
-          style:{fontFamily: 'GmarketSansMedium'}
+          style: { fontFamily: "GmarketSansMedium" },
         }}
       />
       <Button
@@ -229,7 +250,7 @@ export default function ExperimentPageMiddle() {
           marginRight: 40,
           marginBottom: 10,
           float: "right",
-          fontFamily: 'GmarketSansMedium'
+          fontFamily: "GmarketSansMedium",
         }}
         onClick={() => handleOpenProtocol()}
       >
@@ -259,7 +280,11 @@ export default function ExperimentPageMiddle() {
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
-                  style={{ minWidth: column.minWidth, color: "white",fontFamily: 'GmarketSansMedium' }}
+                  style={{
+                    minWidth: column.minWidth,
+                    color: "white",
+                    fontFamily: "GmarketSansMedium",
+                  }}
                 >
                   {column.label}
                 </TableCell>
@@ -275,7 +300,13 @@ export default function ExperimentPageMiddle() {
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} style={{ color: "#c0c0c0",fontFamily: 'GmarketSansMedium' }}>
+                        <TableCell
+                          key={column.id}
+                          style={{
+                            color: "#c0c0c0",
+                            fontFamily: "GmarketSansMedium",
+                          }}
+                        >
                           {cell(value, row)}
                         </TableCell>
                       );
