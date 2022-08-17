@@ -88,30 +88,20 @@ const patchJsonReqest = async (path, body, defaultValue) => {
     });
     return data;
   } catch (e) {
-    console.log(e)
+    console.log(e);
     return null;
   }
 };
 
-const deleteJsonReqest = async (path) => {
+const deleteJsonReqest = async (path, defaultValue) => {
   try {
-    const token = sessionStorage.getItem("user_token");
-    if (token) {
-      const { data } = await axios.delete(api + path, {
-        headers: {
-          authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      return data;
-    } else {
-      const { data } = await axios.delete(api + path, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      return data;
-    }
+    const { data } = await axios.delete(api + path, {
+      headers: {
+        authorization: `Bearer ${defaultValue.key}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return data;
   } catch (e) {
     console.log(e);
   }
@@ -180,13 +170,16 @@ const Api = {
     });
     return await patchJsonReqest(`/users/`, data, defaultValue);
   },
-  getAPI_UserAdmin: async(UserID, button,defaultValue) => {
+  getAPI_UserAdmin: async (UserID, button, defaultValue) => {
     const data = JSON.stringify({
       id: UserID,
       is_staff: button,
     });
     return await patchJsonReqest(`/users/`, data, defaultValue);
-  }
+  },
+  getAPI_UserDelete: async (UserID, defaultValue) => {
+    return await deleteJsonReqest(`/users/${UserID}`, defaultValue);
+  },
 };
 
 export default Api;

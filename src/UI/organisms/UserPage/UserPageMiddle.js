@@ -107,13 +107,6 @@ export default function UserPageMiddle() {
   };
 
   const handleAccount = (row) => {
-    // setRows(
-    //   rows.map((users) =>
-    //     users.UserID === row.UserID
-    //       ? { ...users, button: !users.button }
-    //       : users
-    //   )
-    // );
     const getData = async () => {
       const infoBody = await Api.getAPI_UserAdmin(
         row.id,
@@ -128,8 +121,18 @@ export default function UserPageMiddle() {
   };
 
   const handleDeleteAccount = (row) => {
-    setRows(rows.filter((users) => users.UserID !== row.UserID));
-    alert(row.UserID + "가 삭제 되었습니다");
+    const getData = async () => {
+      const infoBody = await Api.getAPI_UserDelete(
+        row.id,
+        defaultValue
+      );
+      if(infoBody != null) {
+        alert("삭제되었습니다")
+      }
+    };
+    getData();
+    // setRows(rows.filter((users) => users.UserID !== row.UserID));
+    // alert(row.UserID + "가 삭제 되었습니다");
   };
 
   function cell(value, row) {
