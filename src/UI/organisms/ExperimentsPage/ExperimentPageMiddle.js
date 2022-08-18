@@ -69,6 +69,10 @@ const columns = [
   },
 ];
 
+function createData(id, name, content, manager, button) {
+  return { id, name, content, manager, button };
+}
+
 export default function ExperimentPageMiddle() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -77,10 +81,6 @@ export default function ExperimentPageMiddle() {
   const [openProtocol, setOpenProtocol] = React.useState(false);
   const [state, setState] = React.useState([]);
   const [Search, setSearch] = React.useState('');
-
-  function createData(id, name, content, manager, button) {
-    return { id, name, content, manager, button };
-  }
 
   const handleSearchChange = (event) => {
     setSearch(event.target.value);
@@ -197,7 +197,8 @@ export default function ExperimentPageMiddle() {
   React.useEffect(() => {
     const getData = async () => {
       let d = [];
-      const infoBody = await Api.getAPI_ExperimentList(Search, defaultValue);
+      const infoBody = await Api.getAPI_ExperimentList(Search,
+      defaultValue);
       infoBody.data.map((item) => {
         var stitle = item.title;
         if (stitle.length > 25)

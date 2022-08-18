@@ -29,27 +29,27 @@ function SignUpPage() {
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
   };
-  function _getCurrentDateTime()
-  {
-      var today = new Date();
-      var mm = today.getMonth() + 1; // getMonth() is zero-based
-      var dd = today.getDate();
-      var h = today.getHours();
-      var M = today.getMinutes();
-      var s = today.getSeconds();
-      var d= [today.getFullYear(),
-          '-',
-          (mm>9 ? '' : '0') + mm,
-          '-',
-          (dd>9 ? '' : '0') + dd,
-          ' ',
-          (h>9 ? '' : '0') + h,
-          ':',
-          (M>9 ? '' : '0') + M,
-          ':',
-          (s>9 ? '' : '0') + s
-           ].join('');
-      return d;
+  function _getCurrentDateTime() {
+    var today = new Date();
+    var mm = today.getMonth() + 1; // getMonth() is zero-based
+    var dd = today.getDate();
+    var h = today.getHours();
+    var M = today.getMinutes();
+    var s = today.getSeconds();
+    var d = [
+      today.getFullYear(),
+      "-",
+      (mm > 9 ? "" : "0") + mm,
+      "-",
+      (dd > 9 ? "" : "0") + dd,
+      " ",
+      (h > 9 ? "" : "0") + h,
+      ":",
+      (M > 9 ? "" : "0") + M,
+      ":",
+      (s > 9 ? "" : "0") + s,
+    ].join("");
+    return d;
   }
   const handlesubmit = async () => {
     if (
@@ -62,7 +62,15 @@ function SignUpPage() {
     ) {
       if (PW == PWCheck) {
         const date = _getCurrentDateTime();
-        const infoBody = await Api.getAPI_SignUp(ID, PW, Email, Name, false, date, License);
+        const infoBody = await Api.getAPI_SignUp(
+          ID,
+          PW,
+          Email,
+          Name,
+          false,
+          date,
+          License
+        );
         if (infoBody != null) {
           alert("가입되었습니다. 로그인 후 이용해 주세요.");
           window.location.href = "/";

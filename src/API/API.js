@@ -12,7 +12,6 @@ const Login = async (path, params = {}) => {
     });
     return response;
   } catch (e) {
-    console.log(e)
     return null;
   }
 };
@@ -27,7 +26,6 @@ const LoginInfo = async (path, params = {}) => {
     });
     return response;
   } catch (e) {
-    console.log(e)
     return [];
   }
 };
@@ -42,7 +40,6 @@ const getFormRequest = async (path, defaultValue) => {
     });
     return response;
   } catch (e) {
-    console.log(e)
     return [];
   }
 };
@@ -58,7 +55,6 @@ const getJsonRequest = async (path, params, defaultValue) => {
     });
     return response;
   } catch (e) {
-    console.log(e)
     return [];
   }
 };
@@ -66,15 +62,14 @@ const getJsonRequest = async (path, params, defaultValue) => {
 const getJsonRequest2 = async (path, params, defaultValue) => {
   try {
     const response = await axios.get(api + path, {
-      params: params,
+      params:  params ,
       headers: {
         authorization: `Bearer ${defaultValue.key}`,
-        "Content-Type": "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
       },
     });
     return response;
   } catch (e) {
-    console.log(e)
     return [];
   }
 };
@@ -89,7 +84,6 @@ const postFormReqest = async (path, params) => {
     return response;
   } catch (e) {
     alert(e.response.data.detail);
-    console.log(e)
     return null;
   }
 };
@@ -107,7 +101,6 @@ const postJsonReqest = async (path, params, defaultValue) => {
     return response;
   } catch (e) {
     // alert(e.response.data.detail);
-    console.log(e)
     return null;
   }
 };
@@ -122,7 +115,6 @@ const patchJsonReqest = async (path, body, defaultValue) => {
     });
     return data;
   } catch (e) {
-    console.log(e)
     return null;
   }
 };
@@ -137,7 +129,6 @@ const deleteJsonReqest = async (path, defaultValue) => {
     });
     return data;
   } catch (e) {
-    console.log(e)
     return null;
   }
 };
@@ -244,8 +235,13 @@ const Api = {
     return await deleteJsonReqest(`/licenses/${LicenseID}`, defaultValue);
   },
   //메인화면(실험관리)
-  getAPI_ExperimentList: async (Search, defaultValue) => {
-    const data = { keyword: Search };
+  getAPI_ExperimentList: async (
+    Search,
+    defaultValue
+  ) => {
+    const data = {
+      keyword: Search,
+    };
     return await getJsonRequest2(`/protocols/`, data, defaultValue);
   },
   getAPI_ExperimentModify: async (id, name, manager, content, defaultValue) => {
