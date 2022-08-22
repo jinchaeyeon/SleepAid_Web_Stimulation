@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FormControl, NativeSelect, Box } from "@mui/material";
 import getRealTimeChart from "./realtime_chart";
 import PlotEEG1 from "./PlotEEG1";
@@ -7,18 +7,35 @@ import PlotPPG from "./PlotPPG";
 import PlotX from "./PlotX";
 import PlotY from "./PlotY";
 import PlotZ from "./PlotZ";
+import Api from "../../../API/API";
+import cookie from "../../../API/cookie";
 
+var g_recv_idx = 800;
+var last = 0;
 const d3 = document.createElement("script");
-
 d3.src = "https://d3js.org/d3.v4.min.js";
 d3.async = true;
-const lineArr = [];
 var chart = [];
+const id = window.location.href.split("/")[5];
+var willBeUploadedDataArr = [];
+
+var defaultValue;
+
+let user_id = cookie.getCookie("userAccount")
+  ? cookie.getCookie("userAccount")
+  : "";
+var api_token = cookie.getCookie("accessToken");
+
+if (user_id) {
+  defaultValue = {
+    key: api_token,
+  };
+}
 
 function ExperimentMachineListPageMiddle(props) {
   const datas = props.data;
   const state = props.state;
-  const [limit, setLimit] = React.useState([10,0]);
+  const [limit, setLimit] = React.useState([10, 0]);
   const signal_names = ["EEG1", "EEG2", "PPG", "X", "Y", "Z"];
 
   const opts = {
@@ -39,7 +56,7 @@ function ExperimentMachineListPageMiddle(props) {
       },
     ],
     series: [
-      { label: "데이터 갯수"},
+      { label: "데이터 갯수" },
       {
         label: "값",
         stroke: "blue",
@@ -50,12 +67,43 @@ function ExperimentMachineListPageMiddle(props) {
   function init() {
     for (var i = 0; i < 6; i++) {
       chart[i] = getRealTimeChart();
-      lineArr[i] = [];
     }
+    var upload_timer = window.setInterval(uploadData, 4000);
   }
 
   {
     init();
+  }
+
+  function uploadData() {
+    const signal_names2 = [
+      "B3_5_EEG1",
+      "B6_8_EEG2",
+      "B9_11_PPG_avg",
+      "B27_28_X",
+      "B29_30_Y",
+      "B31_32_Z",
+    ];
+    if (state != "Pause") {
+      for (var i = 0; i < 6; i++) {
+        willBeUploadedDataArr.push({
+          proto_exp_id: id,
+          code: signal_names[i],
+          time: datas[0]["t"],
+          v: datas[0][signal_names2[i]],
+        });
+      }
+
+      if (g_recv_idx <= last) {
+         const getData = async () => {
+          const infoData = await Api.getAPI_PostData(willBeUploadedDataArr,defaultValue);
+        };
+        getData();
+        g_recv_idx = g_recv_idx+ 600;
+        willBeUploadedDataArr = [];
+      }
+      last = datas[0]["t"];
+    }
   }
 
   function list(i) {
@@ -63,11 +111,21 @@ function ExperimentMachineListPageMiddle(props) {
       return 0;
     } else if (i == 0) {
       return (
-        <PlotEEG1 options={opts} data={datas[0]["B3_5_EEG1"]} state={state} limit={limit}/>
+        <PlotEEG1
+          options={opts}
+          data={datas[0]["B3_5_EEG1"]}
+          state={state}
+          limit={limit}
+        />
       );
     } else if (i == 1) {
       return (
-        <PlotEEG2 options={opts} data={datas[0]["B6_8_EEG2"]} state={state} limit={limit}/>
+        <PlotEEG2
+          options={opts}
+          data={datas[0]["B6_8_EEG2"]}
+          state={state}
+          limit={limit}
+        />
       );
     } else if (i == 2) {
       return (
@@ -79,18 +137,39 @@ function ExperimentMachineListPageMiddle(props) {
         />
       );
     } else if (i == 3) {
-      return <PlotX options={opts} data={datas[0]["B27_28_X"]} state={state} limit={limit}/>;
+      return (
+        <PlotX
+          options={opts}
+          data={datas[0]["B27_28_X"]}
+          state={state}
+          limit={limit}
+        />
+      );
     } else if (i == 4) {
-      return <PlotY options={opts} data={datas[0]["B29_30_Y"]} state={state} limit={limit}/>;
+      return (
+        <PlotY
+          options={opts}
+          data={datas[0]["B29_30_Y"]}
+          state={state}
+          limit={limit}
+        />
+      );
     } else {
-      return <PlotZ options={opts} data={datas[0]["B31_32_Z"]} state={state} limit={limit}/>;
+      return (
+        <PlotZ
+          options={opts}
+          data={datas[0]["B31_32_Z"]}
+          state={state}
+          limit={limit}
+        />
+      );
     }
   }
 
   const handleChanges = (event) => {
-    var string = event.target.value.split(",")
+    var string = event.target.value.split(",");
     setLimit([string[0], string[1]]);
-  }
+  };
   function roop(i) {
     return (
       <Box>
@@ -112,7 +191,6 @@ function ExperimentMachineListPageMiddle(props) {
           }}
         >
           <NativeSelect
-            defaultValue={[10 ,i]}
             inputProps={{
               name: "age",
               id: "uncontrolled-native",
@@ -126,19 +204,22 @@ function ExperimentMachineListPageMiddle(props) {
             }}
             onChange={handleChanges}
           >
-            <option style={{ fontFamily: "GmarketSansMedium" }} value={[5 ,i]}>
+            <option style={{ fontFamily: "GmarketSansMedium" }} value={[5, i]}>
               5sec
             </option>
-            <option style={{ fontFamily: "GmarketSansMedium" }} value={[10 ,i]}>
+            <option style={{ fontFamily: "GmarketSansMedium" }} value={[10, i]}>
               10sec
             </option>
-            <option style={{ fontFamily: "GmarketSansMedium" }} value={[30 ,i]}>
+            <option style={{ fontFamily: "GmarketSansMedium" }} value={[30, i]}>
               30sec
             </option>
-            <option style={{ fontFamily: "GmarketSansMedium" }} value={[60 ,i]}>
+            <option style={{ fontFamily: "GmarketSansMedium" }} value={[60, i]}>
               1min
             </option>
-            <option style={{ fontFamily: "GmarketSansMedium" }} value={[300 ,i]}>
+            <option
+              style={{ fontFamily: "GmarketSansMedium" }}
+              value={[300, i]}
+            >
               5min
             </option>
           </NativeSelect>

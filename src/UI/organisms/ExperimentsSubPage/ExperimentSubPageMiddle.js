@@ -207,12 +207,13 @@ export default function ExperimentSubPageMiddle(props) {
         defaultValue
       );
       if (infoBody != null) {
+        var id = infoBody.data.id;
         alert("추가되었습니다");
+        window.location.href = `../ExperimentsSub/${Experimentsid}/${id}`;
       }
     };
     getData();
     handleProtocolClose();
-    window.location.href = `../ExperimentsSub/${Experimentsid}/${name}`;
   };
 
   const handleDeleteAccount = (row) => {

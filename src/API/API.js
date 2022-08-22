@@ -1,7 +1,18 @@
 import axios from "axios";
 import cookie from "./cookie";
 const api = "http://localhost:8000";
+var defaultValue;
 
+let user_id = cookie.getCookie("userAccount")
+  ? cookie.getCookie("userAccount")
+  : "";
+var api_token = cookie.getCookie("accessToken");
+
+if (user_id) {
+  defaultValue = {
+    key: api_token,
+  };
+}
 const Login = async (path, params = {}) => {
   try {
     const response = await axios.post(api + path, params, {
@@ -100,7 +111,7 @@ const postJsonReqest = async (path, params, defaultValue) => {
     });
     return response;
   } catch (e) {
-    // alert(e.response.data.detail);
+    alert(e.response.data.detail);
     return null;
   }
 };
@@ -317,6 +328,10 @@ const Api = {
   },
   getAPI_ExperimentSubDelete: async (code, defaultValue) => {
     return await deleteJsonReqest(`/protocolExps/${code}`, defaultValue);
+  },
+  //실험데이터 전송
+  getAPI_PostData: async (upload_data,defaultValue) => {
+    return await postJsonReqest(`/protocolExpsEvent/`, upload_data, defaultValue);
   },
 };
 
