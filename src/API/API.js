@@ -66,6 +66,7 @@ const getJsonRequest = async (path, params, defaultValue) => {
     });
     return response;
   } catch (e) {
+    console.log(e)
     return [];
   }
 };
@@ -333,6 +334,21 @@ const Api = {
   getAPI_PostData: async (upload_data,defaultValue) => {
     return await postJsonReqest(`/protocolExpsEvent/`, upload_data, defaultValue);
   },
+  getAPI_PostTrigger: async(obj,defaultValue) => {
+    return await postJsonReqest(`/protocolExpTrigger/`,obj,defaultValue);
+  },
+  getAPI_PostMarker: async(obj,defaultValue) => {
+    return await postJsonReqest(`/protocolExpsEvent/`, obj, defaultValue)
+  },
+  getAPI_getMarker: async(id,defaultValue) => {
+    return await getJsonRequest(`/protocolExpsEvent/${id}`, {}, defaultValue)
+  },
+  getAPI_deleteMarker: async(id,defaultValue) => {
+    return await deleteJsonReqest(`/protocolExpsEvent/${id}`, defaultValue);
+  },
+  getModifyMarker: async(id, obj, defaultValue) => {
+    return await patchJsonReqest(`/protocolExpsEvent/${id}`, obj, defaultValue);
+  }
 };
 
 export default Api;

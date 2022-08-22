@@ -35,11 +35,12 @@ if (user_id) {
 function ExperimentMachineListPageMiddle(props) {
   const datas = props.data;
   const state = props.state;
-  const [limit, setLimit] = React.useState([10, 0]);
+  const [limit, setLimit] = React.useState([]);
   const signal_names = ["EEG1", "EEG2", "PPG", "X", "Y", "Z"];
+  const widths = window.innerWidth * 0.6;
 
   const opts = {
-    width: 1350,
+    width: widths,
     height: 200,
     pxAlign: false,
     scales: {
@@ -204,9 +205,6 @@ function ExperimentMachineListPageMiddle(props) {
             }}
             onChange={handleChanges}
           >
-            <option style={{ fontFamily: "GmarketSansMedium" }} value={[5, i]}>
-              5sec
-            </option>
             <option style={{ fontFamily: "GmarketSansMedium" }} value={[10, i]}>
               10sec
             </option>
@@ -218,9 +216,9 @@ function ExperimentMachineListPageMiddle(props) {
             </option>
             <option
               style={{ fontFamily: "GmarketSansMedium" }}
-              value={[300, i]}
+              value={[180, i]}
             >
-              5min
+              3min
             </option>
           </NativeSelect>
         </FormControl>
