@@ -348,6 +348,12 @@ const Api = {
   },
   getModifyMarker: async(id, obj, defaultValue) => {
     return await patchJsonReqest(`/protocolExpsEvent/${id}`, obj, defaultValue);
+  },
+  getPostStimulus: async(obj, defaultValue)=> {
+    return await postJsonReqest(`/protocolExpStimulus/`, obj, defaultValue);
+  },
+  getAPI_Stimulus: async(id, defaultValue) => {
+    return await getJsonRequest(`/protocolExpStimulus/${id}`, {}, defaultValue)
   }
 };
 

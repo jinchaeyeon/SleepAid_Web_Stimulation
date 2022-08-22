@@ -10,7 +10,21 @@ import {
   TextField,
 } from "@mui/material";
 import VolumeUp from "@mui/icons-material/VolumeUp";
+import Api from '../../../API/API';
+import cookie from '../../../API/cookie';
 
+var defaultValue;
+
+let user_id = cookie.getCookie("userAccount")
+  ? cookie.getCookie("userAccount")
+  : "";
+var api_token = cookie.getCookie("accessToken");
+
+if (user_id) {
+  defaultValue = {
+    key: api_token,
+  };
+}
 var bluetoothService = null;
 const WRITE_UUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
 export default function ExperimentPageModalMiddle(props) {
@@ -20,9 +34,7 @@ export default function ExperimentPageModalMiddle(props) {
   const [valueWidth, setValueWidth] = React.useState(200);
   const [valueDuration, setValueDuration] = React.useState(200);
   const [valueAmplitude, setValueAmplitude] = React.useState(4095);
-  const [list, setList] = React.useState([
-    { width: 200, Duration: 200, Amplitude: 2940 },
-  ]);
+  const [list, setList] = React.useState([]);
   const handleWidthSliderChange = (event, newValue) => {
     setValueWidth(newValue);
   };
@@ -81,7 +93,7 @@ export default function ExperimentPageModalMiddle(props) {
       { width: valueWidth, Duration: valueDuration, Amplitude: valueAmplitude },
     ]);
     props.propFunction(false);
-    AddStimulus(valueWidth, valueDuration, valueAmplitude)
+    AddStimulus(valueWidth, valueDuration, valueAmplitude);
   };
 
   const handleElectronic = (width, duration, Amplitude) => {
@@ -92,7 +104,14 @@ export default function ExperimentPageModalMiddle(props) {
     setValueAmplitude(Amplitude);
   };
 
-  React.useEffect(() => {}, [valueWidth, valueDuration, valueAmplitude]);
+  React.useEffect(() => {
+    const getData = async () => {
+      const infoData = await Api.getAPI_Stimulus(protocol_exp_id, defaultValue);
+      setList(infoData.data);
+    };
+    getData();
+
+  }, [list, valueWidth, valueDuration, valueAmplitude]);
 
   function AddStimulus(width, duration, Amplitude) {
     var id = protocol_exp_id;
@@ -113,28 +132,31 @@ export default function ExperimentPageModalMiddle(props) {
     sti_height = parseInt(sti_height);
 
     bluetoothService = machine;
-    bluetoothService.getCharacteristic(WRITE_UUID).then(function (characteristic) {
-      var deviceChar = characteristic;
-      const cmd_intense = "102|" + sti_intensity;
-      var uint8array_intense = new TextEncoder().encode(cmd_intense);
-      deviceChar
-        .writeValueWithoutResponse(uint8array_intense)
-        .then(function () {
-          const cmd_interval = "104|" + sti_interval;
-          var uint8array_interval = new TextEncoder().encode(cmd_interval);
-          deviceChar
-            .writeValueWithoutResponse(uint8array_interval)
-            .then(function () {
+    bluetoothService
+      .getCharacteristic(WRITE_UUID)
+      .then(function (characteristic) {
+        var deviceChar = characteristic;
+        const cmd_intense = "102|" + sti_intensity;
+        var uint8array_intense = new TextEncoder().encode(cmd_intense);
+        deviceChar
+          .writeValueWithoutResponse(uint8array_intense)
+          .then(function () {
+            const cmd_interval = "104|" + sti_interval;
+            var uint8array_interval = new TextEncoder().encode(cmd_interval);
+            deviceChar
+              .writeValueWithoutResponse(uint8array_interval)
+              .then(function () {
+                const cmd_height = "106|" + sti_height;
+                var uint8array_height = new TextEncoder().encode(cmd_height);
+                deviceChar.writeValueWithoutResponse(uint8array_height);
+              });
+          });
+      });
 
-              const cmd_height = "106|" + sti_height;
-              var uint8array_height = new TextEncoder().encode(cmd_height);
-              deviceChar
-                .writeValueWithoutResponse(uint8array_height);
-            });
-        });
-    });
-
-    console.log(obj);
+    const getData = async () => {
+      const infoData = await Api.getPostStimulus(obj, defaultValue);
+    };
+    getData();
   }
 
   return (
@@ -308,7 +330,7 @@ export default function ExperimentPageModalMiddle(props) {
                         fontFamily: "GmarketSansMedium",
                       }}
                     >
-                      width: {items.width}
+                      width: {items.intensity}
                     </h6>
                     <h6
                       style={{
@@ -317,7 +339,7 @@ export default function ExperimentPageModalMiddle(props) {
                         fontFamily: "GmarketSansMedium",
                       }}
                     >
-                      Duration: {items.Duration}
+                      Duration: {items.interval}
                     </h6>
                     <h6
                       style={{
@@ -326,10 +348,16 @@ export default function ExperimentPageModalMiddle(props) {
                         fontFamily: "GmarketSansMedium",
                       }}
                     >
-                      Amplitude: {items.Amplitude}
+                      Amplitude: {items.height}
                     </h6>
                     <Button
-                      onClick={() => handleElectronic(items.width, items.Duration, items.Amplitude)}
+                      onClick={() =>
+                        handleElectronic(
+                          items.intensity,
+                          items.interval,
+                          items.height
+                        )
+                      }
                       style={{
                         marginTop: 0,
                         marginBottom: 0,
