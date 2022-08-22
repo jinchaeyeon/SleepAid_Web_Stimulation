@@ -13,7 +13,7 @@ export const SidebarData = [
     subNav: [
       {
         title: 'List',
-        path: '/Experiments',
+        path: '/',
       },
     ]
   },

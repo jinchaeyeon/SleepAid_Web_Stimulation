@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../organisms/Header/Header";
 import Sidebar from "../organisms/Sidebar/Sidebar";
 import ExperimentsPage from "../pages/ExperimentsPage/ExperimentsPage";
@@ -13,8 +13,12 @@ import ExperimentsMachinePage from "../pages/ExperimentsMachinePage/ExperimentsM
 import ExperimentsResultPage from "../pages/ExperimentsResultPage/ExperimentsResultPage";
 import "./App.css";
 import Box from "@mui/material/Box";
+import cookie from "../../API/cookie";
 
 const App = () => {
+  
+  var user_id = cookie.getCookie("userAccount");
+
   return (
     <>
       <div className="App">
@@ -22,6 +26,26 @@ const App = () => {
           <Routes>
             <Route
               path="/"
+              element={
+                user_id == '' ? (
+                  <Box style={{ display: "flex", width: "100%" }}>
+                    <Box style={{ width: "100%" }}>
+                      <LoginPage />
+                    </Box>
+                  </Box>
+                ) : (
+                  <Box style={{ display: "flex", width: "100%" }}>
+                    <Sidebar />
+                    <Box style={{ width: "100%" }}>
+                      <Header />
+                      <ExperimentsPage />
+                    </Box>
+                  </Box>
+                )
+              }
+            />
+            <Route
+              path="/Login"
               element={
                 <Box style={{ display: "flex", width: "100%" }}>
                   <Box style={{ width: "100%" }}>
@@ -46,18 +70,6 @@ const App = () => {
                 <Box style={{ display: "flex", width: "100%" }}>
                   <Box style={{ width: "100%" }}>
                     <FindIDPage />
-                  </Box>
-                </Box>
-              }
-            />
-            <Route
-              path="/Experiments"
-              element={
-                <Box style={{ display: "flex", width: "100%" }}>
-                  <Sidebar />
-                  <Box style={{ width: "100%" }}>
-                    <Header />
-                    <ExperimentsPage />
                   </Box>
                 </Box>
               }

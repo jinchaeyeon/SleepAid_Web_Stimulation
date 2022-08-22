@@ -34,7 +34,7 @@ const Sidebar = () => {
             alignItems: "center",
           }}
         >
-          <a href="/Experiments">
+          <a href="/">
             <img
               style={{ width: "auto", height: 30, paddingRight: 20 }}
               alt="home icon"

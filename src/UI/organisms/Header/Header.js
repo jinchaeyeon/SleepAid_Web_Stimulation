@@ -37,11 +37,19 @@ function Header() {
   };
 
   const Logout = async() => {
-    cookie.deleteCookie('accessToken')
-    cookie.deleteCookie('userAccount')
+    deleteAllCookies()
     window.location.href = "/";
   }
 
+  function deleteAllCookies() {
+    const cookies = document.cookie.split(';')
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i]
+      const eqPos = cookie.indexOf('=')
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie
+      document.cookie = name + '=;max-age=0'
+    }
+  }
   return (
     <>
       <Box

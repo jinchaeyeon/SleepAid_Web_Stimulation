@@ -24,7 +24,7 @@ function LoginPage() {
         const infoBody2 = await Api.getUserData(infoBody.data.access_token);
         if (infoBody2.status == 200) {
           cookie.setCookie('is_staff', infoBody2.data.is_staff,1);
-          window.location.href = "/Experiments";
+          window.location.href = "/";
         }
         else{
           alert('서버 오류입니다.')
