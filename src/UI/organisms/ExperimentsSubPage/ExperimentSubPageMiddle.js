@@ -348,7 +348,7 @@ export default function ExperimentSubPageMiddle(props) {
     };
 
     getData();
-  }, [rows]);
+  }, []);
 
   return (
     <Paper

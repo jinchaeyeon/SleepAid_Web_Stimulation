@@ -111,7 +111,7 @@ export default function ExperimentPageModalMiddle(props) {
     };
     getData();
 
-  }, [list, valueWidth, valueDuration, valueAmplitude]);
+  }, []);
 
   function AddStimulus(width, duration, Amplitude) {
     var id = protocol_exp_id;

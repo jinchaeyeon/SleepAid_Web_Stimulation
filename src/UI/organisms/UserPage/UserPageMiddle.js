@@ -256,7 +256,7 @@ export default function UserPageMiddle() {
       return d;
     };
     getData();
-  }, [rows]);
+  }, []);
 
   return (
     <Paper

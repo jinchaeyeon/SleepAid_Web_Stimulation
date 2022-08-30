@@ -39,7 +39,7 @@ function ExperimentsSubPage() {
 
   useEffect(() => {
     getData();
-  })
+  },[])
 
   return (
     <Box style={{backgroundColor: "#191919", padding: '1.rem 2rem'}}>

@@ -147,7 +147,7 @@ export default function LicensePageMiddle() {
       return d;
     };
     getData();
-  }, [rows]);
+  }, []);
 
   return (
     <Paper

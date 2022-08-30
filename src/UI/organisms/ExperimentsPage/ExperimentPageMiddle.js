@@ -220,7 +220,7 @@ export default function ExperimentPageMiddle() {
       return d;
     };
     getData();
-  }, [rows]);
+  }, []);
 
   return (
     <Paper

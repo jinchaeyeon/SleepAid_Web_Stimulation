@@ -171,6 +171,7 @@ function ExperimentMachineListPageMiddle(props) {
     var string = event.target.value.split(",");
     setLimit([string[0], string[1]]);
   };
+
   function roop(i) {
     return (
       <Box>
@@ -216,9 +217,9 @@ function ExperimentMachineListPageMiddle(props) {
             </option>
             <option
               style={{ fontFamily: "GmarketSansMedium" }}
-              value={[180, i]}
+              value={[300, i]}
             >
-              3min
+              5min
             </option>
           </NativeSelect>
         </FormControl>
