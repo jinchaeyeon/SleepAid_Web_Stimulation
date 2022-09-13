@@ -169,7 +169,12 @@ export default function ExperimentPageModalMiddle(props) {
               .then(function () {
                 const cmd_height = "106|" + sti_height;
                 var uint8array_height = new TextEncoder().encode(cmd_height);
-                deviceChar.writeValueWithoutResponse(uint8array_height);
+                deviceChar.writeValueWithoutResponse(uint8array_height)
+                .then(function () {
+                  const cmd_long = "111|" + sti_long;
+                  var uint8array_long = new TextEncoder().encode(cmd_long);
+                  deviceChar.writeValueWithoutResponse(uint8array_long);
+                });
               });
           });
       });
@@ -421,7 +426,7 @@ export default function ExperimentPageModalMiddle(props) {
                         fontFamily: "GmarketSansMedium",
                       }}
                     >
-                      Time: {items.Time}
+                      Time: {items.long}
                     </h6>
                     <Button
                       onClick={() =>
