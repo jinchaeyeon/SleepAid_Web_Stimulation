@@ -50,12 +50,12 @@ export const SidebarData = [
     subNav: [
       {
         title: 'Chart A(bin)',
-        path: '/',
+        path: '/WebGLPage',
 
       },
       {
         title: 'Chart B(JSON)',
-        path: '/',
+        path: '/WebGLPage',
 
       },
     ]

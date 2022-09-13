@@ -34,6 +34,7 @@ export default function ExperimentPageModalMiddle(props) {
   const [valueWidth, setValueWidth] = React.useState(200);
   const [valueDuration, setValueDuration] = React.useState(200);
   const [valueAmplitude, setValueAmplitude] = React.useState(4095);
+  const [valueTime, setValueTime] = React.useState(300);
   const [list, setList] = React.useState([]);
   const handleWidthSliderChange = (event, newValue) => {
     setValueWidth(newValue);
@@ -87,21 +88,38 @@ export default function ExperimentPageModalMiddle(props) {
     }
   };
 
+  const handleTimeSliderChange = (event, newValue) => {
+    setValueTime(newValue);
+  };
+
+  const handleTimeInputChange = (event) => {
+    setValueTime(event.target.value === "" ? "" : Number(event.target.value));
+  };
+
+  const handleTimeBlur = () => {
+    if (valueTime < 0) {
+      setValueTime(0);
+    } else if (valueTime > 300) {
+      setValueTime(300);
+    }
+  };
+
   const handleup = () => {
     setList([
       ...list,
-      { width: valueWidth, Duration: valueDuration, Amplitude: valueAmplitude },
+      { width: valueWidth, Duration: valueDuration, Amplitude: valueAmplitude, Time: valueTime },
     ]);
     props.propFunction(false);
-    AddStimulus(valueWidth, valueDuration, valueAmplitude);
+    AddStimulus(valueWidth, valueDuration, valueAmplitude, valueTime);
   };
 
-  const handleElectronic = (width, duration, Amplitude) => {
+  const handleElectronic = (width, duration, Amplitude, Time) => {
     props.propFunction(false);
-    AddStimulus(width, duration, Amplitude);
+    AddStimulus(width, duration, Amplitude, Time);
     setValueWidth(width);
     setValueDuration(duration);
     setValueAmplitude(Amplitude);
+    setValueTime(Time)
   };
 
   React.useEffect(() => {
@@ -113,7 +131,7 @@ export default function ExperimentPageModalMiddle(props) {
 
   }, []);
 
-  function AddStimulus(width, duration, Amplitude) {
+  function AddStimulus(width, duration, Amplitude, Time) {
     var id = protocol_exp_id;
 
     var obj = {
@@ -121,6 +139,7 @@ export default function ExperimentPageModalMiddle(props) {
       intensity: width,
       interval: duration,
       height: Amplitude,
+      long: Time,
       time: time,
     };
 
@@ -130,6 +149,8 @@ export default function ExperimentPageModalMiddle(props) {
     sti_interval = parseInt(sti_interval);
     var sti_height = Amplitude;
     sti_height = parseInt(sti_height);
+    var sti_long = Time;
+    sti_long = parseInt(sti_long);
 
     bluetoothService = machine;
     bluetoothService
@@ -298,6 +319,49 @@ export default function ExperimentPageModalMiddle(props) {
             </Grid>
           </Grid>
         </Box>
+        <Box>
+          <h4
+            style={{
+              marginTop: 5,
+              marginBottom: 5,
+              fontFamily: "GmarketSansMedium",
+            }}
+          >
+            Time (mS)
+          </h4>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item>
+              <VolumeUp />
+            </Grid>
+            <Grid item xs>
+              <Slider
+                value={typeof valueTime === "number" ? valueTime : 0}
+                onChange={handleTimeSliderChange}
+                aria-labelledby="input-slider"
+                min={0}
+                max={200}
+                step={4}
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                size="small"
+                type="number"
+                style={{
+                  display: "inline-block",
+                  float: "right",
+                  backgroundColor: "white",
+                  width: 60,
+                }}
+                inputProps={{ style: { fontFamily: "GmarketSansMedium" } }}
+                onChange={handleTimeInputChange}
+                onBlur={handleTimeBlur}
+                value={valueTime}
+                variant="standard"
+              />
+            </Grid>
+          </Grid>
+        </Box>
       </Box>
       <Box
         style={{
@@ -349,6 +413,15 @@ export default function ExperimentPageModalMiddle(props) {
                       }}
                     >
                       Amplitude: {items.height}
+                    </h6>
+                    <h6
+                      style={{
+                        marginTop: 0,
+                        marginBottom: 5,
+                        fontFamily: "GmarketSansMedium",
+                      }}
+                    >
+                      Time: {items.Time}
                     </h6>
                     <Button
                       onClick={() =>

@@ -14,9 +14,9 @@ import ExperimentsResultPage from "../pages/ExperimentsResultPage/ExperimentsRes
 import "./App.css";
 import Box from "@mui/material/Box";
 import cookie from "../../API/cookie";
+import WebGLPage from "../pages/WebGLPage/WebGLPage";
 
 const App = () => {
-  
   var user_id = cookie.getCookie("userAccount");
 
   return (
@@ -27,7 +27,7 @@ const App = () => {
             <Route
               path="/"
               element={
-                user_id == '' ? (
+                user_id == "" ? (
                   <Box style={{ display: "flex", width: "100%" }}>
                     <Box style={{ width: "100%" }}>
                       <LoginPage />
@@ -130,6 +130,16 @@ const App = () => {
                   <Box style={{ width: "100%" }}>
                     <Header />
                     <LicensePage />
+                  </Box>
+                </Box>
+              }
+            />
+            <Route
+              path="/WebGLPage"
+              element={
+                <Box style={{ display: "flex", width: "100%" }}>
+                  <Box style={{ width: "100%" }}>
+                    <WebGLPage />
                   </Box>
                 </Box>
               }
