@@ -344,7 +344,7 @@ export default function ExperimentPageModalMiddle(props) {
                 onChange={handleTimeSliderChange}
                 aria-labelledby="input-slider"
                 min={0}
-                max={200}
+                max={300}
                 step={4}
               />
             </Grid>
