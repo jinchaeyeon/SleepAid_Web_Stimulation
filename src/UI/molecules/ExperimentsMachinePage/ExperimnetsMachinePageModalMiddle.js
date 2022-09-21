@@ -171,7 +171,7 @@ export default function ExperimentPageModalMiddle(props) {
                 var uint8array_height = new TextEncoder().encode(cmd_height);
                 deviceChar.writeValueWithoutResponse(uint8array_height)
                 .then(function () {
-                  const cmd_long = "111|" + sti_long;
+                  const cmd_long = "110|" + sti_long;
                   var uint8array_long = new TextEncoder().encode(cmd_long);
                   deviceChar.writeValueWithoutResponse(uint8array_long);
                 });
@@ -181,6 +181,7 @@ export default function ExperimentPageModalMiddle(props) {
 
     const getData = async () => {
       const infoData = await Api.getPostStimulus(obj, defaultValue);
+      console.log(infoData);
     };
     getData();
   }
