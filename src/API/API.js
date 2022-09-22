@@ -354,7 +354,10 @@ const Api = {
   },
   getAPI_Stimulus: async(id, defaultValue) => {
     return await getJsonRequest(`/protocolExpStimulus/${id}`, {}, defaultValue)
-  }
+  },
+  getAPI_PostFile: async(obj,defaultValue) => {
+    return await postJsonReqest(`/upload/`, obj, defaultValue)
+  },
 };
 
 export default Api;

@@ -53,8 +53,20 @@ export default function ExperimentSubPageChangeModalMiddle(props) {
     setLink(event.target.value);
   };
 
-  const FileChange = () => {
-    const Files = FileInput.current.files;
+  const FileChange = (e) => {
+    const Files = e.target.files[0];
+    const FormDatas = new FormData();
+    FormDatas.append('fileData', Files);
+    const getData = async () => {
+      const infoBody = await Api.getAPI_PostFile(
+        FormDatas,
+        defaultValue
+      );
+      if(infoBody.status == 200) {
+        alert('upload!');
+      }
+    };
+    getData();
     setFile(Files);
   };
 

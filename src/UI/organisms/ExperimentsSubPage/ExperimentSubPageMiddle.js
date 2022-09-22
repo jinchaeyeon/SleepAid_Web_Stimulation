@@ -195,14 +195,14 @@ export default function ExperimentSubPageMiddle(props) {
     file,
     defaultValue
   ) => {
-    const getData = async () => {
+      const getData = async () => {
       const infoBody = await Api.getAPI_ExperimentSubCreate(
         name,
         sex,
         birthday,
         maindiagnosis,
         link,
-        file,
+        file.name,
         Experimentsid,
         defaultValue
       );
@@ -322,10 +322,22 @@ export default function ExperimentSubPageMiddle(props) {
       );
       infoBody.data.map((item) => {
         var link_txt = "";
-        if (item.survey_link != "")
+        if (item.survey_link != ""){
           link_txt =
             '<a href="' + item.survey_link + '" target="_blank">link</a>';
-
+        }
+        else {
+          link_txt ="null"
+        }
+        var agree_txt = "";
+        if (item.agree_filename != ""){
+          var api_base_url = "http://localhost:8000";
+          agree_txt =
+          '<a href="'+api_base_url+'/files/'+item.agree_filename+'" target="_blank">'+item.agree_filename+'</a>';
+        }
+        else {
+          agree_txt ="null"
+        }
         var sdiagnosis = item.diagnosis;
         d.push(
           createData(
@@ -338,7 +350,7 @@ export default function ExperimentSubPageMiddle(props) {
             item.exp_duration,
             item.maxstimulus,
             link_txt,
-            item.agree_filename,
+            agree_txt,
             "button"
           )
         );
