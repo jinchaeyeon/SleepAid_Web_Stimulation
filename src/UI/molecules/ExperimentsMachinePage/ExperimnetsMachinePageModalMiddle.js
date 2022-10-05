@@ -1,35 +1,16 @@
 import * as React from "react";
-import { styled } from "@mui/material/styles";
 import {
   Box,
   Button,
-  Card,
-  CardContent,
   Grid,
   Slider,
   TextField,
 } from "@mui/material";
 import VolumeUp from "@mui/icons-material/VolumeUp";
-import Api from '../../../API/API';
-import cookie from '../../../API/cookie';
 
-var defaultValue;
-
-let user_id = cookie.getCookie("userAccount")
-  ? cookie.getCookie("userAccount")
-  : "";
-var api_token = cookie.getCookie("accessToken");
-
-if (user_id) {
-  defaultValue = {
-    key: api_token,
-  };
-}
 var bluetoothService = null;
 const WRITE_UUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
 export default function ExperimentPageModalMiddle(props) {
-  const protocol_exp_id = window.location.href.split("/")[5];
-  const time = props.data;
   const machine = props.machine;
   const [valueWidth, setValueWidth] = React.useState(200);
   const [valueDuration, setValueDuration] = React.useState(200);
@@ -113,36 +94,10 @@ export default function ExperimentPageModalMiddle(props) {
     AddStimulus(valueWidth, valueDuration, valueAmplitude, valueTime);
   };
 
-  const handleElectronic = (width, duration, Amplitude, Time) => {
-    props.propFunction(false);
-    AddStimulus(width, duration, Amplitude, Time);
-    setValueWidth(width);
-    setValueDuration(duration);
-    setValueAmplitude(Amplitude);
-    setValueTime(Time)
-  };
-
   React.useEffect(() => {
-    const getData = async () => {
-      const infoData = await Api.getAPI_Stimulus(protocol_exp_id, defaultValue);
-      setList(infoData.data);
-    };
-    getData();
-
   }, []);
 
   function AddStimulus(width, duration, Amplitude, Time) {
-    var id = protocol_exp_id;
-
-    var obj = {
-      proto_exp_id: id,
-      intensity: width,
-      interval: duration,
-      height: Amplitude,
-      long: Time,
-      time: time,
-    };
-
     var sti_intensity = width;
     sti_intensity = parseInt(sti_intensity);
     var sti_interval = duration;
@@ -179,11 +134,7 @@ export default function ExperimentPageModalMiddle(props) {
           });
       });
 
-    const getData = async () => {
-      const infoData = await Api.getPostStimulus(obj, defaultValue);
-      console.log(infoData);
-    };
-    getData();
+      alert("자극 전달 완료");
   }
 
   return (
@@ -366,92 +317,6 @@ export default function ExperimentPageModalMiddle(props) {
                 variant="standard"
               />
             </Grid>
-          </Grid>
-        </Box>
-      </Box>
-      <Box
-        style={{
-          padding: "0px 10px 30px 10px",
-          border: "1px solid black",
-          borderRadius: 5,
-          width: "90%",
-          marginBottom: 10,
-        }}
-      >
-        <h4
-          style={{
-            marginTop: 5,
-            marginBottom: 5,
-            fontFamily: "GmarketSansMedium",
-          }}
-        >
-          자극 목록
-        </h4>
-        <Box style={{ borderTop: "1px solid #000", paddingTop: 0 }}>
-          <Grid container spacing={2} alignItems="center">
-            {list.map((items, index) => (
-              <Grid item xs={3} sm={3} md={3} key={index}>
-                <Card key={index}>
-                  <CardContent>
-                    <h6
-                      style={{
-                        marginTop: 0,
-                        marginBottom: 0,
-                        fontFamily: "GmarketSansMedium",
-                      }}
-                    >
-                      width: {items.intensity}
-                    </h6>
-                    <h6
-                      style={{
-                        marginTop: 0,
-                        marginBottom: 0,
-                        fontFamily: "GmarketSansMedium",
-                      }}
-                    >
-                      Duration: {items.interval}
-                    </h6>
-                    <h6
-                      style={{
-                        marginTop: 0,
-                        marginBottom: 5,
-                        fontFamily: "GmarketSansMedium",
-                      }}
-                    >
-                      Amplitude: {items.height}
-                    </h6>
-                    <h6
-                      style={{
-                        marginTop: 0,
-                        marginBottom: 5,
-                        fontFamily: "GmarketSansMedium",
-                      }}
-                    >
-                      Time: {items.long}
-                    </h6>
-                    <Button
-                      onClick={() =>
-                        handleElectronic(
-                          items.intensity,
-                          items.interval,
-                          items.height
-                        )
-                      }
-                      style={{
-                        marginTop: 0,
-                        marginBottom: 0,
-                        fontFamily: "GmarketSansMedium",
-                      }}
-                      variant="outlined"
-                      size="small"
-                      fullWidth
-                    >
-                      사용
-                    </Button>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
           </Grid>
         </Box>
       </Box>

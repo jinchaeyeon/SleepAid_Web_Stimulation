@@ -55,12 +55,12 @@ function Header() {
       <Box
         style={{
           width: "100%",
-          height: "10vh",
+          height: "10.7vh",
           backgroundColor: "#191919",
           borderBottom: "2px solid #333333",
         }}
       >
-          <Button
+        <Button
             style={{
               float: "right",
               marginRight: 20,
@@ -74,14 +74,23 @@ function Header() {
             onClick={Logout}
           >
             Log Out
-          </Button>
+        </Button>
         <Button
           id="basic-button"
           aria-controls={open ? "basic-menu" : undefined}
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
           onClick={handleClick}
-          style={{ float: "right", height: "100%", color: "#CCCCCC",fontFamily: 'GmarketSansMedium' }}
+          style={{
+            float: "right",
+            marginRight: 20,
+            color: "#CCCCCC",
+            borderRadius: 40,
+            backgroundColor: "#393939",
+            height: 40,
+            marginTop: 18,
+            fontFamily: 'GmarketSansMedium'
+          }}
         >
           {cookie.getCookie('userAccount')}
         </Button>

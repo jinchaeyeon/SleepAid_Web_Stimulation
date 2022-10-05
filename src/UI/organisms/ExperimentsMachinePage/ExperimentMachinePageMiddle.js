@@ -6,23 +6,9 @@ var g_recv_idx = 0;
 
 export default function ExperimentMachinePageMiddle(props) {
   function handleprops(
-    t,
-    B3_5_EEG1,
-    B6_8_EEG2,
-    B9_11_PPG_avg,
-    B27_28_X,
-    B29_30_Y,
-    B31_32_Z,
     bluetoothService
   ) {
     props.propFunction(
-      t,
-      B3_5_EEG1,
-      B6_8_EEG2,
-      B9_11_PPG_avg,
-      B27_28_X,
-      B29_30_Y,
-      B31_32_Z,
       bluetoothService
     );
   }
@@ -135,20 +121,13 @@ export default function ExperimentMachinePageMiddle(props) {
                           var B31_32_Z = td.getUint16(30);
                         }
                         handleprops(
-                          t,
-                          B3_5_EEG1,
-                          B6_8_EEG2,
-                          parseInt(B9_11_PPG_avg / DATA.length),
-                          B27_28_X,
-                          B29_30_Y,
-                          B31_32_Z,
                           service
                         );
                       }
                       pt = ct;
                     }
                   );
-                });
+                })
               });
           });
       });

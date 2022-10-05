@@ -1,9 +1,5 @@
 import React from "react";
-import { SidebarData } from "./SidebarData";
-import SubMenu from "./SubMenu";
 import {Box} from '@mui/material'
-
-import Api from "../../../API/API";
 import cookie from "../../../API/cookie";
 
 var defaultValue;
@@ -41,21 +37,6 @@ const Sidebar = () => {
               src={`${publicUrl}/logo.png`}
             />
           </a>
-        </Box>
-        <Box>
-          <Box>
-            {SidebarData.map((item, index) => {
-              if(is_staff == "true"){
-                return <SubMenu item={item} key={index} />;
-              }
-              else{
-                if(item.title == "Member(ADMIN)" ||item.title == "License(ADMIN)") {}
-                else {
-                  return <SubMenu item={item} key={index} />;
-                }
-              }
-            })}
-          </Box>
         </Box>
       </Box>
     </>
