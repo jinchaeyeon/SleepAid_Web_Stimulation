@@ -35,7 +35,9 @@ function Header() {
     setAnchorEl(null);
     setOpenTrue(true);
   };
-
+  const handleClose2= () => {
+    setAnchorEl(null);
+  };
   const Logout = async() => {
     deleteAllCookies()
     window.location.href = "/";
@@ -98,7 +100,7 @@ function Header() {
           id="basic-menu"
           anchorEl={anchorEl}
           open={open}
-          onClose={handleClose}
+          onClose={handleClose2}
           PaperProps={{
             style: {
               backgroundColor: "#A3A5B5",
