@@ -1,70 +1,463 @@
-import { Box, Button, Modal, Paper } from "@mui/material";
-import React from "react";
-import ExperimentsMachinePageModalHeader from '../../molecules/ExperimentsMachinePage/ExperimentsMachinePageModalHeader';
-import ExperimentsMachinePageModalMiddle from '../../molecules/ExperimentsMachinePage/ExperimnetsMachinePageModalMiddle';
-import cookie from "../../../API/cookie";
+import * as React from "react";
+import {
+  Box,
+  Button,
+  Grid,
+  Slider,
+  TextField,
+  Paper,
+  Card,
+  CardContent,
+  Typography
+} from "@mui/material";
+import VolumeUp from "@mui/icons-material/VolumeUp";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "40%",
-  minWidth: 600,
-  bgcolor: "#383b40",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
-var defaultValue;
-
-let user_id = cookie.getCookie("userAccount")
-  ? cookie.getCookie("userAccount")
-  : "";
-var api_token = cookie.getCookie("accessToken");
-
-if (user_id) {
-  defaultValue = {
-    key: api_token,
-  };
-}
+var bluetoothService = null;
+const WRITE_UUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
 
 function ExperimentMachineListPageMiddle(props) {
   const machine = props.machine;
-  const [openTrue, setOpenTrue] = React.useState(false);
-  const handleOpenTrue = () => {
-    setOpenTrue(true);
+  const [valueWidth, setValueWidth] = React.useState(200);
+  const [valueDuration, setValueDuration] = React.useState(200);
+  const [valueAmplitude, setValueAmplitude] = React.useState(4095);
+  const [valueTime, setValueTime] = React.useState(300);
+  const handleWidthSliderChange = (event, newValue) => {
+    setValueWidth(newValue);
   };
-  const handleCloseTrue = () => setOpenTrue(false);
+
+  const handleWidthInputChange = (event) => {
+    setValueWidth(event.target.value === "" ? "" : Number(event.target.value));
+  };
+
+  const handleWidthBlur = () => {
+    if (valueWidth < 0) {
+      setValueWidth(0);
+    } else if (valueWidth > 300) {
+      setValueWidth(300);
+    }
+  };
+
+  const handleDurationSliderChange = (event, newValue) => {
+    setValueDuration(newValue);
+  };
+
+  const handleDurationInputChange = (event) => {
+    setValueDuration(
+      event.target.value === "" ? "" : Number(event.target.value)
+    );
+  };
+
+  const handleDurationBlur = () => {
+    if (valueDuration < 0) {
+      setValueDuration(0);
+    } else if (valueDuration > 200) {
+      setValueDuration(200);
+    }
+  };
+
+  const handleAmplitudeSliderChange = (event, newValue) => {
+    setValueAmplitude(newValue);
+  };
+
+  const handleAmplitudeInputChange = (event) => {
+    setValueAmplitude(
+      event.target.value === "" ? "" : Number(event.target.value)
+    );
+  };
+
+  const handleAmplitudeBlur = () => {
+    if (valueAmplitude < 0) {
+      setValueAmplitude(0);
+    } else if (valueAmplitude > 4095) {
+      setValueAmplitude(4095);
+    }
+  };
+
+  const handleTimeSliderChange = (event, newValue) => {
+    setValueTime(newValue);
+  };
+
+  const handleTimeInputChange = (event) => {
+    setValueTime(event.target.value === "" ? "" : Number(event.target.value));
+  };
+
+  const handleTimeBlur = () => {
+    if (valueTime < 0) {
+      setValueTime(0);
+    } else if (valueTime > 300) {
+      setValueTime(300);
+    }
+  };
+
+  const handleup = () => {
+    AddStimulus(valueWidth, valueDuration, valueAmplitude, valueTime);
+  };
+
+  const handleup1 = () => {
+    AddStimulus(250, 50, 400, 100);
+  };
+
+  const handleup2 = () => {
+    AddStimulus(250, 50, 200, 100);
+  };
+
+  const handleup3 = () => {
+    AddStimulus(250, 50, 100, 100);
+  };
+
+  React.useEffect(() => {
+  }, []);
+
+  function AddStimulus(width, duration, Amplitude, Time) {
+    var sti_intensity = width;
+    sti_intensity = parseInt(sti_intensity);
+    var sti_interval = duration;
+    sti_interval = parseInt(sti_interval);
+    var sti_height = Amplitude;
+    sti_height = parseInt(sti_height);
+    var sti_long = Time;
+    sti_long = parseInt(sti_long);
+
+    bluetoothService = machine;
+    bluetoothService
+      .getCharacteristic(WRITE_UUID)
+      .then(function (characteristic) {
+        var deviceChar = characteristic;
+        const cmd_intense = "102|" + sti_intensity;
+        var uint8array_intense = new TextEncoder().encode(cmd_intense);
+        deviceChar
+          .writeValueWithoutResponse(uint8array_intense)
+          .then(function () {
+            const cmd_interval = "104|" + sti_interval;
+            var uint8array_interval = new TextEncoder().encode(cmd_interval);
+            deviceChar
+              .writeValueWithoutResponse(uint8array_interval)
+              .then(function () {
+                const cmd_height = "106|" + sti_height;
+                var uint8array_height = new TextEncoder().encode(cmd_height);
+                deviceChar.writeValueWithoutResponse(uint8array_height)
+                  .then(function () {
+                    const cmd_long = "110|" + sti_long;
+                    var uint8array_long = new TextEncoder().encode(cmd_long);
+                    deviceChar.writeValueWithoutResponse(uint8array_long);
+                  });
+              });
+          });
+      });
+
+    alert("자극 전달 완료");
+  }
 
   return (
     <Paper
-      style={{ height: "70vh", width: "100%", backgroundColor: "#131313" }}
+      style={{ height: "100vh", width: "100%", backgroundColor: "#131313" }}
     >
-      <Button
-        style={{
-          position: "absolute",
-          color: "white",
-          top: "50%",
-          left: "48%",
-          fontFamily: "GmarketSansMedium",
-        }}
-        size="large"
-        variant="contained"
-        onClick={handleOpenTrue}
-      >
-        자극 설정
-      </Button>
-      <Modal
-        open={openTrue}
-        onClose={handleCloseTrue}
-        BackdropProps={{ style: { opacity: 0.2 } }}
-      >
-        <Box sx={style}>
-          <ExperimentsMachinePageModalHeader propFunction={handleCloseTrue} />
-          <ExperimentsMachinePageModalMiddle machine={machine} propFunction={handleCloseTrue} />
+      <Box style={{ color: "#CCCCCC"}}>
+        <Box
+          style={{
+            padding: "0px 10px 30px 10px",
+            borderRadius: 5,
+            width: "90%",
+            marginRight: "5%",
+            marginLeft: "5%",
+          }}
+        >
+          <Box>
+            <h4
+              style={{
+                marginTop: 0,
+                marginBottom: 5,
+                fontFamily: "GmarketSansMedium",
+              }}
+            >
+              width
+            </h4>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item>
+                <VolumeUp />
+              </Grid>
+              <Grid item xs>
+                <Slider
+                  value={typeof valueWidth === "number" ? valueWidth : 0}
+                  onChange={handleWidthSliderChange}
+                  aria-labelledby="input-slider"
+                  min={0}
+                  max={300}
+                  step={10}
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  size="small"
+                  type="number"
+                  style={{
+                    display: "inline-block",
+                    float: "right",
+                    backgroundColor: "white",
+                    width: 60,
+                  }}
+                  inputProps={{ style: { fontFamily: "GmarketSansMedium" } }}
+                  onChange={handleWidthInputChange}
+                  onBlur={handleWidthBlur}
+                  value={valueWidth}
+                  variant="standard"
+                />
+              </Grid>
+            </Grid>
+          </Box>
+          <Box>
+            <h4
+              style={{
+                marginTop: 5,
+                marginBottom: 5,
+                fontFamily: "GmarketSansMedium",
+              }}
+            >
+              Duration (mS)
+            </h4>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item>
+                <VolumeUp />
+              </Grid>
+              <Grid item xs>
+                <Slider
+                  value={typeof valueDuration === "number" ? valueDuration : 0}
+                  onChange={handleDurationSliderChange}
+                  aria-labelledby="input-slider"
+                  min={0}
+                  max={200}
+                  step={4}
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  size="small"
+                  type="number"
+                  style={{
+                    display: "inline-block",
+                    float: "right",
+                    backgroundColor: "white",
+                    width: 60,
+                  }}
+                  inputProps={{ style: { fontFamily: "GmarketSansMedium" } }}
+                  onChange={handleDurationInputChange}
+                  onBlur={handleDurationBlur}
+                  value={valueDuration}
+                  variant="standard"
+                />
+              </Grid>
+            </Grid>
+          </Box>
+          <Box>
+            <h4
+              style={{
+                marginTop: 5,
+                marginBottom: 5,
+                fontFamily: "GmarketSansMedium",
+              }}
+            >
+              Amplitude (mA)
+            </h4>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item>
+                <VolumeUp />
+              </Grid>
+              <Grid item xs>
+                <Slider
+                  value={typeof valueAmplitude === "number" ? valueAmplitude : 0}
+                  onChange={handleAmplitudeSliderChange}
+                  aria-labelledby="input-slider"
+                  min={0}
+                  max={4095}
+                  step={1}
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  size="small"
+                  type="number"
+                  style={{
+                    display: "inline-block",
+                    float: "right",
+                    backgroundColor: "white",
+                    width: 60,
+                  }}
+                  onChange={handleAmplitudeInputChange}
+                  onBlur={handleAmplitudeBlur}
+                  value={valueAmplitude}
+                  variant="standard"
+                  inputProps={{ style: { fontFamily: "GmarketSansMedium" } }}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+          <Box>
+            <h4
+              style={{
+                marginTop: 5,
+                marginBottom: 5,
+                fontFamily: "GmarketSansMedium",
+              }}
+            >
+              Time (mS)
+            </h4>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item>
+                <VolumeUp />
+              </Grid>
+              <Grid item xs>
+                <Slider
+                  value={typeof valueTime === "number" ? valueTime : 0}
+                  onChange={handleTimeSliderChange}
+                  aria-labelledby="input-slider"
+                  min={0}
+                  max={300}
+                  step={4}
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  size="small"
+                  type="number"
+                  style={{
+                    display: "inline-block",
+                    float: "right",
+                    backgroundColor: "white",
+                    width: 60,
+                  }}
+                  inputProps={{ style: { fontFamily: "GmarketSansMedium" } }}
+                  onChange={handleTimeInputChange}
+                  onBlur={handleTimeBlur}
+                  value={valueTime}
+                  variant="standard"
+                />
+              </Grid>
+            </Grid>
+          </Box>
+          <Box sx={{marginTop: 5}}>
+            <Typography sx={{ fontSize: 25, fontFamily: "GmarketSansMedium" }} color="white" >
+              자극 메뉴얼
+            </Typography>
+            <Grid container>
+              <Grid item lg={4} md={4} sm={4} xs={1}>
+                <Card sx={{ width: "90%", backgroundColor: "#393939" }}>
+                  <CardContent>
+                    <Typography sx={{ fontSize: 20, fontFamily: "GmarketSansMedium" }} color="white" >
+                      1번
+                    </Typography>
+                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
+                      width: 250
+                    </Typography>
+                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
+                      duration: 50
+                    </Typography>
+                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
+                      amplitude: 400
+                    </Typography>
+                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
+                      Time: 100
+                    </Typography>
+                    <Button
+                      style={{
+                        color: "black",
+                        borderRadius: 10,
+                        backgroundColor: "#CCCCCC",
+                        fontFamily: "GmarketSansMedium",
+                        float: "right",
+                        marginBottom: 15
+                      }}
+                      onClick={handleup1}
+                    >
+                      자극 사용
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item lg={4} md={4} sm={4} xs={1}>
+                <Card sx={{ width: "90%", backgroundColor: "#393939" }}>
+                  <CardContent>
+                    <Typography sx={{ fontSize: 20, fontFamily: "GmarketSansMedium" }} color="white" >
+                      2번
+                    </Typography>
+                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
+                      width: 250
+                    </Typography>
+                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
+                      duration: 50
+                    </Typography>
+                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
+                      amplitude: 200
+                    </Typography>
+                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
+                      Time: 100
+                    </Typography>
+                    <Button
+                      style={{
+                        color: "black",
+                        borderRadius: 10,
+                        backgroundColor: "#CCCCCC",
+                        fontFamily: "GmarketSansMedium",
+                        float: "right",
+                        marginBottom: 15
+                      }}
+                      onClick={handleup2}
+                    >
+                      자극 사용
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item lg={4} md={4} sm={4} xs={1}>
+                <Card sx={{ width: "90%", backgroundColor: "#393939" }}>
+                  <CardContent>
+                    <Typography sx={{ fontSize: 20, fontFamily: "GmarketSansMedium" }} color="white" >
+                      3번
+                    </Typography>
+                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
+                      width: 250
+                    </Typography>
+                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
+                      duration: 50
+                    </Typography>
+                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
+                      amplitude: 100
+                    </Typography>
+                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
+                      Time: 100
+                    </Typography>
+                    <Button
+                      style={{
+                        color: "black",
+                        borderRadius: 10,
+                        backgroundColor: "#CCCCCC",
+                        fontFamily: "GmarketSansMedium",
+                        float: "right",
+                        marginBottom: 15
+                      }}
+                      onClick={handleup3}
+                    >
+                      자극 사용
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
+          </Box>
+          <Button
+            style={{
+              color: "white",
+              borderRadius: 10,
+              backgroundColor: "#2877b9",
+              marginTop: 50,
+              float: "right",
+              fontFamily: "GmarketSansMedium",
+            }}
+            onClick={handleup}
+          >
+            자극 설정
+          </Button>
         </Box>
-      </Modal>
+      </Box>
     </Paper>
   );
 }

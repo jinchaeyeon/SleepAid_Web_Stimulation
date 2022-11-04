@@ -135,7 +135,7 @@ export default function ExperimentMachinePageMiddle(props) {
   }
   return (
     <Paper
-      style={{ height: "70vh", width: "100%", backgroundColor: "#131313" }}
+      style={{ height: "100vh", width: "100%", backgroundColor: "#131313" }}
     >
       <h3
         style={{
