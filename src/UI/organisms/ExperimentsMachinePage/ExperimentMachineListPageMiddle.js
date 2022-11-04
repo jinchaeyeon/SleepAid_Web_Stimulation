@@ -148,6 +148,110 @@ function ExperimentMachineListPageMiddle(props) {
     alert("자극 전달 완료");
   }
 
+  function widthValue(){
+    if(valueWidth == 0) {
+      return 0;
+    } else if(valueWidth == 30){
+      return 1;
+    } else if(valueWidth == 60){
+      return 2;
+    }  else if(valueWidth == 90){
+      return 3;
+    } else if(valueWidth == 120){
+      return 4;
+    } else if(valueWidth == 150){
+      return 5;
+    } else if(valueWidth == 180){
+      return 6;
+    } else if(valueWidth == 210){
+      return 7;
+    } else if(valueWidth == 240){
+      return 8;
+    } else if(valueWidth == 270){
+      return 9;
+    } else {
+      return 10;
+    }
+  }
+
+  function widthDuration(){
+    if(valueDuration == 0) {
+      return 0;
+    } else if(valueDuration == 20){
+      return 1;
+    } else if(valueDuration == 40){
+      return 2;
+    }  else if(valueDuration == 60){
+      return 3;
+    } else if(valueDuration == 80){
+      return 4;
+    } else if(valueDuration == 100){
+      return 5;
+    } else if(valueDuration == 120){
+      return 6;
+    } else if(valueDuration == 140){
+      return 7;
+    } else if(valueDuration == 160){
+      return 8;
+    } else if(valueDuration == 180){
+      return 9;
+    } else {
+      return 10;
+    }
+  }
+
+  function widthAmplitude(){
+    if(valueAmplitude == 0) {
+      return 0;
+    } else if(valueAmplitude == 409.5){
+      return 1;
+    } else if(valueAmplitude == 819){
+      return 2;
+    }  else if(valueAmplitude == 1228.5){
+      return 3;
+    } else if(valueAmplitude == 1638){
+      return 4;
+    } else if(valueAmplitude == 2047.5){
+      return 5;
+    } else if(valueAmplitude == 2457){
+      return 6;
+    } else if(valueAmplitude == 2866.5){
+      return 7;
+    } else if(valueAmplitude == 3276){
+      return 8;
+    } else if(valueAmplitude == 3685.5){
+      return 9;
+    } else {
+      return 10;
+    }
+  }
+
+  function widthTime(){
+    if(valueTime == 0) {
+      return 0;
+    } else if(valueWidth == 30){
+      return 1;
+    } else if(valueTime == 60){
+      return 2;
+    }  else if(valueTime == 90){
+      return 3;
+    } else if(valueTime == 120){
+      return 4;
+    } else if(valueTime == 150){
+      return 5;
+    } else if(valueTime == 180){
+      return 6;
+    } else if(valueTime == 210){
+      return 7;
+    } else if(valueTime == 240){
+      return 8;
+    } else if(valueTime == 270){
+      return 9;
+    } else {
+      return 10;
+    }
+  }
+
   return (
     <Paper
       style={{ height: "100vh", width: "100%", backgroundColor: "#131313" }}
@@ -183,25 +287,11 @@ function ExperimentMachineListPageMiddle(props) {
                   aria-labelledby="input-slider"
                   min={0}
                   max={300}
-                  step={10}
+                  step={30}
                 />
               </Grid>
               <Grid item>
-                <TextField
-                  size="small"
-                  type="number"
-                  style={{
-                    display: "inline-block",
-                    float: "right",
-                    backgroundColor: "white",
-                    width: 60,
-                  }}
-                  inputProps={{ style: { fontFamily: "GmarketSansMedium" } }}
-                  onChange={handleWidthInputChange}
-                  onBlur={handleWidthBlur}
-                  value={valueWidth}
-                  variant="standard"
-                />
+                <h3>{widthValue()}</h3>
               </Grid>
             </Grid>
           </Box>
@@ -226,25 +316,13 @@ function ExperimentMachineListPageMiddle(props) {
                   aria-labelledby="input-slider"
                   min={0}
                   max={200}
-                  step={4}
+                  step={20}
                 />
               </Grid>
               <Grid item>
-                <TextField
-                  size="small"
-                  type="number"
-                  style={{
-                    display: "inline-block",
-                    float: "right",
-                    backgroundColor: "white",
-                    width: 60,
-                  }}
-                  inputProps={{ style: { fontFamily: "GmarketSansMedium" } }}
-                  onChange={handleDurationInputChange}
-                  onBlur={handleDurationBlur}
-                  value={valueDuration}
-                  variant="standard"
-                />
+              <Grid item>
+                <h3>{widthDuration()}</h3>
+              </Grid>
               </Grid>
             </Grid>
           </Box>
@@ -269,25 +347,13 @@ function ExperimentMachineListPageMiddle(props) {
                   aria-labelledby="input-slider"
                   min={0}
                   max={4095}
-                  step={1}
+                  step={409.5}
                 />
               </Grid>
               <Grid item>
-                <TextField
-                  size="small"
-                  type="number"
-                  style={{
-                    display: "inline-block",
-                    float: "right",
-                    backgroundColor: "white",
-                    width: 60,
-                  }}
-                  onChange={handleAmplitudeInputChange}
-                  onBlur={handleAmplitudeBlur}
-                  value={valueAmplitude}
-                  variant="standard"
-                  inputProps={{ style: { fontFamily: "GmarketSansMedium" } }}
-                />
+              <Grid item>
+                <h3>{widthAmplitude()}</h3>
+              </Grid>
               </Grid>
             </Grid>
           </Box>
@@ -312,25 +378,11 @@ function ExperimentMachineListPageMiddle(props) {
                   aria-labelledby="input-slider"
                   min={0}
                   max={300}
-                  step={4}
+                  step={30}
                 />
               </Grid>
               <Grid item>
-                <TextField
-                  size="small"
-                  type="number"
-                  style={{
-                    display: "inline-block",
-                    float: "right",
-                    backgroundColor: "white",
-                    width: 60,
-                  }}
-                  inputProps={{ style: { fontFamily: "GmarketSansMedium" } }}
-                  onChange={handleTimeInputChange}
-                  onBlur={handleTimeBlur}
-                  value={valueTime}
-                  variant="standard"
-                />
+                <h3>{widthTime()}</h3>
               </Grid>
             </Grid>
           </Box>
