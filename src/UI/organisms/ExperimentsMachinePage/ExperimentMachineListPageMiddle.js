@@ -24,69 +24,17 @@ function ExperimentMachineListPageMiddle(props) {
   const handleWidthSliderChange = (event, newValue) => {
     setValueWidth(newValue);
   };
-
-  const handleWidthInputChange = (event) => {
-    setValueWidth(event.target.value === "" ? "" : Number(event.target.value));
-  };
-
-  const handleWidthBlur = () => {
-    if (valueWidth < 0) {
-      setValueWidth(0);
-    } else if (valueWidth > 300) {
-      setValueWidth(300);
-    }
-  };
-
+  
   const handleDurationSliderChange = (event, newValue) => {
     setValueDuration(newValue);
-  };
-
-  const handleDurationInputChange = (event) => {
-    setValueDuration(
-      event.target.value === "" ? "" : Number(event.target.value)
-    );
-  };
-
-  const handleDurationBlur = () => {
-    if (valueDuration < 0) {
-      setValueDuration(0);
-    } else if (valueDuration > 200) {
-      setValueDuration(200);
-    }
   };
 
   const handleAmplitudeSliderChange = (event, newValue) => {
     setValueAmplitude(newValue);
   };
 
-  const handleAmplitudeInputChange = (event) => {
-    setValueAmplitude(
-      event.target.value === "" ? "" : Number(event.target.value)
-    );
-  };
-
-  const handleAmplitudeBlur = () => {
-    if (valueAmplitude < 0) {
-      setValueAmplitude(0);
-    } else if (valueAmplitude > 4095) {
-      setValueAmplitude(4095);
-    }
-  };
-
   const handleTimeSliderChange = (event, newValue) => {
     setValueTime(newValue);
-  };
-
-  const handleTimeInputChange = (event) => {
-    setValueTime(event.target.value === "" ? "" : Number(event.target.value));
-  };
-
-  const handleTimeBlur = () => {
-    if (valueTime < 0) {
-      setValueTime(0);
-    } else if (valueTime > 300) {
-      setValueTime(300);
-    }
   };
 
   const handleup = () => {
