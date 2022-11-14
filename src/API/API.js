@@ -1,6 +1,6 @@
 import axios from "axios";
 import cookie from "./cookie";
-const api = "http://35.216.17.203";
+const api = "http://35.216.17.203:8887";
 var defaultValue;
 
 let user_id = cookie.getCookie("userAccount")
