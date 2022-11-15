@@ -21,10 +21,66 @@ function ExperimentMachineListPageMiddle(props) {
   const [valueDuration, setValueDuration] = React.useState(200);
   const [valueAmplitude, setValueAmplitude] = React.useState(4095);
   const [valueTime, setValueTime] = React.useState(300);
+  const [valueLimit, setValueLimit] = React.useState(5);
+  const starttime = props.starttime;
+  const [Timer, setTimer] = React.useState(0);
+  const [timestatus, settimeStatus] = React.useState(false);
+  let endtime;
+
+  const [timestatus2, settimeStatus2] = React.useState(false);
+  const [starttime2, setstarttime2] = React.useState(undefined);
+  let endtime2;
+  setInterval(() => {
+    setTimer(Timer + 1);
+  }, 1000);
+  React.useEffect(() => {
+    if (starttime2 == undefined) {
+      if (!timestatus) {
+        endtime = new Date();
+        if (((endtime - starttime) / 1000) > 30) {
+          settimeStatus(true);
+          bluetoothService = machine;
+          bluetoothService
+            .getCharacteristic(WRITE_UUID)
+            .then(function (characteristic) {
+              var deviceChar = characteristic;
+              const cmd_intense = "100|0";
+              var uint8array_intense = new TextEncoder().encode(cmd_intense);
+              deviceChar
+                .writeValueWithoutResponse(uint8array_intense);
+            });
+        }
+      }
+    } else {
+      if (!timestatus2) {
+        endtime2 = new Date();
+        if (((endtime2 - starttime2) / (1000 * 60)) > valueLimit) {
+          settimeStatus2(true);
+          bluetoothService = machine;
+          bluetoothService
+            .getCharacteristic(WRITE_UUID)
+            .then(function (characteristic) {
+              var deviceChar = characteristic;
+              const cmd_intense = "910|0";
+              var uint8array_intense = new TextEncoder().encode(cmd_intense);
+              deviceChar
+                .writeValueWithoutResponse(uint8array_intense)
+                .then(function () {
+                  const cmd_interval = "100|0";
+                  var uint8array_interval = new TextEncoder().encode(cmd_interval);
+                  deviceChar
+                    .writeValueWithoutResponse(uint8array_interval);
+                });
+            });
+        }
+      }
+    }
+  },[Timer, starttime2])
+
   const handleWidthSliderChange = (event, newValue) => {
     setValueWidth(newValue);
   };
-  
+
   const handleDurationSliderChange = (event, newValue) => {
     setValueDuration(newValue);
   };
@@ -37,26 +93,30 @@ function ExperimentMachineListPageMiddle(props) {
     setValueTime(newValue);
   };
 
+  const handleLimitSliderChange = (event, newValue) => {
+    setValueLimit(newValue);
+  };
+
   const handleup = () => {
-    AddStimulus(valueWidth, valueDuration, valueAmplitude, valueTime);
+    AddStimulus(valueWidth, valueDuration, valueAmplitude, valueTime, valueLimit);
   };
 
   const handleup1 = () => {
-    AddStimulus(250, 50, 400, 100);
+    AddStimulus(250, 50, 400, 100, 15);
   };
 
   const handleup2 = () => {
-    AddStimulus(250, 50, 200, 100);
+    AddStimulus(250, 50, 200, 100, 15);
   };
 
   const handleup3 = () => {
-    AddStimulus(250, 50, 100, 100);
+    AddStimulus(250, 50, 100, 100, 15);
   };
 
   React.useEffect(() => {
   }, []);
 
-  function AddStimulus(width, duration, Amplitude, Time) {
+  function AddStimulus(width, duration, Amplitude, Time, limit) {
     var sti_intensity = width;
     sti_intensity = parseInt(sti_intensity);
     var sti_interval = duration;
@@ -92,108 +152,108 @@ function ExperimentMachineListPageMiddle(props) {
               });
           });
       });
-
+      setstarttime2(new Date());
     alert("자극 전달 완료");
   }
 
-  function widthValue(){
-    if(valueWidth == 0) {
+  function widthValue() {
+    if (valueWidth == 0) {
       return 0;
-    } else if(valueWidth == 30){
+    } else if (valueWidth == 30) {
       return 1;
-    } else if(valueWidth == 60){
+    } else if (valueWidth == 60) {
       return 2;
-    }  else if(valueWidth == 90){
+    } else if (valueWidth == 90) {
       return 3;
-    } else if(valueWidth == 120){
+    } else if (valueWidth == 120) {
       return 4;
-    } else if(valueWidth == 150){
+    } else if (valueWidth == 150) {
       return 5;
-    } else if(valueWidth == 180){
+    } else if (valueWidth == 180) {
       return 6;
-    } else if(valueWidth == 210){
+    } else if (valueWidth == 210) {
       return 7;
-    } else if(valueWidth == 240){
+    } else if (valueWidth == 240) {
       return 8;
-    } else if(valueWidth == 270){
+    } else if (valueWidth == 270) {
       return 9;
     } else {
       return 10;
     }
   }
 
-  function widthDuration(){
-    if(valueDuration == 0) {
+  function widthDuration() {
+    if (valueDuration == 0) {
       return 0;
-    } else if(valueDuration == 20){
+    } else if (valueDuration == 20) {
       return 1;
-    } else if(valueDuration == 40){
+    } else if (valueDuration == 40) {
       return 2;
-    }  else if(valueDuration == 60){
+    } else if (valueDuration == 60) {
       return 3;
-    } else if(valueDuration == 80){
+    } else if (valueDuration == 80) {
       return 4;
-    } else if(valueDuration == 100){
+    } else if (valueDuration == 100) {
       return 5;
-    } else if(valueDuration == 120){
+    } else if (valueDuration == 120) {
       return 6;
-    } else if(valueDuration == 140){
+    } else if (valueDuration == 140) {
       return 7;
-    } else if(valueDuration == 160){
+    } else if (valueDuration == 160) {
       return 8;
-    } else if(valueDuration == 180){
+    } else if (valueDuration == 180) {
       return 9;
     } else {
       return 10;
     }
   }
 
-  function widthAmplitude(){
-    if(valueAmplitude == 0) {
+  function widthAmplitude() {
+    if (valueAmplitude == 0) {
       return 0;
-    } else if(valueAmplitude == 409.5){
+    } else if (valueAmplitude == 409.5) {
       return 1;
-    } else if(valueAmplitude == 819){
+    } else if (valueAmplitude == 819) {
       return 2;
-    }  else if(valueAmplitude == 1228.5){
+    } else if (valueAmplitude == 1228.5) {
       return 3;
-    } else if(valueAmplitude == 1638){
+    } else if (valueAmplitude == 1638) {
       return 4;
-    } else if(valueAmplitude == 2047.5){
+    } else if (valueAmplitude == 2047.5) {
       return 5;
-    } else if(valueAmplitude == 2457){
+    } else if (valueAmplitude == 2457) {
       return 6;
-    } else if(valueAmplitude == 2866.5){
+    } else if (valueAmplitude == 2866.5) {
       return 7;
-    } else if(valueAmplitude == 3276){
+    } else if (valueAmplitude == 3276) {
       return 8;
-    } else if(valueAmplitude == 3685.5){
+    } else if (valueAmplitude == 3685.5) {
       return 9;
     } else {
       return 10;
     }
   }
 
-  function widthTime(){
-    if(valueTime == 0) {
+  function widthTime() {
+    if (valueTime == 0) {
       return 0;
-    } else if(valueWidth == 30){
+    } else if (valueWidth == 30) {
       return 1;
-    } else if(valueTime == 60){
+    } else if (valueTime == 60) {
       return 2;
-    }  else if(valueTime == 90){
+    } else if (valueTime == 90) {
       return 3;
-    } else if(valueTime == 120){
+    } else if (valueTime == 120) {
       return 4;
-    } else if(valueTime == 150){
+    } else if (valueTime == 150) {
       return 5;
-    } else if(valueTime == 180){
+    } else if (valueTime == 180) {
       return 6;
-    } else if(valueTime == 210){
+    } else if (valueTime == 210) {
       return 7;
-    } else if(valueTime == 240){
+    } else if (valueTime == 240) {
       return 8;
-    } else if(valueTime == 270){
+    } else if (valueTime == 270) {
       return 9;
     } else {
       return 10;
@@ -204,7 +264,7 @@ function ExperimentMachineListPageMiddle(props) {
     <Paper
       style={{ height: "100vh", width: "100%", backgroundColor: "#131313" }}
     >
-      <Box style={{ color: "#CCCCCC"}}>
+      <Box style={{ color: "#CCCCCC" }}>
         <Box
           style={{
             padding: "0px 10px 30px 10px",
@@ -268,9 +328,7 @@ function ExperimentMachineListPageMiddle(props) {
                 />
               </Grid>
               <Grid item>
-              <Grid item>
                 <h3>{widthDuration()}</h3>
-              </Grid>
               </Grid>
             </Grid>
           </Box>
@@ -299,9 +357,7 @@ function ExperimentMachineListPageMiddle(props) {
                 />
               </Grid>
               <Grid item>
-              <Grid item>
                 <h3>{widthAmplitude()}</h3>
-              </Grid>
               </Grid>
             </Grid>
           </Box>
@@ -334,7 +390,36 @@ function ExperimentMachineListPageMiddle(props) {
               </Grid>
             </Grid>
           </Box>
-          <Box sx={{marginTop: 5}}>
+          <Box>
+            <h4
+              style={{
+                marginTop: 5,
+                marginBottom: 5,
+                fontFamily: "GmarketSansMedium",
+              }}
+            >
+              limit (m)
+            </h4>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item>
+                <VolumeUp />
+              </Grid>
+              <Grid item xs>
+                <Slider
+                  value={typeof valueLimit === "number" ? valueLimit : 0}
+                  onChange={handleLimitSliderChange}
+                  aria-labelledby="input-slider"
+                  min={5}
+                  max={30}
+                  step={5}
+                />
+              </Grid>
+              <Grid item>
+                <h3>{valueLimit}</h3>
+              </Grid>
+            </Grid>
+          </Box>
+          <Box sx={{ marginTop: 5 }}>
             <Typography sx={{ fontSize: 25, fontFamily: "GmarketSansMedium" }} color="white" >
               자극 메뉴얼
             </Typography>
@@ -356,6 +441,9 @@ function ExperimentMachineListPageMiddle(props) {
                     </Typography>
                     <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
                       Time: 100
+                    </Typography>
+                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
+                      Limit: 15
                     </Typography>
                     <Button
                       style={{
@@ -391,6 +479,9 @@ function ExperimentMachineListPageMiddle(props) {
                     <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
                       Time: 100
                     </Typography>
+                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
+                      Limit: 15
+                    </Typography>
                     <Button
                       style={{
                         color: "black",
@@ -424,6 +515,9 @@ function ExperimentMachineListPageMiddle(props) {
                     </Typography>
                     <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
                       Time: 100
+                    </Typography>
+                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
+                      Limit: 15
                     </Typography>
                     <Button
                       style={{

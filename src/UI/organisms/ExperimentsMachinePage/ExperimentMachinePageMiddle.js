@@ -6,10 +6,12 @@ var g_recv_idx = 0;
 
 export default function ExperimentMachinePageMiddle(props) {
   function handleprops(
-    bluetoothService
+    bluetoothService,
+    starttime
   ) {
     props.propFunction(
-      bluetoothService
+      bluetoothService,
+      starttime
     );
   }
   var bluetoothService = null;
@@ -28,6 +30,7 @@ export default function ExperimentMachinePageMiddle(props) {
   };
 
   function connectDevice() {
+    var starttime = new Date();
     navigator.bluetooth.requestDevice(options).then(function (device) {
       var wbdevice = device;
       return wbdevice.gatt.connect().then(function (server) {
@@ -121,7 +124,8 @@ export default function ExperimentMachinePageMiddle(props) {
                           var B31_32_Z = td.getUint16(30);
                         }
                         handleprops(
-                          service
+                          service,
+                          starttime
                         );
                       }
                       pt = ct;

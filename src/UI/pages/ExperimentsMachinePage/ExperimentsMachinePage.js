@@ -10,12 +10,15 @@ function ExperimentsMachinePage() {
   const [state, setState] = React.useState(false);
   const [mornitoringState, setMornitoringState] = React.useState();
   const [machine, setMachine] = React.useState();
+  const [starttime , setStarttime] = React.useState();
 
   const hightFunction = (
-    bluetoothService
+    bluetoothService,
+    starttime
   ) => {
     setState(true);
     setMachine(bluetoothService);
+    setStarttime(starttime);
   };
 
   const hightFunction2 = (text) => {
@@ -34,7 +37,7 @@ function ExperimentsMachinePage() {
       ) : (
         <Box style={{ backgroundColor: "#191919", padding: "1.rem 2rem", height: "auto" }}>
           <ExperimentMachineListPageHeader />
-          <ExperimentMachineListPageMiddle machine={machine} propFunction={hightFunction2}/>
+          <ExperimentMachineListPageMiddle starttime={starttime} machine={machine} propFunction={hightFunction2}/>
           <ExperimentMachinePageFooter />
         </Box>
       )}
