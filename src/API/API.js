@@ -112,7 +112,7 @@ const postJsonReqest = async (path, params, defaultValue) => {
     });
     return response;
   } catch (e) {
-    alert(e.response.data.detail);
+    console.log(e);
     return null;
   }
 };
@@ -305,25 +305,16 @@ const Api = {
     });
     return await patchJsonReqest(`/protocolExps/`, data, defaultValue);
   },
-  getAPI_ExperimentSubCreate: async (
-    name,
-    sex,
-    birthday,
-    maindiagnosis,
-    link,
-    file,
-    Experimentsid,
-    defaultValue
-  ) => {
+  getAPI_ExperimentSubCreate: async () => {
     const data = JSON.stringify({
-      name: name,
-      gender: sex,
-      birth: birthday,
-      duagbisus: maindiagnosis,
+      name: "dfadf",
+      gender: "W",
+      birth: "20000000",
+      duagbisus: "",
       desc: "",
-      survey_link: link,
-      agree_filename: file,
-      proto_id: Experimentsid,
+      survey_link: "http://ddddd",
+      agree_filename: undefined,
+      proto_id: "9",
     });
     return await postJsonReqest(`/protocolExps/`, data, defaultValue);
   },

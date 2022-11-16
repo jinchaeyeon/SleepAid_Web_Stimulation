@@ -11,11 +11,29 @@ import {
   Typography
 } from "@mui/material";
 import VolumeUp from "@mui/icons-material/VolumeUp";
-
+import Api from "../../../API/API";
+import cookie from "../../../API/cookie";
+import { useEffect } from "react";
+var g_recv_idx = 800;
+var last = 0;
 var bluetoothService = null;
 const WRITE_UUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
+var willBeUploadedDataArr = [];
+var defaultValue;
 
+let user_id = cookie.getCookie("userAccount")
+  ? cookie.getCookie("userAccount")
+  : "";
+var api_token = cookie.getCookie("accessToken");
+
+if (user_id) {
+  defaultValue = {
+    key: api_token,
+  };
+}
+var id;
 function ExperimentMachineListPageMiddle(props) {
+  const datas = props.data;
   const machine = props.machine;
   const [valueWidth, setValueWidth] = React.useState(300);
   const [valueDuration, setValueDuration] = React.useState(200);
@@ -26,13 +44,24 @@ function ExperimentMachineListPageMiddle(props) {
   const [Timer, setTimer] = React.useState(0);
   const [timestatus, settimeStatus] = React.useState(false);
   let endtime;
-
+  const signal_names = ["EEG1", "EEG2", "PPG", "X", "Y", "Z"];
   const [timestatus2, settimeStatus2] = React.useState(false);
   const [starttime2, setstarttime2] = React.useState(undefined);
   let endtime2;
   setInterval(() => {
     setTimer(Timer + 1);
+    uploadData();
   }, 1000);
+  useEffect(()=> {
+   const getData = async () => {
+     const infoBody = await Api.getAPI_ExperimentSubCreate();
+     if (infoBody != null) {
+       id = infoBody.data.id;
+       console.log(id);
+     }
+   };
+   getData();
+  },[]);
   React.useEffect(() => {
     if (starttime2 == undefined) {
       if (!timestatus) {
@@ -78,6 +107,35 @@ function ExperimentMachineListPageMiddle(props) {
       }
     }
   }, [Timer, starttime2])
+
+  function uploadData() {
+    const signal_names2 = [
+      "B3_5_EEG1",
+      "B6_8_EEG2",
+      "B9_11_PPG_avg",
+      "B27_28_X",
+      "B29_30_Y",
+      "B31_32_Z",
+    ];
+    for (var i = 0; i < 6; i++) {
+      willBeUploadedDataArr.push({
+        proto_exp_id: id,
+        code: signal_names[i],
+        time: datas["t"],
+        v: datas[signal_names2[i]],
+      });
+    }
+    if (g_recv_idx <= last) {
+      const getData = async () => {
+        const infoData = await Api.getAPI_PostData(willBeUploadedDataArr, defaultValue);
+        console.log(infoData);
+      };
+      getData();
+      g_recv_idx = g_recv_idx + 600;
+      willBeUploadedDataArr = [];
+    }
+    last = datas["t"];
+  }
 
   const handleWidthSliderChange = (event, newValue) => {
     setValueWidth(newValue);

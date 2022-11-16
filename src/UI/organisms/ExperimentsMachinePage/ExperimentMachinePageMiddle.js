@@ -1,15 +1,42 @@
 import * as React from "react";
 import { Button, Paper } from "@mui/material";
+import cookie from "../../../API/cookie";
 
 var pt;
 var g_recv_idx = 0;
+var defaultValue;
+
+let user_id = cookie.getCookie("userAccount")
+  ? cookie.getCookie("userAccount")
+  : "";
+var api_token = cookie.getCookie("accessToken");
+
+if (user_id) {
+  defaultValue = {
+    key: api_token,
+  };
+}
 
 export default function ExperimentMachinePageMiddle(props) {
   function handleprops(
+    t,
+    B3_5_EEG1,
+    B6_8_EEG2,
+    B9_11_PPG_avg,
+    B27_28_X,
+    B29_30_Y,
+    B31_32_Z,
     bluetoothService,
     starttime
   ) {
     props.propFunction(
+      t,
+      B3_5_EEG1,
+      B6_8_EEG2,
+      B9_11_PPG_avg,
+      B27_28_X,
+      B29_30_Y,
+      B31_32_Z,
       bluetoothService,
       starttime
     );
@@ -54,7 +81,6 @@ export default function ExperimentMachinePageMiddle(props) {
               .getCharacteristic(NOTIFY_UUID)
               .then(function (characteristic) {
                 var deviceChar = characteristic;
-
                 return characteristic.startNotifications().then(function () {
                   g_recv_idx = 0;
 
@@ -124,6 +150,13 @@ export default function ExperimentMachinePageMiddle(props) {
                           var B31_32_Z = td.getUint16(30);
                         }
                         handleprops(
+                          t,
+                          B3_5_EEG1,
+                          B6_8_EEG2,
+                          parseInt(B9_11_PPG_avg / DATA.length),
+                          B27_28_X,
+                          B29_30_Y,
+                          B31_32_Z,
                           service,
                           starttime
                         );
