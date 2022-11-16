@@ -43,7 +43,7 @@ export default function ExperimentMachinePageMiddle(props) {
               .getCharacteristic(WRITE_UUID)
               .then(function (characteristic) {
                 var deviceChar = characteristic;
-                const cmd = "910|2";
+                const cmd = "910|1";
 
                 var uint8array = new TextEncoder().encode(cmd);
 
