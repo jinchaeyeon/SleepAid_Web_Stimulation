@@ -17,11 +17,11 @@ const WRITE_UUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
 
 function ExperimentMachineListPageMiddle(props) {
   const machine = props.machine;
-  const [valueWidth, setValueWidth] = React.useState(200);
+  const [valueWidth, setValueWidth] = React.useState(300);
   const [valueDuration, setValueDuration] = React.useState(200);
   const [valueAmplitude, setValueAmplitude] = React.useState(4095);
   const [valueTime, setValueTime] = React.useState(300);
-  const [valueLimit, setValueLimit] = React.useState(5);
+  const [valueLimit, setValueLimit] = React.useState(30);
   const starttime = props.starttime;
   const [Timer, setTimer] = React.useState(0);
   const [timestatus, settimeStatus] = React.useState(false);
@@ -38,6 +38,7 @@ function ExperimentMachineListPageMiddle(props) {
       if (!timestatus) {
         endtime = new Date();
         if (((endtime - starttime) / 1000) > 30) {
+          console.log("down2");
           settimeStatus(true);
           bluetoothService = machine;
           bluetoothService
@@ -56,12 +57,13 @@ function ExperimentMachineListPageMiddle(props) {
         endtime2 = new Date();
         if (((endtime2 - starttime2) / (1000 * 60)) > valueLimit) {
           settimeStatus2(true);
+          console.log("down");
           bluetoothService = machine;
           bluetoothService
             .getCharacteristic(WRITE_UUID)
             .then(function (characteristic) {
               var deviceChar = characteristic;
-              const cmd_intense = "910|0";
+              const cmd_intense = "910|1";
               var uint8array_intense = new TextEncoder().encode(cmd_intense);
               deviceChar
                 .writeValueWithoutResponse(uint8array_intense)
