@@ -13,7 +13,7 @@ function ExperimentMachineListPageHeader(props) {
           marginTop: 20,
         }}
       />
-      <h2 style={{ color: "white", display: "inline", fontFamily: 'GmarketSansMedium' }}>Mornitoring</h2>
+      <h2 style={{ color: "white", display: "inline", fontFamily: 'GmarketSansMedium' }}>자극 (Stimulation)</h2>
     </Box>
   );
 }

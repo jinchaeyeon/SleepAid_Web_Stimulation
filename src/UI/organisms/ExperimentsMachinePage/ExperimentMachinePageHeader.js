@@ -15,7 +15,7 @@ function ExperimentMachinePageHeader(props) {
           marginTop: 20,
         }}
       />
-      <h2 style={{ color: "white", display: "inline",fontFamily: 'GmarketSansMedium'}}>Connecting</h2>
+      <h2 style={{ color: "white", display: "inline",fontFamily: 'GmarketSansMedium'}}>연결 (Connecting)</h2>
     </Box>
   );
 }
