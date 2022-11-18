@@ -164,10 +164,6 @@ function ExperimentMachineListPageMiddle(props) {
     AddStimulus(valueAmplitude, valueWidth, valueDuration, valueTime, valueLimit);
   };
 
-  const handleup1 = () => {
-    AddStimulus(250, 50, 400, 100, 15);
-  };
-
   const handleup2 = () => {
     AddStimulus(2047.5, 50, 200, 199.95, 15);
   };
@@ -459,7 +455,7 @@ function ExperimentMachineListPageMiddle(props) {
                         float: "right",
                         marginBottom: 15
                       }}
-                      onClick={handleup1}
+                      onClick={handleup}
                     >
                       자극 사용
                     </Button>
@@ -471,21 +467,6 @@ function ExperimentMachineListPageMiddle(props) {
                   <CardContent>
                     <Typography sx={{ fontSize: 20, fontFamily: "GmarketSansMedium" }} color="white" >
                       수면유도 모드 - 약
-                    </Typography>
-                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
-                      진폭 (Amplitude, mA): 0.5mA
-                    </Typography>
-                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
-                      파형폭 (phase width, µs): 50 µs
-                    </Typography>
-                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
-                      주기 (pulse duration, ms): 200 ms
-                    </Typography>
-                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
-                      꺼짐 간격 (off-time, ms): Off
-                    </Typography>
-                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
-                      타이머 (timer, min): 15 min
                     </Typography>
                     <Button
                       style={{
@@ -508,22 +489,6 @@ function ExperimentMachineListPageMiddle(props) {
                   <CardContent>
                     <Typography sx={{ fontSize: 20, fontFamily: "GmarketSansMedium" }} color="white" >
                       수면유도 모드 - 강
-
-                    </Typography>
-                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
-                      진폭 (Amplitude, mA): 1 mA
-                    </Typography>
-                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
-                      파형폭 (phase width, µs): 50 µs
-                    </Typography>
-                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
-                      주기 (pulse duration, ms): 200 ms
-                    </Typography>
-                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
-                      꺼짐 간격 (off-time, ms):  Off
-                    </Typography>
-                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
-                      타이머 (timer, min): 15 min
                     </Typography>
                     <Button
                       style={{
