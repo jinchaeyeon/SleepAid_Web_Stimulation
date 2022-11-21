@@ -66,7 +66,6 @@ const getJsonRequest = async (path, params, defaultValue) => {
     });
     return response;
   } catch (e) {
-    console.log(e)
     return [];
   }
 };
@@ -95,7 +94,6 @@ const postFormReqest = async (path, params) => {
     });
     return response;
   } catch (e) {
-    alert(e.response.data.detail);
     return null;
   }
 };
@@ -112,7 +110,6 @@ const postJsonReqest = async (path, params, defaultValue) => {
     });
     return response;
   } catch (e) {
-    console.log(e);
     return null;
   }
 };
