@@ -49,7 +49,7 @@ function ExperimentMachineListPageMiddle(props) {
   const [timestatus2, settimeStatus2] = React.useState(false);
   const [starttime2, setstarttime2] = React.useState(undefined);
   const [state, setstate] = React.useState(0);
-
+  const [stateSetting, setstateSetting] = React.useState(0);
   let endtime2;
   setInterval(() => {
     setTimer(Timer + 1);
@@ -166,16 +166,19 @@ function ExperimentMachineListPageMiddle(props) {
   const handleup = () => {
     AddStimulus(valueAmplitude, valueWidth, valueDuration, valueTime, valueLimit);
     setstate(1);
+    setstateSetting(1);
   };
 
   const handleup2 = () => {
     AddStimulus(2047.5, 50, 200, 199.95, 15);
     setstate(2);
+    setstateSetting(2);
   };
 
   const handleup3 = () => {
     AddStimulus(4095, 50, 100, 199.95, 15);
     setstate(3);
+    setstateSetting(3);
   };
 
   React.useEffect(() => {
@@ -297,14 +300,24 @@ function ExperimentMachineListPageMiddle(props) {
                 <VolumeUp />
               </Grid>
               <Grid item xs>
-                <Slider
-                  value={typeof valueAmplitude === "number" ? valueAmplitude : 0}
-                  onChange={handleAmplitudeSliderChange}
-                  aria-labelledby="input-slider"
-                  min={0}
-                  max={4095}
-                  step={409.5}
-                />
+                {stateSetting == 2 || stateSetting == 3 ?
+                  <Slider
+                    disabled
+                    value={typeof valueAmplitude === "number" ? valueAmplitude : 0}
+                    onChange={handleAmplitudeSliderChange}
+                    aria-labelledby="input-slider"
+                    min={0}
+                    max={4095}
+                    step={409.5}
+                  /> : <Slider
+                    value={typeof valueAmplitude === "number" ? valueAmplitude : 0}
+                    onChange={handleAmplitudeSliderChange}
+                    aria-labelledby="input-slider"
+                    min={0}
+                    max={4095}
+                    step={409.5}
+                  />
+                }
               </Grid>
               <Grid item>
                 <h3>{widthAmplitude()}</h3>
@@ -326,14 +339,24 @@ function ExperimentMachineListPageMiddle(props) {
                 <VolumeUp />
               </Grid>
               <Grid item xs>
-                <Slider
-                  value={typeof valueWidth === "number" ? valueWidth : 0}
-                  onChange={handleWidthSliderChange}
-                  aria-labelledby="input-slider"
-                  min={0}
-                  max={300}
-                  step={50}
-                />
+                {stateSetting == 2 || stateSetting == 3 ?
+                  <Slider
+                    disabled
+                    value={typeof valueWidth === "number" ? valueWidth : 0}
+                    onChange={handleWidthSliderChange}
+                    aria-labelledby="input-slider"
+                    min={0}
+                    max={300}
+                    step={50}
+                  /> : <Slider
+                    value={typeof valueWidth === "number" ? valueWidth : 0}
+                    onChange={handleWidthSliderChange}
+                    aria-labelledby="input-slider"
+                    min={0}
+                    max={300}
+                    step={50}
+                  />
+                }
               </Grid>
               <Grid item>
                 <h3>{valueWidth}µs</h3>
@@ -355,14 +378,24 @@ function ExperimentMachineListPageMiddle(props) {
                 <VolumeUp />
               </Grid>
               <Grid item xs>
-                <Slider
-                  value={typeof valueDuration === "number" ? valueDuration : 0}
-                  onChange={handleDurationSliderChange}
-                  aria-labelledby="input-slider"
-                  min={20}
-                  max={200}
-                  step={20}
-                />
+                {stateSetting == 2 || stateSetting == 3 ?
+                  <Slider
+                    disabled
+                    value={typeof valueDuration === "number" ? valueDuration : 0}
+                    onChange={handleDurationSliderChange}
+                    aria-labelledby="input-slider"
+                    min={20}
+                    max={200}
+                    step={20}
+                  /> : <Slider
+                    value={typeof valueDuration === "number" ? valueDuration : 0}
+                    onChange={handleDurationSliderChange}
+                    aria-labelledby="input-slider"
+                    min={20}
+                    max={200}
+                    step={20}
+                  />
+                }
               </Grid>
               <Grid item>
                 <h3>{valueDuration}ms</h3>
@@ -384,14 +417,24 @@ function ExperimentMachineListPageMiddle(props) {
                 <VolumeUp />
               </Grid>
               <Grid item xs>
-                <Slider
-                  value={typeof valueTime === "number" ? valueTime : 0}
-                  onChange={handleTimeSliderChange}
-                  aria-labelledby="input-slider"
-                  min={0}
-                  max={2500}
-                  step={500}
-                />
+                {stateSetting == 2 || stateSetting == 3 ?
+                  <Slider
+                    disabled
+                    value={typeof valueTime === "number" ? valueTime : 0}
+                    onChange={handleTimeSliderChange}
+                    aria-labelledby="input-slider"
+                    min={0}
+                    max={2500}
+                    step={500}
+                  /> : <Slider
+                    value={typeof valueTime === "number" ? valueTime : 0}
+                    onChange={handleTimeSliderChange}
+                    aria-labelledby="input-slider"
+                    min={0}
+                    max={2500}
+                    step={500}
+                  />
+                }
               </Grid>
               <Grid item>
                 <h3>{widthTime()}</h3>
@@ -413,14 +456,24 @@ function ExperimentMachineListPageMiddle(props) {
                 <VolumeUp />
               </Grid>
               <Grid item xs>
-                <Slider
-                  value={typeof valueLimit === "number" ? valueLimit : 0}
-                  onChange={handleLimitSliderChange}
-                  aria-labelledby="input-slider"
-                  min={15}
-                  max={60}
-                  step={15}
-                />
+                {stateSetting == 2 || stateSetting == 3 ?
+                  <Slider
+                    disabled
+                    value={typeof valueLimit === "number" ? valueLimit : 0}
+                    onChange={handleLimitSliderChange}
+                    aria-labelledby="input-slider"
+                    min={15}
+                    max={60}
+                    step={15}
+                  /> : <Slider
+                    value={typeof valueLimit === "number" ? valueLimit : 0}
+                    onChange={handleLimitSliderChange}
+                    aria-labelledby="input-slider"
+                    min={15}
+                    max={60}
+                    step={15}
+                  />
+                }
               </Grid>
               <Grid item>
                 <h3>{valueLimit}min</h3>
