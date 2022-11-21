@@ -154,7 +154,7 @@ function ExperimentMachineListPageMiddle(props) {
 
   const handleTimeSliderChange = (event, newValue) => {
     if (newValue == 0) {
-      newValue = valueDuration - valueWidth * 0.001;
+      newValue = valueDuration;
     }
     setValueTime(newValue);
   };
@@ -170,13 +170,14 @@ function ExperimentMachineListPageMiddle(props) {
   };
 
   const handleup2 = () => {
-    AddStimulus(2047.5, 50, 200, 199.95, 15);
+    // AddStimulus(2047.5, 50, 200, 200, 15);
+    AddStimulus(50, 20, 8, 40, 15);
     setstate(2);
     setstateSetting(2);
   };
 
   const handleup3 = () => {
-    AddStimulus(4095, 50, 100, 199.95, 15);
+    AddStimulus(4095, 50, 200, 200, 15);
     setstate(3);
     setstateSetting(3);
   };
@@ -194,6 +195,7 @@ function ExperimentMachineListPageMiddle(props) {
     var sti_long = Time;
     sti_long = parseInt(sti_long);
 
+    console.log(sti_intensity + " " + sti_interval + " " + sti_height + " "+ sti_long);
     bluetoothService = machine;
     bluetoothService
       .getCharacteristic(WRITE_UUID)
@@ -257,7 +259,7 @@ function ExperimentMachineListPageMiddle(props) {
   }
 
   function widthTime() {
-    if (valueTime == valueDuration - valueWidth * 0.001) {
+    if (valueTime == valueDuration) {
       return "Off";
     } else if (valueTime == 500) {
       return "500ms";
@@ -307,14 +309,14 @@ function ExperimentMachineListPageMiddle(props) {
                     onChange={handleAmplitudeSliderChange}
                     aria-labelledby="input-slider"
                     min={0}
-                    max={4095}
+                    max={3700}
                     step={409.5}
                   /> : <Slider
                     value={typeof valueAmplitude === "number" ? valueAmplitude : 0}
                     onChange={handleAmplitudeSliderChange}
                     aria-labelledby="input-slider"
                     min={0}
-                    max={4095}
+                    max={3700}
                     step={409.5}
                   />
                 }
