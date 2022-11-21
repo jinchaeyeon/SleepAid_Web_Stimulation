@@ -32,6 +32,7 @@ if (user_id) {
   };
 }
 var id;
+
 function ExperimentMachineListPageMiddle(props) {
   const datas = props.data;
   const machine = props.machine;
@@ -47,6 +48,8 @@ function ExperimentMachineListPageMiddle(props) {
   const signal_names = ["EEG1", "EEG2", "PPG", "X", "Y", "Z"];
   const [timestatus2, settimeStatus2] = React.useState(false);
   const [starttime2, setstarttime2] = React.useState(undefined);
+  const [state, setstate] = React.useState(0);
+
   let endtime2;
   setInterval(() => {
     setTimer(Timer + 1);
@@ -150,8 +153,8 @@ function ExperimentMachineListPageMiddle(props) {
   };
 
   const handleTimeSliderChange = (event, newValue) => {
-    if(newValue == 0) {
-      newValue = valueDuration - valueWidth*0.001;
+    if (newValue == 0) {
+      newValue = valueDuration - valueWidth * 0.001;
     }
     setValueTime(newValue);
   };
@@ -162,18 +165,21 @@ function ExperimentMachineListPageMiddle(props) {
 
   const handleup = () => {
     AddStimulus(valueAmplitude, valueWidth, valueDuration, valueTime, valueLimit);
+    setstate(1);
   };
 
   const handleup2 = () => {
     AddStimulus(2047.5, 50, 200, 199.95, 15);
+    setstate(2);
   };
 
   const handleup3 = () => {
     AddStimulus(4095, 50, 100, 199.95, 15);
+    setstate(3);
   };
 
   React.useEffect(() => {
-  }, [valueAmplitude, valueWidth, valueDuration, valueTime, valueLimit]);
+  }, [valueAmplitude, valueWidth, valueDuration, valueTime, valueLimit, state]);
 
   function AddStimulus(Amplitude, width, duration, Time, limit) {
     var sti_intensity = width;
@@ -190,10 +196,11 @@ function ExperimentMachineListPageMiddle(props) {
       .getCharacteristic(WRITE_UUID)
       .then(function (characteristic) {
         var deviceChar = characteristic;
-        const cmd_intense = "910|2";
-        var uint8array_intense = new TextEncoder().encode(cmd_intense)
-          .then(function (characteristic) {
-            var deviceChar = characteristic;
+        const cmd_intense2 = "910|2";
+        var uint8array_intense2 = new TextEncoder().encode(cmd_intense2);
+        deviceChar
+          .writeValueWithoutResponse(uint8array_intense2)
+          .then(function () {
             const cmd_intense = "102|" + sti_intensity;
             var uint8array_intense = new TextEncoder().encode(cmd_intense);
             deviceChar
@@ -247,7 +254,7 @@ function ExperimentMachineListPageMiddle(props) {
   }
 
   function widthTime() {
-    if (valueTime == valueDuration - valueWidth*0.001) {
+    if (valueTime == valueDuration - valueWidth * 0.001) {
       return "Off";
     } else if (valueTime == 500) {
       return "500ms";
@@ -426,7 +433,7 @@ function ExperimentMachineListPageMiddle(props) {
             </Typography>
             <Grid container>
               <Grid item lg={4} md={4} sm={4} xs={1}>
-                <Card sx={{ width: "90%", backgroundColor: "#393939" }}>
+                {state == 1 ? <Card sx={{ width: "90%", backgroundColor: "#393939" }}>
                   <CardContent>
                     <Typography sx={{ fontSize: 20, fontFamily: "GmarketSansMedium" }} color="white" >
                       자율조절 모드
@@ -460,12 +467,65 @@ function ExperimentMachineListPageMiddle(props) {
                       자극 사용
                     </Button>
                   </CardContent>
-                </Card>
-              </Grid>
-              <Grid item lg={4} md={4} sm={4} xs={1}>
-                <Card sx={{ width: "90%", backgroundColor: "#393939" }}>
+                </Card> : <Card sx={{ width: "90%", backgroundColor: "#808080" }}>
                   <CardContent>
                     <Typography sx={{ fontSize: 20, fontFamily: "GmarketSansMedium" }} color="white" >
+                      자율조절 모드
+                    </Typography>
+                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
+                      진폭 (Amplitude, mA): {widthAmplitude()}
+                    </Typography>
+                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
+                      파형폭 (phase width, µs): {valueWidth}µs
+                    </Typography>
+                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
+                      주기 (pulse duration, ms): {valueDuration}ms
+                    </Typography>
+                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
+                      꺼짐 간격 (off-time, ms): {valueTime}ms
+                    </Typography>
+                    <Typography sx={{ mb: 1, fontSize: 13, fontFamily: "GmarketSansMedium" }} color="white">
+                      타이머 (timer, min): {valueLimit}min
+                    </Typography>
+                    <Button
+                      style={{
+                        color: "black",
+                        borderRadius: 10,
+                        backgroundColor: "#CCCCCC",
+                        fontFamily: "GmarketSansMedium",
+                        float: "right",
+                        marginBottom: 15
+                      }}
+                      onClick={handleup}
+                    >
+                      자극 사용
+                    </Button>
+                  </CardContent>
+                </Card>}
+              </Grid>
+              <Grid item lg={4} md={4} sm={4} xs={1}>
+                {state == 2 ? <Card sx={{ width: "90%", backgroundColor: "#393939" }}>
+                  <CardContent>
+                    <Typography sx={{ fontSize: 20, height: 168, fontFamily: "GmarketSansMedium" }} color="white" >
+                      수면유도 모드 - 약
+                    </Typography>
+                    <Button
+                      style={{
+                        color: "black",
+                        borderRadius: 10,
+                        backgroundColor: "#CCCCCC",
+                        fontFamily: "GmarketSansMedium",
+                        float: "right",
+                        marginBottom: 15
+                      }}
+                      onClick={handleup2}
+                    >
+                      자극 사용
+                    </Button>
+                  </CardContent>
+                </Card> : <Card sx={{ width: "90%", backgroundColor: "#808080" }}>
+                  <CardContent>
+                    <Typography sx={{ fontSize: 20, height: 168, fontFamily: "GmarketSansMedium" }} color="white" >
                       수면유도 모드 - 약
                     </Typography>
                     <Button
@@ -483,11 +543,31 @@ function ExperimentMachineListPageMiddle(props) {
                     </Button>
                   </CardContent>
                 </Card>
+                }
               </Grid>
               <Grid item lg={4} md={4} sm={4} xs={1}>
-                <Card sx={{ width: "90%", backgroundColor: "#393939" }}>
+                {state == 3 ? <Card sx={{ width: "90%", backgroundColor: "#393939" }}>
                   <CardContent>
-                    <Typography sx={{ fontSize: 20, fontFamily: "GmarketSansMedium" }} color="white" >
+                    <Typography sx={{ fontSize: 20, height: 168, fontFamily: "GmarketSansMedium" }} color="white" >
+                      수면유도 모드 - 강
+                    </Typography>
+                    <Button
+                      style={{
+                        color: "black",
+                        borderRadius: 10,
+                        backgroundColor: "#CCCCCC",
+                        fontFamily: "GmarketSansMedium",
+                        float: "right",
+                        marginBottom: 15
+                      }}
+                      onClick={handleup3}
+                    >
+                      자극 사용
+                    </Button>
+                  </CardContent>
+                </Card> : <Card sx={{ width: "90%", backgroundColor: "#808080" }}>
+                  <CardContent>
+                    <Typography sx={{ fontSize: 20, height: 168, fontFamily: "GmarketSansMedium" }} color="white" >
                       수면유도 모드 - 강
                     </Typography>
                     <Button
@@ -505,6 +585,7 @@ function ExperimentMachineListPageMiddle(props) {
                     </Button>
                   </CardContent>
                 </Card>
+                }
               </Grid>
             </Grid>
           </Box>
