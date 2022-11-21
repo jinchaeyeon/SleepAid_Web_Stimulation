@@ -9,7 +9,6 @@ import Box from "@mui/material/Box";
 import cookie from "../../API/cookie";
 import ExperimentsMachinePage from "../../UI/pages/ExperimentsMachinePage/ExperimentsMachinePage";
 import Sidebar from "../organisms/Sidebar/Sidebar";
-import errorPage from "../pages/errorsPage/errorPage";
 
 const App = () => {
   var user_id = cookie.getCookie("userAccount");
@@ -65,16 +64,6 @@ const App = () => {
                 <Box style={{ display: "flex", width: "100%" }}>
                   <Box style={{ width: "100%" }}>
                     <FindIDPage />
-                  </Box>
-                </Box>
-              }
-            />
-            <Route
-              path="/errors"
-              element={
-                <Box style={{ display: "flex", width: "100%" }}>
-                  <Box style={{ width: "100%" }}>
-                    <errorPage />
                   </Box>
                 </Box>
               }

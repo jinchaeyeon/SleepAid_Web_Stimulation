@@ -38,7 +38,7 @@ function LoginPage() {
             window.location.href = "/";
           }
           else{
-            alert('서버 오류입니다.')
+            alert('서버 오류입니다. neurotx@neurotx.org로 연락 주세요');
           }
         }
         else {alert('ID와 비밀번호를 확인해주세요.')}
