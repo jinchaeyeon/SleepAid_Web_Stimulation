@@ -5,7 +5,7 @@ import Api from "../../../API/API";
 import cookie from "../../../API/cookie";
 
 function LoginPage() {
-  
+
   const publicUrl = process.env.PUBLIC_URL;
   const [ID, setID] = React.useState("");
   const [PW, setPW] = React.useState("");
@@ -18,31 +18,21 @@ function LoginPage() {
 
   const handlesubmit = async () => {
     const getData = async () => {
-      console.log();
-      if(ID == sessionStorage.getItem('userId')) {
-        alert('기존 로그인 화면을 로그아웃 합니다.');
-        sessionStorage.removeItem('userId');
-        sessionStorage.removeItem('account');
-        cookie.deleteCookie('userAccount');
-        cookie.deleteCookie('accessToken');
-      } else {
-        const infoBody = await Api.getAPI_AccountLogin_Syns(ID, PW);
-        if (infoBody != null) {
-          cookie.setCookie("userAccount", ID, 1);
-          cookie.setCookie("accessToken", infoBody.data.access_token, 1);
-          sessionStorage.setItem('userId', ID);
-          sessionStorage.setItem('account', infoBody.data.access_token);
-          const infoBody2 = await Api.getUserData(infoBody.data.access_token);
-          if (infoBody2.status == 200) {
-            cookie.setCookie('is_staff', infoBody2.data.is_staff,1);
-            window.location.href = "/";
-          }
-          else{
-            alert('서버 오류입니다. neurotx@neurotx.org로 연락 주세요');
-          }
+      const infoBody = await Api.getAPI_AccountLogin_Syns(ID, PW);
+      console.log(infoBody);
+      if (infoBody != null) {
+        cookie.setCookie("userAccount", ID, 1);
+        cookie.setCookie("accessToken", infoBody.data.access_token, 1);
+        const infoBody2 = await Api.getUserData(infoBody.data.access_token);
+        if (infoBody2.status == 200) {
+          cookie.setCookie('is_staff', infoBody2.data.is_staff, 1);
+          window.location.href = "/";
         }
-        else {alert('ID와 비밀번호를 확인해주세요.')}
+        else {
+          alert('서버 오류입니다. neurotx@neurotx.org로 연락 주세요');
+        }
       }
+      else { alert('ID와 비밀번호를 확인해주세요.') }
     };
     getData();
   };
