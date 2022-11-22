@@ -7,6 +7,14 @@ import ExperimentMachinePageHeader from "../../organisms/ExperimentsMachinePage/
 import ExperimentMachineListPageMiddle from "../../organisms/ExperimentsMachinePage/ExperimentMachineListPageMiddle";
 import Api from "../../../API/API";
 import { useEffect } from "react";
+import cookie from "../../../API/cookie";
+
+if(cookie.getCookie("is_Login") == 0) {
+  alert("중복 로그인입니다. 다시 로그인 해주세요.");
+  cookie.deleteCookie();
+  cookie.setCookie("is_Login", 1, 1);
+  window.location.href ="/";
+}
 
 function ExperimentsMachinePage() {
   const [state, setState] = React.useState(false);

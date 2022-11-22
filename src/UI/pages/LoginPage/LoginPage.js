@@ -32,15 +32,26 @@ function LoginPage() {
       if (infoBody != null) {
         const infoBody2 = await Api.getUserData(infoBody.data.access_token);
         if (infoBody2.status == 200) {
-          if(infoBody.data.token_type == "bearers"){
-            deleteAllCookies();
-            alert('중복 로그인입니다. 기존 로그인을 로그아웃합니다.');
+          if (cookie.getCookie('accessToken') != "") {
+            if (cookie.getCookie('accessToken') != infoBody.data.access_token) {
+              deleteAllCookies();
+              cookie.setCookie("is_Login", 0, 1);
+            } else {
+              cookie.setCookie("is_Login", 1, 1);
+              cookie.setCookie("userAccount", ID, 1);
+              cookie.setCookie("userID", infoBody2.data.id, 1);
+              cookie.setCookie("accessToken", infoBody.data.access_token, 1);
+              cookie.setCookie('is_staff', infoBody2.data.is_staff, 1);
+            }
           }
-          cookie.setCookie("userAccount", ID, 1);
-          cookie.setCookie("userID", infoBody2.data.id, 1);
-          cookie.setCookie("accessToken", infoBody.data.access_token, 1);
-          cookie.setCookie('is_staff', infoBody2.data.is_staff, 1);
-          window.location.href = "/";
+          else {
+            cookie.setCookie("is_Login", 1, 1);
+            cookie.setCookie("userAccount", ID, 1);
+            cookie.setCookie("userID", infoBody2.data.id, 1);
+            cookie.setCookie("accessToken", infoBody.data.access_token, 1);
+            cookie.setCookie('is_staff', infoBody2.data.is_staff, 1);
+          }
+          window.location.href ="/";
         }
         else {
           alert('서버 오류입니다. neurotx@neurotx.org로 연락 주세요');

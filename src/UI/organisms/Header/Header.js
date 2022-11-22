@@ -62,7 +62,7 @@ function Header() {
     };
     getData();
     deleteAllCookies()
-    //window.location.href = "/";
+    window.location.href = "/";
   }
 
   function deleteAllCookies() {
