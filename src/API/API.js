@@ -147,6 +147,13 @@ const Api = {
   getUserData: async (token) => {
     return await LoginInfo(`/users/me`, token);
   },
+  getlogout: async (UserID, defaultValue) => {
+    const data = JSON.stringify({
+      id: UserID,
+      tokens: "NULL",
+    });
+    return await patchJsonReqest(`/users/`, data, defaultValue);
+  },
   getAPI_AccountLogin_Syns: async (id, pw) => {
     let bodyFormData = new FormData();
     bodyFormData.append("username", id);

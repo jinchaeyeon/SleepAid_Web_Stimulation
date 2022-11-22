@@ -16,15 +16,29 @@ function LoginPage() {
     setPW(event.target.value);
   };
 
+  function deleteAllCookies() {
+    const cookies = document.cookie.split(';')
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i]
+      const eqPos = cookie.indexOf('=')
+      const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie
+      document.cookie = name + '=;max-age=0'
+    }
+  }
+
   const handlesubmit = async () => {
     const getData = async () => {
       const infoBody = await Api.getAPI_AccountLogin_Syns(ID, PW);
-      console.log(infoBody);
       if (infoBody != null) {
-        cookie.setCookie("userAccount", ID, 1);
-        cookie.setCookie("accessToken", infoBody.data.access_token, 1);
         const infoBody2 = await Api.getUserData(infoBody.data.access_token);
         if (infoBody2.status == 200) {
+          if(infoBody.data.token_type == "bearers"){
+            deleteAllCookies();
+            alert('중복 로그인입니다. 기존 로그인을 로그아웃합니다.');
+          }
+          cookie.setCookie("userAccount", ID, 1);
+          cookie.setCookie("userID", infoBody2.data.id, 1);
+          cookie.setCookie("accessToken", infoBody.data.access_token, 1);
           cookie.setCookie('is_staff', infoBody2.data.is_staff, 1);
           window.location.href = "/";
         }

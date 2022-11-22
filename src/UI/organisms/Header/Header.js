@@ -3,8 +3,25 @@ import { Box, Button, Menu, MenuItem, Modal } from "@mui/material";
 import { useState } from "react";
 import HeaderModalHeader from '../../molecules/Header/HeaderModalHeader';
 import HeaderModalMiddle from '../../molecules/Header/HeaderModalMiddle';
-import cookie from '../../../API/cookie';
+import Api from "../../../API/API";
+import cookie from "../../../API/cookie";
 
+var defaultValue;
+
+let user_id = cookie.getCookie("userAccount")
+  ? cookie.getCookie("userAccount")
+  : "";
+var api_token = cookie.getCookie("accessToken");
+
+let idx = cookie.getCookie("userID")
+  ? cookie.getCookie("userID")
+  : "";
+
+if (user_id) {
+  defaultValue = {
+    key: api_token,
+  };
+}
 const style = {
   position: "absolute",
   top: "50%",
@@ -39,8 +56,13 @@ function Header() {
     setAnchorEl(null);
   };
   const Logout = async() => {
+    const getData = async () => {
+      const infoBody = await Api.getlogout(idx, defaultValue);
+      console.log(infoBody);
+    };
+    getData();
     deleteAllCookies()
-    window.location.href = "/";
+    //window.location.href = "/";
   }
 
   function deleteAllCookies() {

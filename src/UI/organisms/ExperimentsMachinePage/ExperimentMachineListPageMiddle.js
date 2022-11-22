@@ -171,7 +171,7 @@ function ExperimentMachineListPageMiddle(props) {
 
   const handleup2 = () => {
     // AddStimulus(2047.5, 50, 200, 200, 15);
-    AddStimulus(50, 20, 8, 40, 15);
+    AddStimulus(100, 20, 8, 40, 15);
     setstate(2);
     setstateSetting(2);
   };
